@@ -4,11 +4,11 @@
     <link rel="canonical" th:href="${singlePage.status.permalink}" />
     <meta property="og:site_name" th:content="${site.title}" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="瞬间" />
+    <meta property="og:title" th:content="${singlePage.spec.title}" />
     <meta property="og:description" th:content="${site.subtitle}" />
     <meta property="og:url" th:content="${singlePage.status.permalink}" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="瞬间" />
+    <meta name="twitter:title" th:content="${singlePage.spec.title}" />
     <meta name="twitter:description" th:content="${site.subtitle}" />
   </template>
   <template name="head">

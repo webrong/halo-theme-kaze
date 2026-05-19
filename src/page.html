@@ -27,10 +27,18 @@
           <header class="article-header">
             <h1 class="article-title" th:text="${singlePage.spec.title}"></h1>
           </header>
-          <div class="article-content" th:if="${singlePage.content != null and singlePage.content.content != null}" th:utext="${singlePage.content.content}"></div>
+          <div
+            class="article-content"
+            th:if="${singlePage.content != null and singlePage.content.content != null}"
+            th:utext="${singlePage.content.content}"
+          ></div>
         </article>
         <div th:if="${haloCommentEnabled}">
-          <halo:comment group="content.halo.run" kind="SinglePage" th:attr="name=${singlePage.metadata.name}" />
+          <halo:comment
+            group="content.halo.run"
+            kind="SinglePage"
+            th:attr="name=${singlePage.metadata.name}"
+          />
         </div>
       </div>
     </div>

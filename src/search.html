@@ -17,37 +17,102 @@
 
   <div class="search-page">
     <div class="search-page-header">
-      <h1 class="section-title" style="font-size: 32px;">搜索结果</h1>
+      <h1 class="section-title" style="font-size: 32px">搜索结果</h1>
       <p class="section-subtitle" th:if="${keyword}">
         Results for "<span th:text="${keyword}"></span>"
       </p>
     </div>
 
-    <div class="post-grid" th:if="${posts != null and posts.items != null and !#lists.isEmpty(posts.items)}">
+    <div
+      class="post-grid"
+      th:if="${posts != null and posts.items != null and !#lists.isEmpty(posts.items)}"
+    >
       <include src="post-card.html"></include>
     </div>
 
-    <div class="search-empty" th:if="${posts == null or posts.items == null or #lists.isEmpty(posts.items)}">
+    <div
+      class="search-empty"
+      th:if="${posts == null or posts.items == null or #lists.isEmpty(posts.items)}"
+    >
       <p>未找到文章，请尝试其他关键词。</p>
     </div>
 
     <div class="pagination" th:if="${posts != null and (posts.hasPrevious() or posts.hasNext())}">
       <a class="page-prev" th:if="${posts.hasPrevious()}" th:href="@{${posts.prevUrl}}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 18-6-6 6-6" />
+        </svg>
         上一页
       </a>
-      <span class="page-prev" th:if="${!posts.hasPrevious()}" style="color:#D1D5DB;cursor:not-allowed;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      <span
+        class="page-prev"
+        th:if="${!posts.hasPrevious()}"
+        style="color: #d1d5db; cursor: not-allowed"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 18-6-6 6-6" />
+        </svg>
         上一页
       </span>
-      <span th:text="|${posts.page} / ${posts.totalPages}|" style="font-variant-numeric:tabular-nums;"></span>
+      <span
+        th:text="|${posts.page} / ${posts.totalPages}|"
+        style="font-variant-numeric: tabular-nums"
+      ></span>
       <a class="page-next" th:if="${posts.hasNext()}" th:href="@{${posts.nextUrl}}">
         下一页
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m9 18 6-6-6-6" />
+        </svg>
       </a>
-      <span class="page-next" th:if="${!posts.hasNext()}" style="color:#D1D5DB;cursor:not-allowed;">
+      <span
+        class="page-next"
+        th:if="${!posts.hasNext()}"
+        style="color: #d1d5db; cursor: not-allowed"
+      >
         下一页
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m9 18 6-6-6-6" />
+        </svg>
       </span>
     </div>
   </div>

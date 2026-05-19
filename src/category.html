@@ -16,14 +16,20 @@
   </template>
 
   <div class="category-page" th:if="${category != null}">
-    <div class="section-header" style="margin-bottom: 40px;">
+    <div class="section-header" style="margin-bottom: 40px">
       <div>
         <div class="tag-page-badge">分类</div>
-        <h1 class="section-title" style="font-size: 32px;" th:text="${category.spec.displayName}"></h1>
-        <p class="section-subtitle" th:if="${category.spec.description}" th:text="${category.spec.description}"></p>
-        <p class="section-subtitle">
-          <span th:text="${posts?.total ?: 0}">0</span> 篇文章
-        </p>
+        <h1
+          class="section-title"
+          style="font-size: 32px"
+          th:text="${category.spec.displayName}"
+        ></h1>
+        <p
+          class="section-subtitle"
+          th:if="${category.spec.description}"
+          th:text="${category.spec.description}"
+        ></p>
+        <p class="section-subtitle"><span th:text="${posts?.total ?: 0}">0</span> 篇文章</p>
       </div>
     </div>
 

@@ -16,20 +16,39 @@
   </template>
 
   <div class="gear-page">
-    <div class="section-header" style="margin-bottom: 32px;">
+    <div class="section-header" style="margin-bottom: 32px">
       <div>
-        <h1 class="section-title" style="font-size: 32px;" th:text="${singlePage.spec.title}">数字装备柜</h1>
-        <p class="section-subtitle" th:text="${theme.config.gear.gear_subtitle ?: '我信赖的物品，附上一句诚实的评价。'}">我信赖的物品，附上一句诚实的评价。</p>
+        <h1 class="section-title" style="font-size: 32px" th:text="${singlePage.spec.title}">
+          数字装备柜
+        </h1>
+        <p
+          class="section-subtitle"
+          th:text="${theme.config.gear.gear_subtitle ?: '我信赖的物品，附上一句诚实的评价。'}"
+        >
+          我信赖的物品，附上一句诚实的评价。
+        </p>
       </div>
     </div>
 
-    <th:block th:if="${theme.config.gear.gear_list != null and !#lists.isEmpty(theme.config.gear.gear_list)}">
+    <th:block
+      th:if="${theme.config.gear.gear_list != null and !#lists.isEmpty(theme.config.gear.gear_list)}"
+    >
       <div class="gear-grid">
         <div class="gear-card" th:each="item : ${theme.config.gear.gear_list}">
           <div class="gear-card-image">
-            <img th:if="${item.image != null and !#strings.isEmpty(item.image)}" th:src="${item.image}" th:alt="${item.name}" />
-            <div th:if="${item.image == null or #strings.isEmpty(item.image)}" class="gear-card-placeholder">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="#F3F4F6" width="100" height="100"/></svg>
+            <img
+              th:if="${item.image != null and !#strings.isEmpty(item.image)}"
+              th:src="${item.image}"
+              th:alt="${item.name}"
+              loading="lazy"
+            />
+            <div
+              th:if="${item.image == null or #strings.isEmpty(item.image)}"
+              class="gear-card-placeholder"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <rect fill="#F3F4F6" width="100" height="100" />
+              </svg>
             </div>
             <span class="gear-card-status">
               <span class="dot" th:classappend="${item.status == 'retired'} ? ' retired'"></span>
@@ -39,12 +58,26 @@
           <div class="gear-card-body">
             <div>
               <h3 class="gear-card-name" th:text="${item.name}"></h3>
-              <p class="gear-card-brand" th:if="${item.brand != null and !#strings.isEmpty(item.brand)}" th:text="${item.brand}"></p>
+              <p
+                class="gear-card-brand"
+                th:if="${item.brand != null and !#strings.isEmpty(item.brand)}"
+                th:text="${item.brand}"
+              ></p>
             </div>
-            <div class="gear-card-specs" th:if="${item.specs != null and !#strings.isEmpty(item.specs)}">
-              <span class="gear-card-spec" th:each="spec : ${#strings.arraySplit(item.specs, ';')}" th:text="${#strings.trim(spec)}"></span>
+            <div
+              class="gear-card-specs"
+              th:if="${item.specs != null and !#strings.isEmpty(item.specs)}"
+            >
+              <span
+                class="gear-card-spec"
+                th:each="spec : ${#strings.arraySplit(item.specs, ';')}"
+                th:text="${#strings.trim(spec)}"
+              ></span>
             </div>
-            <p class="gear-card-review" th:if="${item.review != null and !#strings.isEmpty(item.review)}">
+            <p
+              class="gear-card-review"
+              th:if="${item.review != null and !#strings.isEmpty(item.review)}"
+            >
               "<span th:text="${item.review}"></span>"
             </p>
           </div>
@@ -52,6 +85,10 @@
       </div>
     </th:block>
 
-    <div class="article-content gear-content" th:if="${singlePage.content != null and singlePage.content.content != null}" th:utext="${singlePage.content.content}"></div>
+    <div
+      class="article-content gear-content"
+      th:if="${singlePage.content != null and singlePage.content.content != null}"
+      th:utext="${singlePage.content.content}"
+    ></div>
   </div>
 </include>

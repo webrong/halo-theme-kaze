@@ -34,7 +34,8 @@ spec:
         - $formkit: attachment
           name: hero_image
           label: Hero 背景图片（单图模式）
-        - $formkit: repeater
+          accepts: ["image/*"]
+        - $formkit: array
           name: hero_slides
           label: Hero 轮播幻灯片
           addLabel: 添加幻灯片
@@ -137,7 +138,7 @@ spec:
           name: interests
           label: 兴趣标签（逗号分隔）
           value: "Film photography,Slow web,Long walks,Espresso,Indie books,Open source"
-        - $formkit: repeater
+        - $formkit: array
           name: milestone_list
           label: 里程碑时间线
           addLabel: 添加里程碑
@@ -160,7 +161,7 @@ spec:
             - $formkit: text
               name: event
               label: 描述
-        - $formkit: repeater
+        - $formkit: array
           name: radar_items
           label: 技能雷达图
           help: "标签 + 分值(0-100)，最多6项。多于6项时只取前6项。"
@@ -188,7 +189,7 @@ spec:
             - $formkit: number
               name: value
               label: 分值（0-100）
-              validation: required
+              validation: "required|min:0|max:100"
         - $formkit: text
           name: skills_subtitle
           label: 技能区副标题
@@ -234,7 +235,7 @@ spec:
           name: gear_subtitle
           label: 装备页副标题
           value: "我信赖的物品，附上一句诚实的评价。"
-        - $formkit: repeater
+        - $formkit: array
           name: gear_list
           label: 设备列表
           addLabel: 添加设备
@@ -262,7 +263,7 @@ spec:
             - name: "Kindle Oasis"
               brand: "Amazon · 2021"
               image: ""
-              specs: "Screen: 7\";Storage: 32GB;Waterproof: IPX8"
+              specs: 'Screen: 7";Storage: 32GB;Waterproof: IPX8'
               review: "Reads like paper, charges like a phone."
               status: "retired"
           children:

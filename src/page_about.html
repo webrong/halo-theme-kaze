@@ -484,7 +484,7 @@
               >
                 <li class="about-gear-item">
                   <div class="about-gear-thumb">
-                    <img th:src="${device.image ?: theme.config.profile.avatar}" alt="" />
+                    <img th:src="${device.image ?: theme.config.profile.avatar}" alt="" loading="lazy" />
                   </div>
                   <div class="about-gear-info">
                     <p class="about-gear-name" th:text="${device.name}">Device</p>

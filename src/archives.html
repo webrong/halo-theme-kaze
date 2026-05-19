@@ -16,9 +16,9 @@
   </template>
 
   <div class="archive-page">
-    <div class="section-header" style="margin-bottom: 40px;">
+    <div class="section-header" style="margin-bottom: 40px">
       <div>
-        <h1 class="section-title" style="font-size: 32px;">归档</h1>
+        <h1 class="section-title" style="font-size: 32px">归档</h1>
         <p class="section-subtitle">按时间浏览所有文章。</p>
       </div>
     </div>
@@ -28,12 +28,27 @@
         <th:block th:each="month : ${archive.months}">
           <div class="archive-group">
             <div class="archive-group-header">
-              <span class="archive-group-label" th:text="${archive.year} + ' / ' + ${month.month}"></span>
-              <span class="archive-group-count" th:text="${#lists.size(month.posts)} + ' 篇文章'"></span>
+              <span
+                class="archive-group-label"
+                th:text="${archive.year} + ' / ' + ${month.month}"
+              ></span>
+              <span
+                class="archive-group-count"
+                th:text="${#lists.size(month.posts)} + ' 篇文章'"
+              ></span>
             </div>
             <div class="archive-posts">
-              <a th:each="post : ${month.posts}" th:href="@{${post.status.permalink}}" class="archive-post-item" target="_blank" rel="noopener">
-                <span class="archive-post-day" th:text="${#temporals.format(post.spec.publishTime, 'dd')}"></span>
+              <a
+                th:each="post : ${month.posts}"
+                th:href="@{${post.status.permalink}}"
+                class="archive-post-item"
+                target="_blank"
+                rel="noopener"
+              >
+                <span
+                  class="archive-post-day"
+                  th:text="${#temporals.format(post.spec.publishTime, 'dd')}"
+                ></span>
                 <span class="archive-post-title" th:text="${post.spec.title}"></span>
               </a>
             </div>
@@ -44,21 +59,80 @@
 
     <div class="pagination" th:if="${archives.hasPrevious() or archives.hasNext()}">
       <a class="page-prev" th:if="${archives.hasPrevious()}" th:href="@{${archives.prevUrl}}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 18-6-6 6-6" />
+        </svg>
         上一页
       </a>
-      <span class="page-prev" th:if="${!archives.hasPrevious()}" style="color:#D1D5DB;cursor:not-allowed;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      <span
+        class="page-prev"
+        th:if="${!archives.hasPrevious()}"
+        style="color: #d1d5db; cursor: not-allowed"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 18-6-6 6-6" />
+        </svg>
         上一页
       </span>
-      <span th:text="|${archives.page} / ${archives.totalPages}|" style="font-variant-numeric:tabular-nums;"></span>
+      <span
+        th:text="|${archives.page} / ${archives.totalPages}|"
+        style="font-variant-numeric: tabular-nums"
+      ></span>
       <a class="page-next" th:if="${archives.hasNext()}" th:href="@{${archives.nextUrl}}">
         下一页
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m9 18 6-6-6-6" />
+        </svg>
       </a>
-      <span class="page-next" th:if="${!archives.hasNext()}" style="color:#D1D5DB;cursor:not-allowed;">
+      <span
+        class="page-next"
+        th:if="${!archives.hasNext()}"
+        style="color: #d1d5db; cursor: not-allowed"
+      >
         下一页
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m9 18 6-6-6-6" />
+        </svg>
       </span>
     </div>
   </div>

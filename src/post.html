@@ -1,25 +1,53 @@
 <include src="layout.html">
   <template name="seo">
-    <meta name="description" th:content="${post.status.excerpt}" />
+    <meta name="description" th:content="${post.status.excerpt ?: site.subtitle}" />
     <link rel="canonical" th:href="${post.status.permalink}" />
     <meta property="og:site_name" th:content="${site.title}" />
     <meta property="og:type" content="article" />
     <meta property="og:title" th:content="${post.spec.title}" />
-    <meta property="og:description" th:content="${post.status.excerpt}" />
+    <meta property="og:description" th:content="${post.status.excerpt ?: site.subtitle}" />
     <meta property="og:url" th:content="${post.status.permalink}" />
     <meta th:if="${post.spec.cover}" property="og:image" th:content="${post.spec.cover}" />
-    <meta property="article:published_time" th:content="${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}" />
-    <meta th:if="${post.status.lastModifyTime}" property="article:modified_time" th:content="${#temporals.format(post.status.lastModifyTime, 'yyyy-MM-dd')}" />
+    <meta
+      property="article:published_time"
+      th:content="${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}"
+    />
+    <meta
+      th:if="${post.status.lastModifyTime}"
+      property="article:modified_time"
+      th:content="${#temporals.format(post.status.lastModifyTime, 'yyyy-MM-dd')}"
+    />
     <meta property="article:author" th:content="${post.owner.displayName}" />
-    <meta th:if="${not #lists.isEmpty(post.categories)}" property="article:section" th:content="${post.categories[0].spec.displayName}" />
+    <meta
+      th:if="${not #lists.isEmpty(post.categories)}"
+      property="article:section"
+      th:content="${post.categories[0].spec.displayName}"
+    />
     <th:block th:if="${not #lists.isEmpty(post.tags)}">
-      <meta th:each="tag : ${post.tags}" property="article:tag" th:content="${tag.spec.displayName}" />
+      <meta
+        th:each="tag : ${post.tags}"
+        property="article:tag"
+        th:content="${tag.spec.displayName}"
+      />
     </th:block>
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" th:content="${post.spec.title}" />
-    <meta name="twitter:description" th:content="${post.status.excerpt}" />
+    <meta name="twitter:description" th:content="${post.status.excerpt ?: site.subtitle}" />
     <meta th:if="${post.spec.cover}" name="twitter:image" th:content="${post.spec.cover}" />
-    <script type="application/ld+json" th:inline="javascript">{"@context":"https://schema.org","@type":"BlogPosting","headline":/*[[${post.spec.title}]]*/"","description":/*[[${post.status.excerpt}]]*/"","url":/*[[${post.status.permalink}]]*/"","datePublished":/*[[${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}]]*/"","dateModified":/*[[${post.status.lastModifyTime != null ? #temporals.format(post.status.lastModifyTime, 'yyyy-MM-dd') : ''}]]*/"","author":{"@type":"Person","name":/*[[${post.owner?.displayName}]]*/""},"image":/*[[${post.spec.cover}]]*/"","publisher":{"@type":"Organization","name":/*[[${site.title}]]*/""}}</script>
+    <script type="application/ld+json" th:inline="javascript">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": /*[[${post.spec.title}]]*/ "",
+        "description": /*[[${post.status.excerpt}]]*/ "",
+        "url": /*[[${post.status.permalink}]]*/ "",
+        "datePublished": /*[[${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}]]*/ "",
+        "dateModified": /*[[${post.status.lastModifyTime != null ? #temporals.format(post.status.lastModifyTime, 'yyyy-MM-dd') : ''}]]*/ "",
+        "author": { "@type": "Person", "name": /*[[${post.owner?.displayName}]]*/ "" },
+        "image": /*[[${post.spec.cover}]]*/ "",
+        "publisher": { "@type": "Organization", "name": /*[[${site.title}]]*/ "" }
+      }
+    </script>
   </template>
   <template name="head">
     <title th:text="|${post.spec.title} - ${site.title}|">文章标题</title>
@@ -34,7 +62,12 @@
 
     <!-- Cover Image -->
     <div class="post-cover-wrapper" th:if="${post.spec.cover}">
-      <img th:src="${post.spec.cover}" th:srcset="|${thumbnail.gen(post.spec.cover, 'm')} 800w, ${thumbnail.gen(post.spec.cover, 'l')} 1200w, ${thumbnail.gen(post.spec.cover, 'xl')} 1600w|" th:alt="${post.spec.title}" sizes="(max-width: 1200px) 100vw, 1200px" />
+      <img
+        th:src="${post.spec.cover}"
+        th:srcset="|${thumbnail.gen(post.spec.cover, 'm')} 800w, ${thumbnail.gen(post.spec.cover, 'l')} 1200w, ${thumbnail.gen(post.spec.cover, 'xl')} 1600w|"
+        th:alt="${post.spec.title}"
+        sizes="(max-width: 1200px) 100vw, 1200px"
+      />
     </div>
 
     <!-- Three-column shell -->
@@ -42,29 +75,96 @@
       <!-- Left rail: action buttons -->
       <aside class="post-actions-rail">
         <a class="post-action-btn" th:href="@{/}" title="返回">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="m12 19-7-7 7-7" />
+            <path d="M19 12H5" />
+          </svg>
         </a>
 
         <button class="post-action-btn share-btn" title="分享" id="share-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+            <polyline points="16 6 12 2 8 6" />
+            <line x1="12" x2="12" y1="2" y2="15" />
+          </svg>
         </button>
 
-        <button class="post-action-btn like-btn" title="点赞" th:attr="data-post-name=${post.metadata.name}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        <button
+          class="post-action-btn like-btn"
+          title="点赞"
+          th:attr="data-post-name=${post.metadata.name}"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+            />
+          </svg>
         </button>
-        <span class="post-action-count" id="like-count" th:text="${post.stats?.upvote ?: 0}">0</span>
+        <span class="post-action-count" id="like-count" th:text="${post.stats?.upvote ?: 0}"
+          >0</span
+        >
 
         <a class="post-action-btn comment-jump-btn" title="评论" href="#comments">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+          </svg>
         </a>
-        <span class="post-action-count" id="comment-count" th:text="${post.stats?.comment ?: 0}">0</span>
+        <span class="post-action-count" id="comment-count" th:text="${post.stats?.comment ?: 0}"
+          >0</span
+        >
       </aside>
 
       <!-- Center: Article Body -->
       <article class="post-body">
         <!-- Category Badge -->
         <th:block th:if="${not #lists.isEmpty(post.categories)}">
-          <a th:each="cat : ${post.categories}" th:href="@{${cat.status.permalink}}" class="post-category-badge" th:text="${cat.spec.displayName}">分类</a>
+          <a
+            th:each="cat : ${post.categories}"
+            th:href="@{${cat.status.permalink}}"
+            class="post-category-badge"
+            th:text="${cat.spec.displayName}"
+            >分类</a
+          >
         </th:block>
 
         <!-- Title -->
@@ -73,48 +173,122 @@
         <!-- Meta Row -->
         <div class="post-meta-row">
           <span class="post-meta-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
             <span th:text="${post.owner?.displayName ?: '作者'}">作者</span>
           </span>
           <span class="post-meta-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+              <line x1="16" x2="16" y1="2" y2="6" />
+              <line x1="8" x2="8" y1="2" y2="6" />
+              <line x1="3" x2="21" y1="10" y2="10" />
+            </svg>
             <time th:text="${#temporals.format(post.spec.publishTime, 'yyyy年M月d日')}"></time>
           </span>
           <span class="post-meta-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
             <span class="reading-time-text">分钟阅读</span>
           </span>
           <span class="post-meta-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+            </svg>
             <span th:text="${post.stats?.comment ?: 0}">0</span>
             <span>条评论</span>
           </span>
         </div>
 
         <!-- Article Content -->
-        <div class="article-content" th:if="${post.content != null and post.content.content != null}" th:utext="${post.content.content}" id="article-content"></div>
+        <div
+          class="article-content"
+          th:if="${post.content != null and post.content.content != null}"
+          th:utext="${post.content.content}"
+          id="article-content"
+        ></div>
 
         <!-- Bottom Toolbar Card -->
         <div class="post-toolbar-card">
           <!-- Tags -->
           <div class="post-tags-list" th:if="${not #lists.isEmpty(post.tags)}">
             <th:block th:each="tag : ${post.tags}">
-              <a class="post-tag-pill" th:href="@{${tag.status.permalink}}" th:text="'#' + ${tag.spec.displayName}">#tag</a>
+              <a
+                class="post-tag-pill"
+                th:href="@{${tag.status.permalink}}"
+                th:text="'#' + ${tag.spec.displayName}"
+                >#tag</a
+              >
             </th:block>
           </div>
-          <p class="post-license">本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 协议发布</p>
+          <p class="post-license">
+            本文采用
+            <a
+              href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+              target="_blank"
+              rel="noopener"
+              >CC BY-NC-SA 4.0</a
+            >
+            协议发布
+          </p>
 
           <!-- Author Card -->
           <div class="post-author-card">
-            <img class="post-author-avatar"
+            <img
+              class="post-author-avatar"
               th:src="${post.owner?.avatar ?: theme.config.profile.avatar}"
               th:alt="${post.owner?.displayName ?: '作者'}"
+              loading="lazy"
             />
             <div class="post-author-info">
               <p class="post-author-name" th:text="${post.owner?.displayName ?: '作者'}">作者</p>
               <p class="post-author-bio" th:text="${theme.config.profile.bio}">简介</p>
             </div>
-            <a class="post-follow-btn" th:href="'mailto:' + ${theme.config.social.email}">关注</a>
+            <a class="post-follow-btn" th:if="${!#strings.isEmpty(theme.config.social.email)}" th:href="'mailto:' + ${theme.config.social.email}">关注</a>
           </div>
         </div>
 
@@ -128,7 +302,24 @@
       <aside class="post-toc-rail">
         <div class="post-toc">
           <p class="post-toc-heading">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="8" x2="21" y1="6" y2="6" />
+              <line x1="8" x2="21" y1="12" y2="12" />
+              <line x1="8" x2="21" y1="18" y2="18" />
+              <line x1="3" x2="3.01" y1="6" y2="6" />
+              <line x1="3" x2="3.01" y1="12" y2="12" />
+              <line x1="3" x2="3.01" y1="18" y2="18" />
+            </svg>
             本页目录
           </p>
           <ul id="post-toc-list"></ul>
@@ -141,10 +332,13 @@
       <div class="post-related-inner">
         <h2 class="post-related-title">相关文章</h2>
         <div class="post-related-grid">
-          <th:block th:each="relatedPost : ${postFinder.list({page: 1, size: 4}).items}" th:if="${relatedPost.metadata.name != post.metadata.name}">
+          <th:block
+            th:each="relatedPost : ${postFinder.list({page: 1, size: 4}).items}"
+            th:if="${relatedPost.metadata.name != post.metadata.name}"
+          >
             <a class="post-related-card" th:href="@{${relatedPost.status.permalink}}">
               <div class="post-related-thumb" th:if="${relatedPost.spec.cover}">
-                <img th:src="${relatedPost.spec.cover}" th:alt="${relatedPost.spec.title}" />
+                <img th:src="${relatedPost.spec.cover}" th:alt="${relatedPost.spec.title}" loading="lazy" />
               </div>
               <div class="post-related-body">
                 <h3 th:text="${relatedPost.spec.title}">Title</h3>

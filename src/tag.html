@@ -16,13 +16,11 @@
   </template>
 
   <div class="tag-page" th:if="${tag != null}">
-    <div class="section-header" style="margin-bottom: 40px;">
+    <div class="section-header" style="margin-bottom: 40px">
       <div>
         <div class="tag-page-badge">标签</div>
-        <h1 class="section-title" style="font-size: 32px;" th:text="${tag.spec.displayName}"></h1>
-        <p class="section-subtitle">
-          <span th:text="${posts?.total ?: 0}">0</span> 篇文章
-        </p>
+        <h1 class="section-title" style="font-size: 32px" th:text="${tag.spec.displayName}"></h1>
+        <p class="section-subtitle"><span th:text="${posts?.total ?: 0}">0</span> 篇文章</p>
       </div>
     </div>
 

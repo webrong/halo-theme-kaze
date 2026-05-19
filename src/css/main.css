@@ -57,6 +57,11 @@ a {
   text-decoration: none;
 }
 
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -2722,6 +2727,7 @@ html.dark .lightbox-caption {
 
 /* Photography empty state */
 .photo-empty {
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -4100,6 +4106,10 @@ html.dark .search-bar input {
   color: var(--color-title);
 }
 
+html.dark .search-bar input::placeholder {
+  color: var(--color-body);
+}
+
 html.dark .photo-card {
   background-color: var(--color-border-dark);
 }
@@ -4325,5 +4335,38 @@ html.dark .moments-month-nav a:hover {
 
   .categories-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  .site-header,
+  .site-nav,
+  .site-footer,
+  .post-actions-rail,
+  .post-toc-rail,
+  .lightbox,
+  .reading-progress,
+  .hero,
+  .search-bar {
+    display: none !important;
+  }
+  body {
+    background: white;
+    color: black;
+  }
+  .post-detail {
+    box-shadow: none;
+    border: none;
   }
 }

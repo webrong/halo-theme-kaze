@@ -15,7 +15,15 @@
     </slot>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" onerror="this.onerror=null;this.href='https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap'" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+      onerror="
+        this.onerror = null;
+        this.href =
+          'https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap';
+      "
+    />
     <slot name="head">
       <title th:text="${site.title}">Site Title</title>
     </slot>
@@ -29,7 +37,10 @@
           <span class="site-logo-text" th:text="${site.title}">Halo Blog</span>
         </a>
         <div class="site-nav">
-          <nav th:with="menu = ${menuFinder.getPrimary()}" th:if="${menuFinder.getPrimary() != null}">
+          <nav
+            th:with="menu = ${menuFinder.getPrimary()}"
+            th:if="${menu != null}"
+          >
             <ul>
               <li th:each="item : ${menu.menuItems}">
                 <a
@@ -43,21 +54,74 @@
           </nav>
           <div class="header-actions">
             <button id="searchToggle" aria-label="搜索">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
             </button>
             <button id="themeToggle" aria-label="切换暗色模式">
-              <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-              <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+              <svg
+                class="icon-sun"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 2v2" />
+                <path d="M12 20v2" />
+                <path d="m4.93 4.93 1.41 1.41" />
+                <path d="m17.66 17.66 1.41 1.41" />
+                <path d="M2 12h2" />
+                <path d="M20 12h2" />
+                <path d="m6.34 17.66-1.41 1.41" />
+                <path d="m19.07 4.93-1.41 1.41" />
+              </svg>
+              <svg
+                class="icon-moon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+              </svg>
             </button>
             <button id="menuToggle" class="menu-toggle" aria-label="菜单">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="4" x2="20" y1="12" y2="12" />
+                <line x1="4" x2="20" y1="6" y2="6" />
+                <line x1="4" x2="20" y1="18" y2="18" />
+              </svg>
             </button>
           </div>
         </div>
       </div>
       <div class="search-bar" id="searchBar">
         <form th:action="@{/search}" method="get">
-          <input type="text" name="keyword" placeholder="搜索文章、照片、瞬间…" />
+          <input type="text" name="keyword" placeholder="搜索文章、照片、瞬间…" aria-label="搜索" />
         </form>
       </div>
     </header>
@@ -69,22 +133,35 @@
     <footer class="site-footer">
       <div class="container">
         <!-- Friends: via linkFinder plugin -->
-        <section class="footer-friends" th:if="${linkFinder != null and !#lists.isEmpty(linkFinder.groupBy())}">
+        <section
+          class="footer-friends"
+          th:if="${linkFinder != null and !#lists.isEmpty(linkFinder.groupBy())}"
+        >
           <div class="footer-section-header">
             <p class="footer-section-heading">友链</p>
           </div>
           <div class="footer-friends-grid">
             <th:block th:each="group : ${linkFinder.groupBy()}">
-              <a th:each="link : ${group.links}"
-                 class="footer-friend-card"
-                 th:href="${link.spec.url}"
-                 target="_blank" rel="noopener">
-                <img th:if="${!#strings.isEmpty(link.spec.logo)}"
-                     class="footer-friend-logo"
-                     th:src="${link.spec.logo}" th:alt="${link.spec.displayName}" />
-                <span th:if="${#strings.isEmpty(link.spec.logo)}"
-                      class="footer-friend-avatar"
-                      th:text="${#strings.substring(link.spec.displayName, 0, 1)}">A</span>
+              <a
+                th:each="link : ${group.links}"
+                class="footer-friend-card"
+                th:href="${link.spec.url}"
+                target="_blank"
+                rel="noopener"
+              >
+                        <img
+                  th:if="${!#strings.isEmpty(link.spec.logo)}"
+                  class="footer-friend-logo"
+                  th:src="${link.spec.logo}"
+                  th:alt="${link.spec.displayName}"
+                  loading="lazy"
+                />
+                <span
+                  th:if="${#strings.isEmpty(link.spec.logo)}"
+                  class="footer-friend-avatar"
+                  th:text="${!#strings.isEmpty(link.spec.displayName) ? #strings.substring(link.spec.displayName, 0, 1) : '?'}"
+                  >A</span
+                >
                 <span class="footer-friend-name" th:text="${link.spec.displayName}">好友</span>
               </a>
             </th:block>
@@ -92,34 +169,75 @@
         </section>
 
         <!-- Sponsor -->
-        <section class="footer-sponsor" th:if="${!#strings.isEmpty(theme.config.footer?.sponsor_text)}">
+        <section
+          class="footer-sponsor"
+          th:if="${!#strings.isEmpty(theme.config.footer?.sponsor_text)}"
+        >
           <p class="footer-section-heading">赞助</p>
           <div class="footer-sponsor-box">
             <span th:text="${theme.config.footer.sponsor_text}">赞助本站</span>
-            <a th:if="${theme.config.footer.sponsor_contact_url}"
-               th:href="${theme.config.footer.sponsor_contact_url}"
-               class="footer-sponsor-contact">联系我们</a>
+            <a
+              th:if="${theme.config.footer.sponsor_contact_url}"
+              th:href="${theme.config.footer.sponsor_contact_url}"
+              class="footer-sponsor-contact"
+              >联系我们</a
+            >
           </div>
         </section>
 
         <!-- Legal -->
         <div class="footer-legal">
-          <span th:if="${!#strings.isEmpty(theme.config.footer.custom_footer)}" th:text="${theme.config.footer.custom_footer}"></span>
-          <a th:if="${!#strings.isEmpty(theme.config.footer.footer_icp)}"
-             th:href="${theme.config.footer.footer_icp_url ?: 'https://beian.miit.gov.cn/'}"
-             th:text="${theme.config.footer.footer_icp}"
-             target="_blank" rel="noopener"></a>
-          <a th:if="${!#strings.isEmpty(theme.config.footer.footer_police)}"
-             th:href="${theme.config.footer.footer_police_url ?: 'http://www.beian.gov.cn/'}"
-             target="_blank" rel="noopener">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span
+            th:if="${!#strings.isEmpty(theme.config.footer.custom_footer)}"
+            th:text="${theme.config.footer.custom_footer}"
+          ></span>
+          <a
+            th:if="${!#strings.isEmpty(theme.config.footer.footer_icp)}"
+            th:href="${theme.config.footer.footer_icp_url ?: 'https://beian.miit.gov.cn/'}"
+            th:text="${theme.config.footer.footer_icp}"
+            target="_blank"
+            rel="noopener"
+          ></a>
+          <a
+            th:if="${!#strings.isEmpty(theme.config.footer.footer_police)}"
+            th:href="${theme.config.footer.footer_police_url ?: 'http://www.beian.gov.cn/'}"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              style="vertical-align: -1px; margin-right: 2px"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
             <span th:text="${theme.config.footer.footer_police}"></span>
           </a>
         </div>
 
         <!-- Runtime counter -->
         <section class="footer-runtime">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
           <span>本站已运行</span>
           <span class="footer-runtime-days" id="runtime-days">0</span>
           <span>天</span>
@@ -129,11 +247,19 @@
         </section>
 
         <!-- Credit -->
-        <p class="footer-credit">由 <a href="https://halo.run" target="_blank" rel="noopener">Halo</a> 驱动 · <a href="https://github.com/halo-dev" target="_blank" rel="noopener">Personal Blog</a> 主题</p>
+        <p class="footer-credit">
+          由 <a href="https://halo.run" target="_blank" rel="noopener">Halo</a> 驱动 ·
+          <a href="https://github.com/webrong/halo-theme-kaze" target="_blank" rel="noopener">Kaze</a>
+          主题
+        </p>
       </div>
     </footer>
 
-    <span id="site-launch-date" style="display:none" th:attr="data-launch=${theme.config.footer.site_launch_date ?: '2022-09-01'}"></span>
+    <span
+      id="site-launch-date"
+      style="display: none"
+      th:attr="data-launch=${theme.config.footer.site_launch_date ?: '2022-09-01'}"
+    ></span>
     <script type="module" src="./js/layout.ts"></script>
   </body>
 </html>

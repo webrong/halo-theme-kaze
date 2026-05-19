@@ -1,23 +1,63 @@
-<article class="post-card" th:each="post : ${posts.items}"
-  th:data-category="${post.categories != null and !#lists.isEmpty(post.categories)} ? ${post.categories[0].spec.displayName} : ''">
-  <a th:href="@{${post.status.permalink}}" target="_blank" rel="noopener">
+<article
+  class="post-card"
+  th:each="post : ${posts.items}"
+  th:data-category="${post.categories != null and !#lists.isEmpty(post.categories)} ? ${post.categories[0].spec.displayName} : ''"
+>
+  <a th:href="@{${post.status.permalink}}">
     <div class="post-card-cover" th:if="${post.spec.cover}">
-      <img th:src="${post.spec.cover}" th:srcset="|${thumbnail.gen(post.spec.cover, 's')} 400w, ${thumbnail.gen(post.spec.cover, 'm')} 800w|" th:alt="${post.spec.title}" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
-      <span class="post-card-category" th:if="${post.categories != null and !#lists.isEmpty(post.categories)}" th:text="${post.categories[0].spec.displayName}"></span>
+      <img
+        th:src="${post.spec.cover}"
+        th:srcset="|${thumbnail.gen(post.spec.cover, 's')} 400w, ${thumbnail.gen(post.spec.cover, 'm')} 800w|"
+        th:alt="${post.spec.title}"
+        loading="lazy"
+        sizes="(max-width: 768px) 100vw, 50vw"
+      />
+      <span
+        class="post-card-category"
+        th:if="${post.categories != null and !#lists.isEmpty(post.categories)}"
+        th:text="${post.categories[0].spec.displayName}"
+      ></span>
     </div>
   </a>
   <div class="post-card-body">
     <h3 class="post-card-title">
-      <a th:href="@{${post.status.permalink}}" th:text="${post.spec.title}" target="_blank" rel="noopener"></a>
+      <a
+        th:href="@{${post.status.permalink}}"
+        th:text="${post.spec.title}"
+      ></a>
     </h3>
     <p class="post-card-excerpt" th:text="${post.status.excerpt}"></p>
     <div class="post-card-meta">
       <span>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+          <line x1="16" x2="16" y1="2" y2="6" />
+          <line x1="8" x2="8" y1="2" y2="6" />
+          <line x1="3" x2="21" y1="10" y2="10" />
+        </svg>
         <time th:text="${#temporals.format(post.spec.publishTime, 'yyyy年M月d日')}"></time>
       </span>
       <span class="post-card-reading-time">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
         <span>分钟阅读</span>
       </span>
     </div>

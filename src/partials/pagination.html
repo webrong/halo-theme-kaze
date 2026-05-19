@@ -1,6 +1,6 @@
 <div
   class="photo-pagination"
-  th:if="${posts.totalPages > 1}"
+  th:if="${posts != null and posts.totalPages > 1}"
   th:with="urlSrc=${posts.nextUrl ?: posts.prevUrl}"
 >
   <a class="page-prev" th:if="${posts.hasPrevious()}" th:href="@{${posts.prevUrl}}">

@@ -16,9 +16,9 @@
   </template>
 
   <div class="categories-page">
-    <div class="section-header" style="margin-bottom: 40px;">
+    <div class="section-header" style="margin-bottom: 40px">
       <div>
-        <h1 class="section-title" style="font-size: 32px;">分类</h1>
+        <h1 class="section-title" style="font-size: 32px">分类</h1>
         <p class="section-subtitle">按分类浏览所有文章。</p>
       </div>
     </div>
@@ -29,10 +29,18 @@
           <h3 class="category-card-name" th:text="${cat.spec.displayName}"></h3>
           <span class="category-card-count" th:text="${cat.postCount ?: 0}">0</span>
         </div>
-        <p class="category-card-desc" th:if="${cat.spec.description}" th:text="${cat.spec.description}"></p>
+        <p
+          class="category-card-desc"
+          th:if="${cat.spec.description}"
+          th:text="${cat.spec.description}"
+        ></p>
         <!-- Children categories -->
         <div class="category-children" th:if="${!#lists.isEmpty(cat?.children)}">
-          <a th:each="child : ${cat.children}" th:href="@{${child.status.permalink}}" class="category-child-link">
+          <a
+            th:each="child : ${cat.children}"
+            th:href="@{${child.status.permalink}}"
+            class="category-child-link"
+          >
             <span th:text="${child.spec.displayName}"></span>
             <span class="category-child-count" th:text="${child.postCount}">0</span>
           </a>

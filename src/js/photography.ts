@@ -7,10 +7,15 @@
   var fallbackGrid = document.getElementById("photo-fallback-grid");
   var paginationEl = document.getElementById("photo-pagination");
   var emptyEl = document.getElementById("photo-empty");
-  var prevBtn = document.getElementById("photo-page-prev") as HTMLButtonElement;
-  var nextBtn = document.getElementById("photo-page-next") as HTMLButtonElement;
+  var prevBtn = document.getElementById("photo-page-prev") as HTMLButtonElement | null;
+  var nextBtn = document.getElementById("photo-page-next") as HTMLButtonElement | null;
   var numbersEl = document.getElementById("photo-page-numbers");
   var pills = document.querySelectorAll("#photo-filter-pills .filter-pill");
+
+  if (!prevBtn || !nextBtn || !numbersEl) return;
+  var _prevBtn = prevBtn;
+  var _nextBtn = nextBtn;
+  var _numbersEl = numbersEl;
 
   function getActiveGrid(): Element | null {
     return albumGrid || fallbackGrid;
@@ -61,10 +66,10 @@
     }
     paginationEl.style.display = "flex";
 
-    prevBtn.disabled = currentPage === 1;
-    nextBtn.disabled = currentPage === totalPages;
+    _prevBtn.disabled = currentPage === 1;
+    _nextBtn.disabled = currentPage === totalPages;
 
-    numbersEl!.innerHTML = "";
+    _numbersEl.innerHTML = "";
     for (var i = 1; i <= totalPages; i++) {
       var btn = document.createElement("button");
       btn.className = "page-btn" + (i === currentPage ? " active" : "");
@@ -76,7 +81,7 @@
           window.scrollTo({ top: 0, behavior: "smooth" });
         });
       })(i);
-      numbersEl!.appendChild(btn);
+      _numbersEl.appendChild(btn);
     }
   }
 
@@ -92,14 +97,14 @@
     });
   });
 
-  prevBtn.addEventListener("click", function () {
+  _prevBtn.addEventListener("click", function () {
     if (currentPage > 1) {
       currentPage--;
       render();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   });
-  nextBtn.addEventListener("click", function () {
+  _nextBtn.addEventListener("click", function () {
     var filtered = getFilteredCards();
     var totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
     if (currentPage < totalPages) {
@@ -133,17 +138,28 @@
   if (fallbackGrid) {
     var lb = document.getElementById("photo-lightbox");
     if (lb) {
-      var lbImg = document.getElementById("photo-lb-img") as HTMLImageElement;
+      var lbImg = document.getElementById("photo-lb-img") as HTMLImageElement | null;
       var lbTitle = document.getElementById("photo-lb-title");
       var lbCounter = document.getElementById("photo-lb-counter");
+      var lbClose = document.getElementById("photo-lb-close");
+      var lbPrev = document.getElementById("photo-lb-prev");
+      var lbNext = document.getElementById("photo-lb-next");
+      if (!lbImg || !lbTitle || !lbCounter || !lbClose || !lbPrev || !lbNext) return;
+      var _lbImg = lbImg;
+      var _lbTitle = lbTitle;
+      var _lbCounter = lbCounter;
+      var _lbClose = lbClose;
+      var _lbPrev = lbPrev;
+      var _lbNext = lbNext;
+      var _fallbackGrid = fallbackGrid;
       var photos: { src: string; caption: string }[] = [];
       var lbIndex = 0;
 
       function lbShow(i: number) {
         lbIndex = i;
-        lbImg.src = photos[i].src;
-        lbTitle!.textContent = photos[i].caption;
-        lbCounter!.textContent = i + 1 + " / " + photos.length;
+        _lbImg.src = photos[i].src;
+        _lbTitle.textContent = photos[i].caption;
+        _lbCounter.textContent = i + 1 + " / " + photos.length;
       }
 
       var lbEl = lb;
@@ -152,7 +168,7 @@
         (card as HTMLElement).style.cursor = "pointer";
         card.addEventListener("click", function () {
           photos = [];
-          fallbackGrid!.querySelectorAll(".photo-card").forEach(function (c) {
+          _fallbackGrid.querySelectorAll(".photo-card").forEach(function (c) {
             photos.push({
               src: c.getAttribute("data-src") || "",
               caption: c.getAttribute("data-caption") || "",
@@ -164,14 +180,14 @@
         });
       });
 
-      document.getElementById("photo-lb-close")!.addEventListener("click", function () {
+      _lbClose.addEventListener("click", function () {
         lbEl.classList.remove("active");
         document.body.style.overflow = "";
       });
-      document.getElementById("photo-lb-prev")!.addEventListener("click", function () {
+      _lbPrev.addEventListener("click", function () {
         lbShow((lbIndex - 1 + photos.length) % photos.length);
       });
-      document.getElementById("photo-lb-next")!.addEventListener("click", function () {
+      _lbNext.addEventListener("click", function () {
         lbShow((lbIndex + 1) % photos.length);
       });
       lbEl.addEventListener("click", function (e) {
