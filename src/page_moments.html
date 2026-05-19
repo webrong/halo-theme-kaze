@@ -17,9 +17,9 @@
   </template>
 
   <div class="moments-page">
-    <div class="section-header" style="margin-bottom: 40px;">
+    <div class="section-header" style="margin-bottom: 40px">
       <div>
-        <h1 class="section-title" style="font-size: 32px;">瞬间</h1>
+        <h1 class="section-title" style="font-size: 32px">瞬间</h1>
         <p class="section-subtitle">长文之间的短记录和快照。</p>
       </div>
     </div>
@@ -37,10 +37,14 @@
       <div class="moments-feed">
         <th:block th:if="${moments != null}">
           <th:block th:each="moment,stat : ${moments.items}">
-            <div class="moment-month-divider"
-                 th:id="${'month-' + #temporals.format(moment.spec.releaseTime, 'yyyy-MM')}"
-                 th:if="${stat.index == 0 or #temporals.format(moments.items[stat.index - 1].spec.releaseTime, 'yyyy-MM') != #temporals.format(moment.spec.releaseTime, 'yyyy-MM')}">
-              <span th:text="${#temporals.format(moment.spec.releaseTime, 'MMMM yyyy')}">May 2026</span>
+            <div
+              class="moment-month-divider"
+              th:id="${'month-' + #temporals.format(moment.spec.releaseTime, 'yyyy-MM')}"
+              th:if="${stat.index == 0 or #temporals.format(moments.items[stat.index - 1].spec.releaseTime, 'yyyy-MM') != #temporals.format(moment.spec.releaseTime, 'yyyy-MM')}"
+            >
+              <span th:text="${#temporals.format(moment.spec.releaseTime, 'MMMM yyyy')}"
+                >May 2026</span
+              >
             </div>
 
             <div class="moment-card" th:attr="data-moment-name=${moment.metadata.name}">
@@ -51,23 +55,51 @@
               />
               <div class="moment-body">
                 <div class="moment-header">
-                  <span class="moment-author" th:text="${moment.owner?.displayName ?: 'Author'}">作者</span>
-                  <span class="moment-time" th:text="${#temporals.format(moment.spec.releaseTime, 'MMM d · HH:mm')}"></span>
+                  <span class="moment-author" th:text="${moment.owner?.displayName ?: 'Author'}"
+                    >作者</span
+                  >
+                  <span
+                    class="moment-time"
+                    th:text="${#temporals.format(moment.spec.releaseTime, 'MMM d · HH:mm')}"
+                  ></span>
                 </div>
-                <div class="moment-content" th:if="${moment.spec.content?.html}" th:utext="${moment.spec.content.html}" data-highlight-hashtags></div>
+                <div
+                  class="moment-content"
+                  th:if="${moment.spec.content?.html}"
+                  th:utext="${moment.spec.content.html}"
+                  data-highlight-hashtags
+                ></div>
 
-                <th:block th:if="${moment.spec.content?.medium != null and !moment.spec.content.medium.isEmpty()}">
+                <th:block
+                  th:if="${moment.spec.content?.medium != null and !moment.spec.content.medium.isEmpty()}"
+                >
                   <div class="moment-photos" data-moment-photos>
                     <th:block th:each="media : ${moment.spec.content.medium}">
-                      <button type="button" class="moment-photo-btn"
-                           th:if="${media.type?.name() == 'PHOTO'}"
-                           th:data-src="${media.url}">
+                      <button
+                        type="button"
+                        class="moment-photo-btn"
+                        th:if="${media.type?.name() == 'PHOTO'}"
+                        th:data-src="${media.url}"
+                      >
                         <img th:src="${media.url}" alt="" loading="lazy" />
                       </button>
                       <div class="moment-video" th:if="${media.type?.name() == 'VIDEO'}">
-                        <video th:attr="data-src=${media.url}" preload="metadata" playsinline muted></video>
+                        <video
+                          th:attr="data-src=${media.url}"
+                          preload="metadata"
+                          playsinline
+                          muted
+                        ></video>
                         <button type="button" class="moment-video-play" aria-label="播放视频">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.14v14.72a1 1 0 0 0 1.5.86l11-7.36a1 1 0 0 0 0-1.72l-11-7.36A1 1 0 0 0 8 5.14Z"/></svg>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
+                            <path
+                              d="M8 5.14v14.72a1 1 0 0 0 1.5.86l11-7.36a1 1 0 0 0 0-1.72l-11-7.36A1 1 0 0 0 8 5.14Z"
+                            />
+                          </svg>
                         </button>
                       </div>
                     </th:block>
@@ -76,18 +108,43 @@
 
                 <div class="moment-actions">
                   <button class="like-btn" th:attr="data-moment-name=${moment.metadata.name}">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+                      />
+                    </svg>
                     <span th:text="${moment.stats?.upvote ?: 0}">0</span>
                   </button>
                   <button class="comment-btn" th:attr="data-moment-name=${moment.metadata.name}">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                    </svg>
                     <span th:text="${moment.stats?.totalComment ?: 0}">0</span>
                   </button>
                 </div>
 
-                <div class="moment-comments"
-                     th:id="${'moment-comments-' + moment.metadata.name}">
-                  <halo:comment group="moment.halo.run" kind="Moment" th:attr="name=${moment.metadata.name}" />
+                <div class="moment-comments" th:id="${'moment-comments-' + moment.metadata.name}">
+                  <halo:comment
+                    group="moment.halo.run"
+                    kind="Moment"
+                    th:attr="name=${moment.metadata.name}"
+                  />
                 </div>
               </div>
             </div>
@@ -103,19 +160,23 @@
         <th:block th:if="${moments == null}">
           <th:block th:each="post : ${postFinder.list({page: 1, size: 20}).items}">
             <div class="moment-card">
-              <img
-                class="moment-avatar"
-                th:src="${theme.config.profile.avatar}"
-                alt="头像"
-              />
+              <img class="moment-avatar" th:src="${theme.config.profile.avatar}" alt="头像" />
               <div class="moment-body">
                 <div class="moment-header">
-                  <span class="moment-author" th:text="${theme.config.profile.display_name ?: 'Author'}"></span>
-                  <span class="moment-time" th:text="${#temporals.format(post.spec.publishTime, 'MMM d · HH:mm')}"></span>
+                  <span
+                    class="moment-author"
+                    th:text="${theme.config.profile.display_name ?: 'Author'}"
+                  ></span>
+                  <span
+                    class="moment-time"
+                    th:text="${#temporals.format(post.spec.publishTime, 'MMM d · HH:mm')}"
+                  ></span>
                 </div>
                 <p class="moment-content" th:text="${post.status.excerpt}"></p>
                 <div class="moment-actions">
-                  <a th:href="@{${post.status.permalink}}" style="font-size: 13px; color: #6B7280;">阅读更多 →</a>
+                  <a th:href="@{${post.status.permalink}}" style="font-size: 13px; color: #6b7280"
+                    >阅读更多 →</a
+                  >
                 </div>
               </div>
             </div>
@@ -129,18 +190,29 @@
           <p class="moments-sidebar-label">动态</p>
           <div class="moments-activity-grid">
             <div class="moments-activity-stat">
-              <span class="moments-activity-value" th:text="${moments != null ? moments.total : 0}">0</span>
+              <span class="moments-activity-value" th:text="${moments != null ? moments.total : 0}"
+                >0</span
+              >
               <span class="moments-activity-label">瞬间</span>
             </div>
             <div class="moments-activity-stat">
-              <span class="moments-activity-value" th:text="${photoGalleryFinder != null ? #aggregates.sum(photoGalleryFinder.listAlbums().![photoCount ?: 0]) : 0}">0</span>
+              <span
+                class="moments-activity-value"
+                th:text="${photoGalleryFinder != null and !#lists.isEmpty(photoGalleryFinder.listAlbums()) ? (#aggregates.sum(photoGalleryFinder.listAlbums().![photoCount ?: 0]) ?: 0) : 0}"
+                >0</span
+              >
               <span class="moments-activity-label">照片</span>
             </div>
           </div>
         </div>
         <div class="moments-sidebar-card moments-about-card">
           <p class="moments-sidebar-label">关于瞬间</p>
-          <p class="moments-about-text" th:text="${theme.config.profile.bio ?: '长文之间的短记录和快照。'}">Short notes and snapshots.</p>
+          <p
+            class="moments-about-text"
+            th:text="${theme.config.profile.bio ?: '长文之间的短记录和快照。'}"
+          >
+            Short notes and snapshots.
+          </p>
         </div>
       </aside>
     </div>
@@ -154,22 +226,58 @@
           <span class="lightbox-topbar-counter" id="moment-lb-counter"></span>
         </div>
         <button class="lightbox-close-btn" id="moment-lb-close" aria-label="关闭">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
         </button>
       </div>
       <div class="lightbox-image-area">
         <button class="lightbox-nav-btn lightbox-prev-btn" id="moment-lb-prev" aria-label="上一张">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="m15 18-6-6 6-6" />
+          </svg>
         </button>
         <img id="moment-lb-img" src="" alt="" />
         <button class="lightbox-nav-btn lightbox-next-btn" id="moment-lb-next" aria-label="下一张">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="m9 18 6-6-6-6" />
+          </svg>
         </button>
       </div>
-      <div class="lightbox-bottom" id="moment-lb-bottom" style="display:none;">
+      <div class="lightbox-bottom" id="moment-lb-bottom" style="display: none">
         <div class="lightbox-thumbs" id="moment-lb-thumbs"></div>
       </div>
     </div>
   </div>
-
 </include>

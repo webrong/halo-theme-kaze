@@ -7,7 +7,11 @@
     <meta property="og:title" th:content="${singlePage.spec.title}" />
     <meta property="og:description" th:content="${theme.config.profile.bio}" />
     <meta property="og:url" th:content="${singlePage.status.permalink}" />
-    <meta th:if="${theme.config.profile.avatar}" property="og:image" th:content="${theme.config.profile.avatar}" />
+    <meta
+      th:if="${theme.config.profile.avatar}"
+      property="og:image"
+      th:content="${theme.config.profile.avatar}"
+    />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" th:content="${singlePage.spec.title}" />
     <meta name="twitter:description" th:content="${theme.config.profile.bio}" />
@@ -18,7 +22,6 @@
 
   <div id="about-content" class="about-page">
     <div class="about-layout">
-
       <!-- Left Sidebar -->
       <aside class="about-sidebar-panel">
         <img
@@ -27,68 +30,285 @@
           th:src="${theme.config.profile.avatar}"
           alt="头像"
         />
-        <h2 class="about-sidebar-name" th:text="${theme.config.profile.display_name ?: 'Author'}">Aria Chen</h2>
-        <p class="about-sidebar-bio" th:text="${theme.config.profile.bio}">Designer-engineer · part-time photographer · full-time wanderer.</p>
+        <h2 class="about-sidebar-name" th:text="${theme.config.profile.display_name ?: 'Author'}">
+          Aria Chen
+        </h2>
+        <p class="about-sidebar-bio" th:text="${theme.config.profile.bio}">
+          Designer-engineer · part-time photographer · full-time wanderer.
+        </p>
 
         <!-- Stats -->
-        <div class="about-stats" th:with="galleryAlbums=${photoGalleryFinder != null ? photoGalleryFinder.listAlbums() : null}">
+        <div
+          class="about-stats"
+          th:with="galleryAlbums=${photoGalleryFinder != null ? photoGalleryFinder.listAlbums() : null}"
+        >
           <div class="about-stat-item">
-            <span class="about-stat-value" th:text="${postFinder.list({page: 1, size: 1}).total}">0</span>
+            <span class="about-stat-value" th:text="${postFinder.list({page: 1, size: 1}).total}"
+              >0</span
+            >
             <span class="about-stat-label">文章</span>
           </div>
           <div class="about-stat-item">
-            <span class="about-stat-value" th:text="${momentFinder != null ? momentFinder.listAll().size() : 0}">0</span>
+            <span
+              class="about-stat-value"
+              th:text="${momentFinder != null ? momentFinder.listAll().size() : 0}"
+              >0</span
+            >
             <span class="about-stat-label">瞬间</span>
           </div>
           <div class="about-stat-item">
-            <span class="about-stat-value" th:text="${galleryAlbums != null ? #aggregates.sum(galleryAlbums.![photoCount ?: 0]) : 0}">0</span>
+            <span
+              class="about-stat-value"
+              th:text="${galleryAlbums != null and !#lists.isEmpty(galleryAlbums) ? (#aggregates.sum(galleryAlbums.![photoCount ?: 0]) ?: 0) : 0}"
+              >0</span
+            >
             <span class="about-stat-label">照片</span>
           </div>
         </div>
 
         <!-- Social Buttons -->
         <div class="about-social-grid">
-          <a th:if="${theme.config.social.github}" th:href="${theme.config.social.github}" target="_blank" rel="noopener" class="about-social-btn" title="GitHub">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          <a
+            th:if="${theme.config.social.github}"
+            th:href="${theme.config.social.github}"
+            target="_blank"
+            rel="noopener"
+            class="about-social-btn"
+            title="GitHub"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+              />
+              <path d="M9 18c-4.51 2-5-2-7-2" />
+            </svg>
           </a>
-          <a th:if="${theme.config.social.email}" th:href="'mailto:' + ${theme.config.social.email}" class="about-social-btn" title="Email">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <a
+            th:if="${theme.config.social.email}"
+            th:href="'mailto:' + ${theme.config.social.email}"
+            class="about-social-btn"
+            title="Email"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect width="20" height="16" x="2" y="4" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
           </a>
-          <a th:if="${theme.config.social.twitter}" th:href="${theme.config.social.twitter}" target="_blank" rel="noopener" class="about-social-btn" title="Twitter">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+          <a
+            th:if="${theme.config.social.twitter}"
+            th:href="${theme.config.social.twitter}"
+            target="_blank"
+            rel="noopener"
+            class="about-social-btn"
+            title="Twitter"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"
+              />
+            </svg>
           </a>
-          <a th:if="${theme.config.social.bilibili}" th:href="${theme.config.social.bilibili}" target="_blank" rel="noopener" class="about-social-btn" title="Bilibili">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m8 2 4 4"/><path d="m16 2-4 4"/><path d="M9 12v4"/><path d="M15 12v4"/></svg>
+          <a
+            th:if="${theme.config.social.bilibili}"
+            th:href="${theme.config.social.bilibili}"
+            target="_blank"
+            rel="noopener"
+            class="about-social-btn"
+            title="Bilibili"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="4" width="20" height="16" rx="3" />
+              <path d="m8 2 4 4" />
+              <path d="m16 2-4 4" />
+              <path d="M9 12v4" />
+              <path d="M15 12v4" />
+            </svg>
           </a>
-          <a th:if="${theme.config.social.weibo}" th:href="${theme.config.social.weibo}" target="_blank" rel="noopener" class="about-social-btn" title="微博">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></svg>
+          <a
+            th:if="${theme.config.social.weibo}"
+            th:href="${theme.config.social.weibo}"
+            target="_blank"
+            rel="noopener"
+            class="about-social-btn"
+            title="微博"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+              <line x1="9" x2="9.01" y1="9" y2="9" />
+              <line x1="15" x2="15.01" y1="9" y2="9" />
+            </svg>
           </a>
-          <a th:if="${theme.config.social.zhihu}" th:href="${theme.config.social.zhihu}" target="_blank" rel="noopener" class="about-social-btn" title="知乎">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <a
+            th:if="${theme.config.social.zhihu}"
+            th:href="${theme.config.social.zhihu}"
+            target="_blank"
+            rel="noopener"
+            class="about-social-btn"
+            title="知乎"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" x2="8" y1="13" y2="13" />
+              <line x1="16" x2="8" y1="17" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
           </a>
-          <a th:if="${theme.config.social.wechat_qr}" class="about-social-btn" title="微信" data-wechat-qr>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <a
+            th:if="${theme.config.social.wechat_qr}"
+            class="about-social-btn"
+            title="微信"
+            data-wechat-qr
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
           </a>
-          <a th:if="${theme.config.social.youtube}" th:href="${theme.config.social.youtube}" target="_blank" rel="noopener" class="about-social-btn" title="YouTube">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+          <a
+            th:if="${theme.config.social.youtube}"
+            th:href="${theme.config.social.youtube}"
+            target="_blank"
+            rel="noopener"
+            class="about-social-btn"
+            title="YouTube"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"
+              />
+              <path d="m10 15 5-3-5-3z" />
+            </svg>
           </a>
-          <a th:if="${theme.config.social.xiaohongshu}" th:href="${theme.config.social.xiaohongshu}" target="_blank" rel="noopener" class="about-social-btn" title="小红书">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="12 7 12 17"/><polyline points="7 12 17 12"/></svg>
+          <a
+            th:if="${theme.config.social.xiaohongshu}"
+            th:href="${theme.config.social.xiaohongshu}"
+            target="_blank"
+            rel="noopener"
+            class="about-social-btn"
+            title="小红书"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="12 7 12 17" />
+              <polyline points="7 12 17 12" />
+            </svg>
           </a>
-          <a th:if="${theme.config.social.website}" th:href="${theme.config.social.website}" target="_blank" rel="noopener" class="about-social-btn" title="个人网站">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <a
+            th:if="${theme.config.social.website}"
+            th:href="${theme.config.social.website}"
+            target="_blank"
+            rel="noopener"
+            class="about-social-btn"
+            title="个人网站"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" x2="22" y1="12" y2="12" />
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              />
+            </svg>
           </a>
         </div>
       </aside>
 
       <!-- Right Content -->
       <div class="about-content">
-
         <!-- My Story -->
         <section class="about-card">
           <h3 class="about-card-title">关于我</h3>
-          <div class="about-story-text" th:if="${singlePage.content != null and singlePage.content.content != null and !#strings.isEmpty(singlePage.content.content)}" th:utext="${singlePage.content.content}"></div>
-          <div class="about-story-text" th:if="${singlePage.content == null or singlePage.content.content == null or #strings.isEmpty(singlePage.content.content)}">
+          <div
+            class="about-story-text"
+            th:if="${singlePage.content != null and singlePage.content.content != null and !#strings.isEmpty(singlePage.content.content)}"
+            th:utext="${singlePage.content.content}"
+          ></div>
+          <div
+            class="about-story-text"
+            th:if="${singlePage.content == null or singlePage.content.content == null or #strings.isEmpty(singlePage.content.content)}"
+          >
             <p th:text="${theme.config.profile.about_text}"></p>
           </div>
 
@@ -100,7 +320,9 @@
           </div>
 
           <!-- Timeline (repeater format: each item is a Map with year + event) -->
-          <th:block th:if="${theme.config.profile.milestone_list != null and #lists.isEmpty(theme.config.profile.milestone_list) == false}">
+          <th:block
+            th:if="${theme.config.profile.milestone_list != null and #lists.isEmpty(theme.config.profile.milestone_list) == false}"
+          >
             <p class="about-timeline-label">里程碑</p>
             <ol class="about-timeline">
               <th:block th:each="item : ${theme.config.profile.milestone_list}">
@@ -114,60 +336,152 @@
         </section>
 
         <!-- Skills & Hobbies -->
-        <section class="about-card" th:if="${theme.config.profile.radar_items != null and !#lists.isEmpty(theme.config.profile.radar_items)}">
+        <section
+          class="about-card"
+          th:if="${theme.config.profile.radar_items != null and !#lists.isEmpty(theme.config.profile.radar_items)}"
+        >
           <h3 class="about-card-title">技能与爱好</h3>
-          <p class="about-card-subtitle" th:text="${theme.config.profile.skills_subtitle ?: '一份随性的自我评估，随心情更新。'}">一份随性的自我评估，随心情更新。</p>
-            <div class="about-radar-container">
-              <svg viewBox="0 0 200 200" class="about-radar-svg" preserveAspectRatio="xMidYMid meet">
-                <!-- Grid hexagons (cx=100 cy=79 R=59) -->
-                <polygon class="radar-grid" points="100,20 151.1,49.5 151.1,108.5 100,138 48.9,108.5 48.9,49.5" fill="none" stroke-width="0.5"/>
-                <polygon class="radar-grid" points="100,39.7 134.1,59.3 134.1,98.7 100,118.3 65.9,98.7 65.9,59.3" fill="none" stroke-width="0.5"/>
-                <polygon class="radar-grid" points="100,59.3 117,69.2 117,88.8 100,98.7 83,88.8 83,69.2" fill="none" stroke-width="0.5"/>
-                <!-- Axis lines (center to each vertex) -->
-                <line class="radar-grid" x1="100" y1="79" x2="100" y2="20" stroke-width="0.5"/>
-                <line class="radar-grid" x1="100" y1="79" x2="151.1" y2="49.5" stroke-width="0.5"/>
-                <line class="radar-grid" x1="100" y1="79" x2="151.1" y2="108.5" stroke-width="0.5"/>
-                <line class="radar-grid" x1="100" y1="79" x2="100" y2="138" stroke-width="0.5"/>
-                <line class="radar-grid" x1="100" y1="79" x2="48.9" y2="108.5" stroke-width="0.5"/>
-                <line class="radar-grid" x1="100" y1="79" x2="48.9" y2="49.5" stroke-width="0.5"/>
-                <!-- Data polygon -->
-                <polygon
-                  id="radar-data-polygon"
-                  class="radar-data"
-                  fill-opacity="0.28"
-                  stroke-width="1.5"
-                />
-                <!-- Labels -->
-                <text class="radar-label" x="100" y="12" text-anchor="middle" font-size="9"
-                      th:text="${theme.config.profile.radar_items.size() > 0 ? theme.config.profile.radar_items[0].label : ''}">摄影</text>
-                <text class="radar-label" x="159" y="49.5" text-anchor="start" font-size="9"
-                      th:text="${theme.config.profile.radar_items.size() > 1 ? theme.config.profile.radar_items[1].label : ''}">修图</text>
-                <text class="radar-label" x="159" y="112" text-anchor="start" font-size="9"
-                      th:text="${theme.config.profile.radar_items.size() > 2 ? theme.config.profile.radar_items[2].label : ''}">编程</text>
-                <text class="radar-label" x="100" y="153" text-anchor="middle" font-size="9"
-                      th:text="${theme.config.profile.radar_items.size() > 3 ? theme.config.profile.radar_items[3].label : ''}">写作</text>
-                <text class="radar-label" x="41" y="112" text-anchor="end" font-size="9"
-                      th:text="${theme.config.profile.radar_items.size() > 4 ? theme.config.profile.radar_items[4].label : ''}">咖啡</text>
-                <text class="radar-label" x="41" y="49.5" text-anchor="end" font-size="9"
-                      th:text="${theme.config.profile.radar_items.size() > 5 ? theme.config.profile.radar_items[5].label : ''}">音乐</text>
-              </svg>
+          <p
+            class="about-card-subtitle"
+            th:text="${theme.config.profile.skills_subtitle ?: '一份随性的自我评估，随心情更新。'}"
+          >
+            一份随性的自我评估，随心情更新。
+          </p>
+          <div class="about-radar-container">
+            <svg viewBox="0 0 200 200" class="about-radar-svg" preserveAspectRatio="xMidYMid meet">
+              <!-- Grid hexagons (cx=100 cy=79 R=59) -->
+              <polygon
+                class="radar-grid"
+                points="100,20 151.1,49.5 151.1,108.5 100,138 48.9,108.5 48.9,49.5"
+                fill="none"
+                stroke-width="0.5"
+              />
+              <polygon
+                class="radar-grid"
+                points="100,39.7 134.1,59.3 134.1,98.7 100,118.3 65.9,98.7 65.9,59.3"
+                fill="none"
+                stroke-width="0.5"
+              />
+              <polygon
+                class="radar-grid"
+                points="100,59.3 117,69.2 117,88.8 100,98.7 83,88.8 83,69.2"
+                fill="none"
+                stroke-width="0.5"
+              />
+              <!-- Axis lines (center to each vertex) -->
+              <line class="radar-grid" x1="100" y1="79" x2="100" y2="20" stroke-width="0.5" />
+              <line class="radar-grid" x1="100" y1="79" x2="151.1" y2="49.5" stroke-width="0.5" />
+              <line class="radar-grid" x1="100" y1="79" x2="151.1" y2="108.5" stroke-width="0.5" />
+              <line class="radar-grid" x1="100" y1="79" x2="100" y2="138" stroke-width="0.5" />
+              <line class="radar-grid" x1="100" y1="79" x2="48.9" y2="108.5" stroke-width="0.5" />
+              <line class="radar-grid" x1="100" y1="79" x2="48.9" y2="49.5" stroke-width="0.5" />
+              <!-- Data polygon -->
+              <polygon
+                id="radar-data-polygon"
+                class="radar-data"
+                fill-opacity="0.28"
+                stroke-width="1.5"
+              />
+              <!-- Labels -->
+              <text
+                class="radar-label"
+                x="100"
+                y="12"
+                text-anchor="middle"
+                font-size="9"
+                th:text="${theme.config.profile.radar_items.size() > 0 ? theme.config.profile.radar_items[0].label : ''}"
+              >
+                摄影
+              </text>
+              <text
+                class="radar-label"
+                x="159"
+                y="49.5"
+                text-anchor="start"
+                font-size="9"
+                th:text="${theme.config.profile.radar_items.size() > 1 ? theme.config.profile.radar_items[1].label : ''}"
+              >
+                修图
+              </text>
+              <text
+                class="radar-label"
+                x="159"
+                y="112"
+                text-anchor="start"
+                font-size="9"
+                th:text="${theme.config.profile.radar_items.size() > 2 ? theme.config.profile.radar_items[2].label : ''}"
+              >
+                编程
+              </text>
+              <text
+                class="radar-label"
+                x="100"
+                y="153"
+                text-anchor="middle"
+                font-size="9"
+                th:text="${theme.config.profile.radar_items.size() > 3 ? theme.config.profile.radar_items[3].label : ''}"
+              >
+                写作
+              </text>
+              <text
+                class="radar-label"
+                x="41"
+                y="112"
+                text-anchor="end"
+                font-size="9"
+                th:text="${theme.config.profile.radar_items.size() > 4 ? theme.config.profile.radar_items[4].label : ''}"
+              >
+                咖啡
+              </text>
+              <text
+                class="radar-label"
+                x="41"
+                y="49.5"
+                text-anchor="end"
+                font-size="9"
+                th:text="${theme.config.profile.radar_items.size() > 5 ? theme.config.profile.radar_items[5].label : ''}"
+              >
+                音乐
+              </text>
+            </svg>
             <!-- Hidden data for JS radar computation -->
-            <span id="radar-values" style="display:none"><th:block th:each="item,stat : ${theme.config.profile.radar_items}"><th:block th:text="${item.value}">0</th:block><th:block th:if="${!stat.last}">,</th:block></th:block></span>
+            <span id="radar-values" style="display: none"
+              ><th:block th:each="item,stat : ${theme.config.profile.radar_items}"
+                ><th:block th:text="${item.value}">0</th:block
+                ><th:block th:if="${!stat.last}">,</th:block></th:block
+              ></span
+            >
           </div>
         </section>
 
         <!-- Current Gear (reads from gear page data, in-use only) -->
-        <th:block th:if="${theme.config.gear.gear_list != null and !#lists.isEmpty(theme.config.gear.gear_list)}">
+        <th:block
+          th:if="${theme.config.gear.gear_list != null and !#lists.isEmpty(theme.config.gear.gear_list)}"
+        >
           <section class="about-card">
             <div class="about-card-header">
               <h3 class="about-card-title">当前装备</h3>
               <a th:href="@{/gear}" class="about-card-link">
                 查看完整装备柜
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
               </a>
             </div>
             <ul class="about-gear-list">
-              <th:block th:each="device : ${theme.config.gear.gear_list}" th:if="${device.status != 'retired'}">
+              <th:block
+                th:each="device : ${theme.config.gear.gear_list}"
+                th:if="${device.status != 'retired'}"
+              >
                 <li class="about-gear-item">
                   <div class="about-gear-thumb">
                     <img th:src="${device.image ?: theme.config.profile.avatar}" alt="" />
@@ -188,16 +502,29 @@
             <h3 class="about-card-title">最新瞬间</h3>
             <a th:href="@{/moments}" class="about-card-link">
               查看所有瞬间
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
             </a>
           </div>
           <div class="about-photo-masonry">
-            <th:block th:each="post, iter : ${postFinder.list({page: 1, size: 9}).items}" th:if="${post.spec.cover}">
+            <th:block
+              th:each="post, iter : ${postFinder.list({page: 1, size: 9}).items}"
+              th:if="${post.spec.cover}"
+            >
               <img th:src="${post.spec.cover}" th:alt="${post.spec.title}" loading="lazy" />
             </th:block>
           </div>
         </section>
-
       </div>
     </div>
   </div>
