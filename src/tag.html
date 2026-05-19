@@ -1,13 +1,35 @@
 <include src="layout.html">
+  <template name="seo">
+    <meta name="description" th:content="${site.subtitle}" />
+    <link rel="canonical" th:href="${tag.status.permalink}" />
+    <meta property="og:site_name" th:content="${site.title}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" th:content="${tag.spec.displayName}" />
+    <meta property="og:description" th:content="${site.subtitle}" />
+    <meta property="og:url" th:content="${tag.status.permalink}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" th:content="${tag.spec.displayName}" />
+    <meta name="twitter:description" th:content="${site.subtitle}" />
+  </template>
   <template name="head">
-    <title th:text="|${tag.spec.displayName} - ${site.title}|">Tag Archive</title>
+    <title th:text="|${tag.spec.displayName} - ${site.title}|">标签</title>
   </template>
 
-  <h1 th:text="|Tag: ${tag.spec.displayName}|"></h1>
+  <div class="tag-page" th:if="${tag != null}">
+    <div class="section-header" style="margin-bottom: 40px;">
+      <div>
+        <div class="tag-page-badge">标签</div>
+        <h1 class="section-title" style="font-size: 32px;" th:text="${tag.spec.displayName}"></h1>
+        <p class="section-subtitle">
+          <span th:text="${posts?.total ?: 0}">0</span> 篇文章
+        </p>
+      </div>
+    </div>
 
-  <ul class="post-list">
-    <include src="post-card.html"></include>
-  </ul>
+    <div class="post-grid">
+      <include src="post-card.html"></include>
+    </div>
 
-  <include src="pagination.html"></include>
+    <include src="pagination.html"></include>
+  </div>
 </include>

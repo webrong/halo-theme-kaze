@@ -1,0 +1,117 @@
+<include src="layout.html">
+  <template name="seo">
+    <meta name="description" th:content="${site.subtitle}" />
+    <link rel="canonical" th:href="${singlePage.status.permalink}" />
+    <meta property="og:site_name" th:content="${site.title}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="摄影" />
+    <meta property="og:description" th:content="${site.subtitle}" />
+    <meta property="og:url" th:content="${singlePage.status.permalink}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="摄影" />
+    <meta name="twitter:description" th:content="${site.subtitle}" />
+  </template>
+  <template name="head">
+    <title th:text="|Photography - ${site.title}|">摄影</title>
+    <script type="module" src="./js/photography.ts"></script>
+  </template>
+
+  <div class="photography-page">
+    <div class="section-header">
+      <div></div>
+      <div class="filter-pills" id="photo-filter-pills" th:if="${photoGalleryFinder != null and !#lists.isEmpty(photoGalleryFinder.listAlbumGroups())}">
+        <button class="filter-pill active" data-tag="">全部</button>
+        <button class="filter-pill"
+                th:each="group : ${photoGalleryFinder.listAlbumGroups()}"
+                th:data-tag="${group.metadata.name}"
+                th:text="${group.spec.displayName}"></button>
+      </div>
+    </div>
+
+    <!-- Hidden group name mapping for JS -->
+    <div id="group-map" style="display:none" th:if="${photoGalleryFinder != null}">
+      <span th:each="group : ${photoGalleryFinder.listAlbumGroups()}"
+            th:attr="data-name=${group.metadata.name},data-display=${group.spec.displayName}"></span>
+    </div>
+
+    <!-- Gallery plugin album list -->
+    <div th:if="${photoGalleryFinder != null}" class="album-grid" id="album-grid">
+      <a th:each="album : ${photoGalleryFinder.listAlbums()}" th:href="@{'/gallery/' + ${album.spec.slug}}"
+         class="album-card-link"
+         th:data-tag="${album.spec.groupName ?: ''}">
+        <div class="album-card">
+          <div class="album-card-cover">
+            <img th:if="${album.spec.cover}" th:src="${album.spec.cover}" th:alt="${album.spec.displayName}" loading="lazy" />
+            <div th:unless="${album.spec.cover}" class="album-card-placeholder">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            </div>
+            <span class="album-card-photo-count">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <span th:text="${album.photoCount ?: 0}">0</span>
+            </span>
+            <span class="album-card-tag" th:if="${album.spec.groupName}" th:data-group="${album.spec.groupName}">
+              <span th:text="${album.spec.groupName}">Tag</span>
+            </span>
+          </div>
+          <div class="album-card-body">
+            <h3 th:text="${album.spec.displayName}">Album Name</h3>
+            <p th:if="${album.spec.description}" th:text="${album.spec.description}">Description</p>
+            <p class="album-card-date" th:if="${album.metadata?.creationTimestamp != null}"
+               th:text="${#temporals.format(album.metadata.creationTimestamp, 'yyyy-MM-dd')}">2026-01-01</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Fallback: post cover images -->
+    <div th:if="${photoGalleryFinder == null}" class="photo-grid" id="photo-fallback-grid">
+      <th:block th:each="post : ${postFinder.list({page: 1, size: 20}).items}" th:if="${post.spec.cover}">
+        <div class="photo-card" th:data-src="${post.spec.cover}" th:data-caption="${post.spec.title}">
+          <img th:src="${post.spec.cover}" th:alt="${post.spec.title}" loading="lazy" />
+          <div class="photo-card-overlay">
+            <div class="photo-card-eye">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+          </div>
+        </div>
+      </th:block>
+    </div>
+
+    <!-- Fallback lightbox -->
+    <div th:if="${photoGalleryFinder == null}" class="lightbox" id="photo-lightbox">
+      <div class="lightbox-modal">
+        <div class="lightbox-topbar">
+          <div class="lightbox-topbar-info">
+            <span class="lightbox-topbar-title" id="photo-lb-title"></span>
+            <span class="lightbox-topbar-counter" id="photo-lb-counter"></span>
+          </div>
+          <button class="lightbox-close-btn" id="photo-lb-close" aria-label="关闭">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+        <div class="lightbox-image-area">
+          <button class="lightbox-nav-btn lightbox-prev-btn" id="photo-lb-prev" aria-label="上一张">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <img id="photo-lb-img" src="" alt="" />
+          <button class="lightbox-nav-btn lightbox-next-btn" id="photo-lb-next" aria-label="下一张">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination (always rendered, JS controls visibility) -->
+    <div class="photo-pagination" id="photo-pagination">
+      <button class="page-prev" id="photo-page-prev">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        上一页
+      </button>
+      <div class="page-numbers" id="photo-page-numbers"></div>
+      <button class="page-next" id="photo-page-next">
+        下一页
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+</include>

@@ -1,21 +1,37 @@
 apiVersion: theme.halo.run/v1alpha1
 kind: Theme
 metadata:
-  name: theme-vite-starter
+  name: theme-kaze
 spec:
-  displayName: Vite Starter
+  displayName: Kaze
   author:
-    name: Halo
-    website: https://github.com/halo-dev
-  description: A development starter theme with Vite Ecosystem for Halo
-  logo: https://www.halo.run/logo
-  homepage: https://github.com/halo-dev/theme-vite-starter#readme
-  repo: https://github.com/halo-dev/theme-vite-starter
-  issues: https://github.com/halo-dev/theme-vite-starter/issues
-  settingName: "theme-vite-starter-setting"
-  configMapName: "theme-vite-starter-configMap"
+    name: webrong
+    website: https://github.com/webrong
+  description: A modern personal blog theme for Halo — clean, minimal, and beautiful
+  homepage: https://github.com/webrong/halo-theme-kaze
+  issues: https://github.com/webrong/halo-theme-kaze/issues
+  settingName: "theme-kaze-setting"
+  configMapName: "theme-kaze-configMap"
   version: 1.0.0
-  requires: ">=2.0.0"
+  requires: ">=2.22.0"
   license:
     - name: "GPL-3.0"
-      url: "https://github.com/halo-dev/theme-vite-starter/blob/main/LICENSE"
+      url: "https://opensource.org/licenses/GPL-3.0"
+  customTemplates:
+    page:
+      - name: page_about
+        description: 关于页面（双栏布局，含个人资料和侧边栏）
+        screenshot:
+        file: page_about.html
+      - name: page_photography
+        description: 摄影页面（瀑布流照片墙）
+        screenshot:
+        file: page_photography.html
+      - name: page_moments
+        description: 瞬间页面（时间线布局）
+        screenshot:
+        file: page_moments.html
+      - name: page_gear
+        description: 设备页面（卡片网格）
+        screenshot:
+        file: page_gear.html

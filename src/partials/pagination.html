@@ -1,5 +1,23 @@
-<nav class="pagination" th:if="${posts.hasPrevious() || posts.hasNext()}">
-  <a th:if="${posts.hasPrevious()}" th:href="@{${posts.prevUrl}}">Previous</a>
-  <span th:text="|${posts.page} / ${posts.totalPages}|"></span>
-  <a th:if="${posts.hasNext()}" th:href="@{${posts.nextUrl}}">Next</a>
-</nav>
+<div class="photo-pagination" th:if="${posts.totalPages > 1}">
+  <a class="page-prev" th:if="${posts.hasPrevious()}" th:href="@{${posts.prevUrl}}">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    上一页
+  </a>
+  <span class="page-prev" th:if="${!posts.hasPrevious()}" style="color:#D1D5DB;cursor:not-allowed;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    上一页
+  </span>
+  <div class="page-numbers">
+    <th:block th:each="pageNum : ${#numbers.sequence(1, posts.totalPages)}">
+      <a class="page-btn" th:classappend="${pageNum == posts.page} ? 'active'" th:href="@{|?page=${pageNum}|}" th:text="${pageNum}"></a>
+    </th:block>
+  </div>
+  <a class="page-next" th:if="${posts.hasNext()}" th:href="@{${posts.nextUrl}}">
+    下一页
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </a>
+  <span class="page-next" th:if="${!posts.hasNext()}" style="color:#D1D5DB;cursor:not-allowed;">
+    下一页
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </span>
+</div>

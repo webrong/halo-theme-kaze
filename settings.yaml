@@ -1,13 +1,295 @@
 apiVersion: v1alpha1
 kind: Setting
 metadata:
-  name: theme-vite-starter-setting
+  name: theme-kaze-setting
 spec:
   forms:
-    - group: styles
-      label: 样式
+    - group: basic
+      label: 首页设置
       formSchema:
-        - $formkit: color
-          name: background_color
-          label: 背景颜色
-          value: "#f2f2f2"
+        - $formkit: select
+          name: post_layout
+          label: 文章列表布局
+          value: "grid"
+          options:
+            - label: 网格卡片
+              value: "grid"
+            - label: 列表模式
+              value: "list"
+    - group: hero
+      label: Hero 轮播
+      formSchema:
+        - $formkit: text
+          name: hero_title
+          label: Hero 标题
+          value: "Slow notes on photography, code, and a quiet life."
+        - $formkit: textarea
+          name: hero_subtitle
+          label: Hero 副标题
+          value: "A small corner of the internet — handmade, unhurried, and occasionally updated whenever the light is right."
+        - $formkit: text
+          name: hero_badge
+          label: Hero 徽章文字
+          value: "Halo · A personal journal"
+        - $formkit: attachment
+          name: hero_image
+          label: Hero 背景图片（单图模式）
+        - $formkit: repeater
+          name: hero_slides
+          label: Hero 轮播幻灯片
+          addLabel: 添加幻灯片
+          min: 0
+          max: 10
+          value:
+            - image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80"
+              badge: "Featured"
+              title: "Slow notes on photography, code, and a quiet life."
+              subtitle: "A small corner of the internet — handmade, unhurried, and occasionally updated."
+              cta_label: "Latest Post"
+              cta_url: ""
+            - image: "https://images.unsplash.com/photo-1494500764479-0c8f2919a3d8?w=1600&q=80"
+              badge: "Photography"
+              title: "Chasing light through Kyoto alleys"
+              subtitle: "Film grain, morning mist, and the art of slowing down."
+              cta_label: "Photography"
+              cta_url: "/photography"
+            - image: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=1600&q=80"
+              badge: "Behind the Shot"
+              title: "Natural light portrait photography"
+              subtitle: "How I learned to stop using flash and love the golden hour."
+              cta_label: "Read More"
+              cta_url: ""
+          children:
+            - $formkit: attachment
+              name: image
+              label: 幻灯片图片
+              validation: required
+            - $formkit: text
+              name: badge
+              label: 徽章文字
+              value: "Featured"
+            - $formkit: text
+              name: title
+              label: 标题
+              validation: required
+            - $formkit: text
+              name: subtitle
+              label: 副标题
+            - $formkit: text
+              name: cta_label
+              label: CTA 按钮标签
+            - $formkit: url
+              name: cta_url
+              label: CTA 按钮链接
+    - group: footer
+      label: 页脚设置
+      formSchema:
+        - $formkit: text
+          name: custom_footer
+          label: 自定义页脚文字（如版权声明）
+          placeholder: "例：© 2026 My Blog"
+        - $formkit: text
+          name: site_launch_date
+          label: 建站日期（YYYY-MM-DD）
+          value: "2022-09-01"
+        - $formkit: text
+          name: sponsor_text
+          label: 赞助文案
+          value: ""
+        - $formkit: url
+          name: sponsor_contact_url
+          label: 赞助联系链接
+        - $formkit: text
+          name: footer_icp
+          label: ICP 备案号
+          placeholder: "例：京ICP备12345678号-1"
+        - $formkit: url
+          name: footer_icp_url
+          label: ICP 备案链接
+          value: "https://beian.miit.gov.cn/"
+        - $formkit: text
+          name: footer_police
+          label: 公安备案号
+          placeholder: "例：京公网安备11010102001234号"
+        - $formkit: url
+          name: footer_police_url
+          label: 公安备案链接
+          value: "http://www.beian.gov.cn/"
+    - group: profile
+      label: 个人信息
+      formSchema:
+        - $formkit: attachment
+          name: avatar
+          label: 头像
+        - $formkit: text
+          name: display_name
+          label: 显示名称
+          value: "Aria Chen"
+        - $formkit: text
+          name: bio
+          label: 一句话简介
+          value: "Designer-engineer · part-time photographer · full-time wanderer."
+        - $formkit: textarea
+          name: about_text
+          label: 关于我
+          value: "Hi, I'm Aria. I build small, careful things on the web and try to photograph the rest."
+        - $formkit: text
+          name: interests
+          label: 兴趣标签（逗号分隔）
+          value: "Film photography,Slow web,Long walks,Espresso,Indie books,Open source"
+        - $formkit: repeater
+          name: milestone_list
+          label: 里程碑时间线
+          addLabel: 添加里程碑
+          min: 0
+          max: 20
+          value:
+            - year: "2019"
+              event: "Started shooting film"
+            - year: "2020"
+              event: "Launched first blog"
+            - year: "2022"
+              event: "Switched to Leica Q3"
+            - year: "2024"
+              event: "Open-sourced this theme"
+          children:
+            - $formkit: text
+              name: year
+              label: 年份
+              validation: required
+            - $formkit: text
+              name: event
+              label: 描述
+        - $formkit: repeater
+          name: radar_items
+          label: 技能雷达图
+          help: "标签 + 分值(0-100)，最多6项。多于6项时只取前6项。"
+          addLabel: 添加技能项
+          min: 0
+          max: 6
+          value:
+            - label: "摄影"
+              value: "88"
+            - label: "修图"
+              value: "78"
+            - label: "编程"
+              value: "92"
+            - label: "写作"
+              value: "75"
+            - label: "咖啡"
+              value: "96"
+            - label: "音乐"
+              value: "70"
+          children:
+            - $formkit: text
+              name: label
+              label: 技能名称
+              validation: required
+            - $formkit: number
+              name: value
+              label: 分值（0-100）
+              validation: required
+        - $formkit: text
+          name: skills_subtitle
+          label: 技能区副标题
+          value: "一份随性的自我评估，随心情更新。"
+    - group: social
+      label: 社交链接
+      formSchema:
+        - $formkit: url
+          name: github
+          label: GitHub
+        - $formkit: email
+          name: email
+          label: Email
+        - $formkit: url
+          name: twitter
+          label: Twitter / X
+        - $formkit: url
+          name: bilibili
+          label: Bilibili
+        - $formkit: url
+          name: weibo
+          label: 微博
+        - $formkit: url
+          name: zhihu
+          label: 知乎
+        - $formkit: attachment
+          name: wechat_qr
+          label: 微信二维码图片
+          accepts: ["image/*"]
+        - $formkit: url
+          name: youtube
+          label: YouTube
+        - $formkit: url
+          name: xiaohongshu
+          label: 小红书
+        - $formkit: url
+          name: website
+          label: 个人网站
+    - group: gear
+      label: 设备展示
+      formSchema:
+        - $formkit: text
+          name: gear_subtitle
+          label: 装备页副标题
+          value: "我信赖的物品，附上一句诚实的评价。"
+        - $formkit: repeater
+          name: gear_list
+          label: 设备列表
+          addLabel: 添加设备
+          min: 0
+          max: 50
+          value:
+            - name: "MacBook Pro 16"
+              brand: "Apple · 2024"
+              image: ""
+              specs: "CPU: M3 Max;RAM: 64GB;SSD: 2TB"
+              review: "Quiet, fast, and somehow still cool to the touch after hours."
+              status: "in_use"
+            - name: "Leica Q3"
+              brand: "Leica · 2023"
+              image: ""
+              specs: "Sensor: 60MP;Lens: 28mm f/1.7;ISO: 50-100k"
+              review: "The camera I actually carry. Tiny menus, enormous joy."
+              status: "in_use"
+            - name: "Sony WH-1000XM5"
+              brand: "Sony · 2022"
+              image: ""
+              specs: "ANC: Yes;Battery: 30h;Bluetooth: 5.2"
+              review: "Practically a noise-cancelling time machine for long flights."
+              status: "in_use"
+            - name: "Kindle Oasis"
+              brand: "Amazon · 2021"
+              image: ""
+              specs: "Screen: 7\";Storage: 32GB;Waterproof: IPX8"
+              review: "Reads like paper, charges like a phone."
+              status: "retired"
+          children:
+            - $formkit: text
+              name: name
+              label: 设备名称
+              validation: required
+            - $formkit: text
+              name: brand
+              label: 品牌/型号
+            - $formkit: attachment
+              name: image
+              label: 设备图片
+              accepts: ["image/*"]
+            - $formkit: text
+              name: specs
+              label: 规格（分号分隔）
+              placeholder: "例：CPU: M3 Max;RAM: 64GB;SSD: 2TB"
+            - $formkit: text
+              name: review
+              label: 一句话评价
+            - $formkit: select
+              name: status
+              label: 状态
+              value: "in_use"
+              options:
+                - label: 正在使用
+                  value: "in_use"
+                - label: 已退役
+                  value: "retired"

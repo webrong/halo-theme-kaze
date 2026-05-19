@@ -1,12 +1,101 @@
 <include src="layout.html">
+  <template name="seo">
+    <meta name="description" th:content="${site.subtitle}" />
+    <link rel="canonical" th:href="@{/}" />
+    <meta property="og:site_name" th:content="${site.title}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" th:content="${site.title}" />
+    <meta property="og:description" th:content="${site.subtitle}" />
+    <meta property="og:url" th:href="@{/}" />
+    <meta th:if="${theme.config.hero.hero_image}" property="og:image" th:content="${theme.config.hero.hero_image}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" th:content="${site.title}" />
+    <meta name="twitter:description" th:content="${site.subtitle}" />
+    <meta th:if="${theme.config.hero.hero_image}" name="twitter:image" th:content="${theme.config.hero.hero_image}" />
+    <script type="application/ld+json" th:inline="javascript">{"@context":"https://schema.org","@type":"WebSite","name":/*[[${site.title}]]*/"","url":/*[[${site.url}]]*/""}</script>
+  </template>
   <template name="head">
-    <title th:text="${site.title}">Home</title>
+    <title th:text="${site.title}">首页</title>
     <script type="module" src="./js/index.ts"></script>
   </template>
 
-  <ul class="post-list">
-    <include src="post-card.html"></include>
-  </ul>
+  <div class="home-content">
+    <!-- Hero Carousel -->
+    <section class="hero">
+      <div class="hero-inner">
+        <!-- Slides -->
+        <div class="hero-slide" th:each="slide,iter : ${theme.config.hero.hero_slides}"
+             th:data-badge="${slide.badge}" th:data-title="${slide.title}"
+             th:data-subtitle="${slide.subtitle}" th:data-cta-label="${slide.cta_label}"
+             th:data-cta-title="${slide.title}" th:data-cta-url="${slide.cta_url}">
+          <img class="hero-image" th:src="${slide.image}" th:alt="${slide.title}" />
+          <div class="hero-overlay"></div>
+        </div>
 
-  <include src="pagination.html"></include>
+        <!-- Single image fallback if no slides -->
+        <th:block th:if="${theme.config.hero.hero_slides == null or #lists.isEmpty(theme.config.hero.hero_slides)}">
+          <img
+            class="hero-image"
+            th:src="${theme.config.hero.hero_image ?: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80'}"
+            alt="首页横幅"
+          />
+          <div class="hero-overlay"></div>
+        </th:block>
+
+        <!-- Content overlay -->
+        <div class="hero-content" id="hero-content">
+          <span class="hero-badge" id="hero-badge"
+            th:text="${theme.config.hero.hero_badge ?: 'Halo · A personal journal'}"
+          ></span>
+          <h1 class="hero-title" id="hero-title"
+            th:text="${theme.config.hero.hero_title ?: 'Slow notes on photography, code, and a quiet life.'}"
+          ></h1>
+          <p class="hero-subtitle" id="hero-subtitle"
+            th:text="${theme.config.hero.hero_subtitle ?: 'A small corner of the internet — handmade, unhurried, and occasionally updated whenever the light is right.'}"
+          ></p>
+          <!-- CTA Button (visible only with carousel slides) -->
+          <a class="hero-cta" id="hero-cta" th:if="${theme.config.hero.hero_slides != null and !#lists.isEmpty(theme.config.hero.hero_slides)}">
+            <span class="hero-cta-label" id="hero-cta-label" th:text="${theme.config.hero.hero_slides[0].cta_label ?: '阅读更多'}"></span>
+            <span class="hero-cta-divider">·</span>
+            <span class="hero-cta-title" id="hero-cta-title" th:text="${theme.config.hero.hero_slides[0].title}"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <!-- Nav buttons -->
+        <button class="hero-nav hero-prev" aria-label="Previous slide">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button class="hero-nav hero-next" aria-label="Next slide">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+
+        <!-- Dots -->
+        <div class="hero-dots" th:if="${theme.config.hero.hero_slides != null and !#lists.isEmpty(theme.config.hero.hero_slides)}">
+          <span class="hero-dot" th:each="slide,iter : ${theme.config.hero.hero_slides}"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Posts -->
+    <section class="recent-posts">
+      <div class="section-header">
+        <h2 class="section-title">最新文章</h2>
+        <div class="filter-pills" id="filter-pills">
+          <button class="filter-pill active" data-category="">全部</button>
+          <button class="filter-pill"
+            th:each="cat : ${categoryFinder.listAll()}"
+            th:data-category="${cat.spec.displayName}"
+            th:text="${cat.spec.displayName}"
+          ></button>
+        </div>
+      </div>
+
+      <div class="post-grid" id="post-grid" th:classappend="${theme.config.basic.post_layout == 'list'} ? 'post-grid-list' : ''">
+        <include src="post-card.html"></include>
+      </div>
+
+      <include src="pagination.html"></include>
+    </section>
+  </div>
 </include>

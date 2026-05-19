@@ -1,14 +1,36 @@
 <include src="layout.html">
+  <template name="seo">
+    <meta name="description" th:content="${category.spec.description ?: site.subtitle}" />
+    <link rel="canonical" th:href="${category.status.permalink}" />
+    <meta property="og:site_name" th:content="${site.title}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" th:content="${category.spec.displayName}" />
+    <meta property="og:description" th:content="${category.spec.description ?: site.subtitle}" />
+    <meta property="og:url" th:content="${category.status.permalink}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" th:content="${category.spec.displayName}" />
+    <meta name="twitter:description" th:content="${category.spec.description ?: site.subtitle}" />
+  </template>
   <template name="head">
-    <title th:text="|${category.spec.displayName} - ${site.title}|">Category Archive</title>
+    <title th:text="|${category.spec.displayName} - ${site.title}|">分类</title>
   </template>
 
-  <h1 th:text="|Category: ${category.spec.displayName}|"></h1>
-  <p th:if="${category.spec.description}" th:text="${category.spec.description}"></p>
+  <div class="category-page" th:if="${category != null}">
+    <div class="section-header" style="margin-bottom: 40px;">
+      <div>
+        <div class="tag-page-badge">分类</div>
+        <h1 class="section-title" style="font-size: 32px;" th:text="${category.spec.displayName}"></h1>
+        <p class="section-subtitle" th:if="${category.spec.description}" th:text="${category.spec.description}"></p>
+        <p class="section-subtitle">
+          <span th:text="${posts?.total ?: 0}">0</span> 篇文章
+        </p>
+      </div>
+    </div>
 
-  <ul class="post-list">
-    <include src="post-card.html"></include>
-  </ul>
+    <div class="post-grid">
+      <include src="post-card.html"></include>
+    </div>
 
-  <include src="pagination.html"></include>
+    <include src="pagination.html"></include>
+  </div>
 </include>
