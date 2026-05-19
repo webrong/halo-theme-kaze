@@ -14,5 +14,4 @@ jobs:
       contents: write
     with:
       skip-appstore-release: true
-      pnpm-version: 10
       node-version: 24
