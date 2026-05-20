@@ -36,9 +36,8 @@
           <span class="site-logo-icon"></span>
           <span class="site-logo-text" th:text="${site.title}">Halo Blog</span>
         </a>
-        <div class="site-nav">
+        <div class="site-nav" th:with="menu = ${menuFinder.getPrimary()}">
           <nav
-            th:with="menu = ${menuFinder.getPrimary()}"
             th:if="${menu != null}"
           >
             <ul>
@@ -120,9 +119,14 @@
         </div>
       </div>
       <div class="search-bar" id="searchBar">
-        <form th:action="@{/search}" method="get">
-          <input type="text" name="keyword" placeholder="搜索文章、照片、瞬间…" aria-label="搜索" />
-        </form>
+        <div class="search-bar-inner">
+          <form th:action="@{/search}" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" name="keyword" id="searchInput" placeholder="搜索文章、照片、瞬间…" aria-label="搜索" autocomplete="off" />
+            <kbd>ESC</kbd>
+          </form>
+          <div class="search-results" id="searchResults"></div>
+        </div>
       </div>
     </header>
 

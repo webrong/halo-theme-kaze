@@ -4,11 +4,93 @@
 
   var searchToggle = document.getElementById("searchToggle");
   var searchBar = document.getElementById("searchBar");
+  var searchInput = document.getElementById("searchInput") as HTMLInputElement | null;
+  var searchResults = document.getElementById("searchResults");
   if (searchToggle && searchBar) {
     var sb = searchBar;
-    searchToggle.addEventListener("click", function () {
-      sb.classList.toggle("active");
+    var st = searchToggle;
+    var _si = searchInput;
+    var _sr = searchResults;
+    var debounceTimer: ReturnType<typeof setTimeout> | null = null;
+
+    function openSearch() {
+      sb.classList.add("active");
+      document.body.style.overflow = "hidden";
+      if (_si) _si.focus();
+    }
+    function closeSearch() {
+      sb.classList.remove("active");
+      document.body.style.overflow = "";
+      if (_sr) _sr.innerHTML = "";
+      if (_si) _si.value = "";
+    }
+    st.addEventListener("click", function () {
+      if (sb.classList.contains("active")) {
+        closeSearch();
+      } else {
+        openSearch();
+      }
     });
+    sb.addEventListener("click", function (e) {
+      if (e.target === sb) closeSearch();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && sb.classList.contains("active")) closeSearch();
+    });
+
+    // Live search
+    if (_si && _sr) {
+      var liveInput = _si;
+      var liveResults = _sr;
+      liveInput.addEventListener("input", function () {
+        if (debounceTimer) clearTimeout(debounceTimer);
+        var keyword = liveInput.value.trim();
+        if (!keyword) {
+          liveResults.innerHTML = "";
+          return;
+        }
+        debounceTimer = setTimeout(function () {
+          fetch("/apis/api.halo.run/v1alpha1/indices/-/search", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ keyword: keyword, limit: 8, highlightPreTag: "<B>", highlightPostTag: "</B>" }),
+          })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+              var hits: Array<{ title: string; permalink: string; description: string; content: string; type: string }> = data.hits || [];
+              if (hits.length === 0) {
+                liveResults.innerHTML = '<div class="search-result-empty">未找到相关内容</div>';
+                return;
+              }
+              var typeLabel: Record<string, string> = {
+                "post.content.halo.run": "文章",
+                "singlepage.content.halo.run": "页面",
+                "moment.moment.halo.run": "瞬间",
+              };
+              liveResults.innerHTML = hits.map(function (hit) {
+                var label = typeLabel[hit.type] || "";
+                var desc = hit.description || hit.content || "";
+                // Strip HTML tags for description, keep <B> highlights
+                var cleanDesc = desc.replace(/<(?!\/?B\b)[^>]*>/gi, "");
+                // Truncate
+                if (cleanDesc.length > 120) cleanDesc = cleanDesc.substring(0, 120) + "…";
+                return '<a class="search-result-item" href="' + hit.permalink + '">' +
+                  '<div class="search-result-item-title">' + hit.title + '</div>' +
+                  '<div class="search-result-item-desc">' + cleanDesc + '</div>' +
+                  (label ? '<div class="search-result-item-meta">' + label + '</div>' : '') +
+                  '</a>';
+              }).join("");
+              // Close search on result click
+              liveResults.querySelectorAll(".search-result-item").forEach(function (item) {
+                item.addEventListener("click", function () { closeSearch(); });
+              });
+            })
+            .catch(function () {
+              liveResults.innerHTML = '<div class="search-result-empty">搜索出错，请稍后重试</div>';
+            });
+        }, 300);
+      });
+    }
   }
 
   var path = window.location.pathname;

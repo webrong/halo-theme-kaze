@@ -160,28 +160,21 @@
 
     <!-- Recent Posts -->
     <section class="recent-posts">
-      <div class="section-header">
-        <h2 class="section-title">最新文章</h2>
-        <div class="filter-pills" id="filter-pills">
-          <button class="filter-pill active" data-category="">全部</button>
-          <button
-            class="filter-pill"
-            th:each="cat : ${categoryFinder.listAll()}"
-            th:data-category="${cat.spec.displayName}"
-            th:text="${cat.spec.displayName}"
-          ></button>
+      <div class="home-layout" th:classappend="${theme.config.basic.show_sidebar != 'false'} ? 'has-sidebar' : ''">
+        <div class="home-main">
+          <div
+            class="post-grid"
+            id="post-grid"
+            th:classappend="${theme.config.basic.post_layout == 'list'} ? 'post-grid-list' : ''"
+          >
+            <include src="post-card.html"></include>
+          </div>
+          <include src="pagination.html"></include>
         </div>
+        <th:block th:if="${theme.config.basic.show_sidebar != 'false'}">
+          <include src="sidebar.html"></include>
+        </th:block>
       </div>
-
-      <div
-        class="post-grid"
-        id="post-grid"
-        th:classappend="${theme.config.basic.post_layout == 'list'} ? 'post-grid-list' : ''"
-      >
-        <include src="post-card.html"></include>
-      </div>
-
-      <include src="pagination.html"></include>
     </section>
   </div>
 </include>

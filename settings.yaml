@@ -16,6 +16,15 @@ spec:
               value: "grid"
             - label: 列表模式
               value: "list"
+        - $formkit: select
+          name: show_sidebar
+          label: 显示侧边栏
+          value: "true"
+          options:
+            - label: 显示
+              value: "true"
+            - label: 隐藏
+              value: "false"
     - group: hero
       label: Hero 轮播
       formSchema:
