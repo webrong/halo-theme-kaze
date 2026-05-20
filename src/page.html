@@ -15,32 +15,25 @@
     <title th:text="|${singlePage.spec.title} - ${site.title}|">页面标题</title>
   </template>
 
-  <!-- ==================== About Page (slug: about) ==================== -->
-  <th:block th:if="${singlePage.spec.slug == 'about'}" th:replace="~{page_about :: #about-content}">
-  </th:block>
-
-  <!-- ==================== Default Page ==================== -->
-  <th:block th:if="${singlePage.spec.slug != 'about'}">
-    <div class="page-content-wrapper">
-      <div class="post-detail">
-        <article>
-          <header class="article-header">
-            <h1 class="article-title" th:text="${singlePage.spec.title}"></h1>
-          </header>
-          <div
-            class="article-content"
-            th:if="${singlePage.content != null and singlePage.content.content != null}"
-            th:utext="${singlePage.content.content}"
-          ></div>
-        </article>
-        <div th:if="${haloCommentEnabled}">
-          <halo:comment
-            group="content.halo.run"
-            kind="SinglePage"
-            th:attr="name=${singlePage.metadata.name}"
-          />
-        </div>
+  <div class="page-content-wrapper">
+    <div class="post-detail">
+      <article>
+        <header class="article-header">
+          <h1 class="article-title" th:text="${singlePage.spec.title}"></h1>
+        </header>
+        <div
+          class="article-content"
+          th:if="${singlePage.content != null and singlePage.content.content != null}"
+          th:utext="${singlePage.content.content}"
+        ></div>
+      </article>
+      <div th:if="${haloCommentEnabled}">
+        <halo:comment
+          group="content.halo.run"
+          kind="SinglePage"
+          th:attr="name=${singlePage.metadata.name}"
+        />
       </div>
     </div>
-  </th:block>
+  </div>
 </include>
