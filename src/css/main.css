@@ -2529,7 +2529,7 @@ html.dark .post-related-body h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 4px;
 }
 
 /* Legal */
