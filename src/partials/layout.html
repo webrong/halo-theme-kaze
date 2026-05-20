@@ -9,6 +9,7 @@
       <meta property="og:type" content="website" />
       <meta property="og:title" th:content="${site.title}" />
       <meta property="og:description" th:content="${!#strings.isEmpty(theme.config.basic.meta_description) ? theme.config.basic.meta_description : site.subtitle}" />
+      <meta property="og:locale" content="zh_CN" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" th:content="${site.title}" />
       <meta name="twitter:description" th:content="${!#strings.isEmpty(theme.config.basic.meta_description) ? theme.config.basic.meta_description : site.subtitle}" />

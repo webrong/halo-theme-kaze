@@ -41,11 +41,27 @@
         "headline": /*[[${post.spec.title}]]*/ "",
         "description": /*[[${post.status.excerpt}]]*/ "",
         "url": /*[[${post.status.permalink}]]*/ "",
+        "mainEntityOfPage": { "@type": "WebPage", "@id": /*[[${post.status.permalink}]]*/ "" },
         "datePublished": /*[[${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}]]*/ "",
         "dateModified": /*[[${post.status.lastModifyTime != null ? #temporals.format(post.status.lastModifyTime, 'yyyy-MM-dd') : ''}]]*/ "",
         "author": { "@type": "Person", "name": /*[[${post.owner?.displayName}]]*/ "" },
         "image": /*[[${post.spec.cover}]]*/ "",
-        "publisher": { "@type": "Organization", "name": /*[[${site.title}]]*/ "" }
+        "publisher": {
+          "@type": "Organization",
+          "name": /*[[${site.title}]]*/ "",
+          "logo": { "@type": "ImageObject", "url": /*[[${theme.config.profile.avatar}]]*/ "" }
+        }
+      }
+    </script>
+    <script type="application/ld+json" th:inline="javascript">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "首页", "item": /*[[${site.url}]]*/ "" },
+          { "@type": "ListItem", "position": 2, "name": /*[[${not #lists.isEmpty(post.categories) ? post.categories[0].spec.displayName : '未分类'}]]*/ "", "item": /*[[${not #lists.isEmpty(post.categories) ? post.categories[0].status.permalink : ''}]]*/ "" },
+          { "@type": "ListItem", "position": 3, "name": /*[[${post.spec.title}]]*/ "" }
+        ]
       }
     </script>
   </template>

@@ -12,6 +12,26 @@
     <meta name="twitter:title" th:content="${author.spec.displayName}" />
     <meta name="twitter:description" th:content="${author.spec.bio ?: site.subtitle}" />
     <meta th:if="${author.spec.avatar}" name="twitter:image" th:content="${author.spec.avatar}" />
+    <script type="application/ld+json" th:inline="javascript">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": /*[[${author.spec.displayName}]]*/ "",
+        "url": /*[[${author.status.permalink}]]*/ "",
+        "image": /*[[${author.spec.avatar}]]*/ "",
+        "description": /*[[${author.spec.bio}]]*/ ""
+      }
+    </script>
+    <script type="application/ld+json" th:inline="javascript">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "首页", "item": /*[[${site.url}]]*/ "" },
+          { "@type": "ListItem", "position": 2, "name": /*[[${author.spec.displayName}]]*/ "" }
+        ]
+      }
+    </script>
   </template>
   <template name="head">
     <title th:text="|${author.spec.displayName} - ${site.title}|">Author</title>

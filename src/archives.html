@@ -7,9 +7,21 @@
     <meta property="og:title" content="归档" />
     <meta property="og:description" th:content="${site.subtitle}" />
     <meta property="og:url" th:href="@{/archives}" />
+    <meta th:if="${theme.config.hero.hero_image}" property="og:image" th:content="${theme.config.hero.hero_image}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="归档" />
     <meta name="twitter:description" th:content="${site.subtitle}" />
+    <meta th:if="${theme.config.hero.hero_image}" name="twitter:image" th:content="${theme.config.hero.hero_image}" />
+    <script type="application/ld+json" th:inline="javascript">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "首页", "item": /*[[${site.url}]]*/ "" },
+          { "@type": "ListItem", "position": 2, "name": "归档" }
+        ]
+      }
+    </script>
   </template>
   <template name="head">
     <title th:text="|Archives - ${site.title}|">归档</title>
