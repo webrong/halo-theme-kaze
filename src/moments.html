@@ -11,7 +11,8 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="瞬间" />
     <meta name="twitter:description" th:content="${site.subtitle}" />
-    <meta th:if="${theme.config.hero.hero_image}" name="twitter:image" th:content="${theme.config.hero.hero_image}" /> type="application/ld+json" th:inline="javascript">
+    <meta th:if="${theme.config.hero.hero_image}" name="twitter:image" th:content="${theme.config.hero.hero_image}" />
+    <script type="application/ld+json" th:inline="javascript">
       {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
