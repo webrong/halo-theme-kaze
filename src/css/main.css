@@ -566,8 +566,13 @@ html.dark .hero-overlay {
   justify-content: center;
   cursor: pointer;
   z-index: 3;
-  transition: background-color 0.2s;
+  transition: opacity 0.25s, background-color 0.2s;
   color: #1f2937;
+  opacity: 0;
+}
+
+.hero-inner:hover .hero-nav {
+  opacity: 1;
 }
 
 .hero-nav:hover {
@@ -2557,6 +2562,24 @@ html.dark .post-related-body h3 {
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.5px;
   margin-left: 4px;
+}
+
+/* Visit count */
+.footer-visit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.footer-visit-count {
+  color: var(--color-primary);
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
 }
 
 /* Credit */
