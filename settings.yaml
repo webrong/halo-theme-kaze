@@ -204,6 +204,26 @@ spec:
               name: value
               label: 分值（0-100）
               validation: "required|min:0|max:100"
+        - $formkit: array
+          name: changelog
+          label: 网站更新日志
+          addLabel: 添加更新记录
+          min: 0
+          max: 50
+          value:
+            - date: "2025-05"
+              content: "上线 Kaze 主题 v1.0"
+            - date: "2025-05"
+              content: "SEO/GEO 全面优化，添加结构化数据"
+          children:
+            - $formkit: text
+              name: date
+              label: 日期
+              validation: required
+            - $formkit: text
+              name: content
+              label: 更新内容
+              validation: required
         - $formkit: text
           name: skills_subtitle
           label: 技能区副标题

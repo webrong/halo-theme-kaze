@@ -519,12 +519,12 @@
           </section>
         </th:block>
 
-        <!-- Recent Moments -->
+        <!-- Recent Posts -->
         <section class="about-card">
           <div class="about-card-header">
-            <h3 class="about-card-title">最新瞬间</h3>
-            <a th:href="@{/moments}" class="about-card-link">
-              查看所有瞬间
+            <h3 class="about-card-title">最近文章</h3>
+            <a th:href="@{/archives}" class="about-card-link">
+              查看所有文章
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -539,14 +539,32 @@
               </svg>
             </a>
           </div>
-          <div class="about-photo-masonry">
-            <th:block
-              th:each="post, iter : ${postFinder.list({page: 1, size: 9}).items}"
-              th:if="${post.spec.cover}"
-            >
-              <img th:src="${post.spec.cover}" th:alt="${post.spec.title}" width="400" height="400" loading="lazy" />
+          <ul class="about-recent-posts">
+            <th:block th:each="post : ${postFinder.list({page: 1, size: 5}).items}">
+              <li class="about-recent-post-item">
+                <a th:href="${post.status.permalink}">
+                  <span class="about-recent-post-title" th:text="${post.spec.title}">标题</span>
+                  <span class="about-recent-post-date" th:text="${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}">日期</span>
+                </a>
+              </li>
             </th:block>
-          </div>
+          </ul>
+        </section>
+
+        <!-- Changelog -->
+        <section
+          class="about-card"
+          th:if="${theme.config.profile.changelog != null and !#lists.isEmpty(theme.config.profile.changelog)}"
+        >
+          <h3 class="about-card-title">网站更新日志</h3>
+          <ol class="about-timeline">
+            <th:block th:each="item : ${theme.config.profile.changelog}">
+              <li class="about-timeline-item">
+                <p class="about-timeline-year" th:text="${item.date}">日期</p>
+                <p class="about-timeline-text" th:text="${item.content}">内容</p>
+              </li>
+            </th:block>
+          </ol>
         </section>
       </div>
     </div>
