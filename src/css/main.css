@@ -2522,10 +2522,18 @@ html.dark .post-related-body h3 {
   color: var(--color-primary);
 }
 
-/* Legal */
-.footer-legal {
+/* Bottom info */
+.footer-bottom {
   padding-top: 24px;
   border-top: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Legal */
+.footer-legal {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -4514,6 +4522,10 @@ html.dark .footer-friend-name {
 html.dark .footer-sponsor-box {
   background-color: var(--color-white);
   border-color: var(--color-border-dark);
+}
+
+html.dark .footer-bottom {
+  border-top-color: var(--color-border);
 }
 
 /* Dark mode toggle icon visibility */
