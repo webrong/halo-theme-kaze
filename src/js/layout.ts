@@ -124,7 +124,8 @@
   }
 
   // Runtime counter
-  var launchTime = new Date(launch).getTime();
+  var parts = launch.split("-");
+  var launchTime = new Date(+parts[0], (+parts[1] || 1) - 1, +parts[2] || 1).getTime();
   if (isNaN(launchTime)) return;
   function update() {
     var now = Date.now();
