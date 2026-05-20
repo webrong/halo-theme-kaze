@@ -56,6 +56,8 @@
               th:if="${album.spec.cover}"
               th:src="${album.spec.cover}"
               th:alt="${album.spec.displayName}"
+              width="400"
+              height="300"
               loading="lazy"
             />
             <div th:unless="${album.spec.cover}" class="album-card-placeholder">
@@ -123,7 +125,7 @@
           th:data-src="${post.spec.cover}"
           th:data-caption="${post.spec.title}"
         >
-          <img th:src="${post.spec.cover}" th:alt="${post.spec.title}" loading="lazy" />
+          <img th:src="${post.spec.cover}" th:alt="${post.spec.title}" width="600" height="400" loading="lazy" />
           <div class="photo-card-overlay">
             <div class="photo-card-eye">
               <svg

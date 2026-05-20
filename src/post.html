@@ -218,6 +218,8 @@
               class="post-author-avatar"
               th:src="${post.owner?.avatar ?: theme.config.profile.avatar}"
               th:alt="${post.owner?.displayName ?: '作者'}"
+              width="56"
+              height="56"
               loading="lazy"
             />
             <div class="post-author-info">
@@ -328,7 +330,7 @@
           >
             <a class="post-related-card" th:href="@{${relatedPost.status.permalink}}">
               <div class="post-related-thumb" th:if="${relatedPost.spec.cover}">
-                <img th:src="${relatedPost.spec.cover}" th:alt="${relatedPost.spec.title}" loading="lazy" />
+                <img th:src="${relatedPost.spec.cover}" th:alt="${relatedPost.spec.title}" width="400" height="225" loading="lazy" />
               </div>
               <div class="post-related-body">
                 <h3 th:text="${relatedPost.spec.title}">Title</h3>

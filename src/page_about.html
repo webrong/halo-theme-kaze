@@ -29,6 +29,9 @@
           th:if="${theme.config.profile.avatar}"
           th:src="${theme.config.profile.avatar}"
           alt="头像"
+          width="150"
+          height="150"
+          fetchpriority="high"
         />
         <h2 class="about-sidebar-name" th:text="${theme.config.profile.display_name ?: 'Author'}">
           Aria Chen
@@ -484,7 +487,7 @@
               >
                 <li class="about-gear-item">
                   <div class="about-gear-thumb">
-                    <img th:src="${device.image ?: theme.config.profile.avatar}" alt="" loading="lazy" />
+                    <img th:src="${device.image ?: theme.config.profile.avatar}" alt="" width="64" height="64" loading="lazy" />
                   </div>
                   <div class="about-gear-info">
                     <p class="about-gear-name" th:text="${device.name}">Device</p>
@@ -521,7 +524,7 @@
               th:each="post, iter : ${postFinder.list({page: 1, size: 9}).items}"
               th:if="${post.spec.cover}"
             >
-              <img th:src="${post.spec.cover}" th:alt="${post.spec.title}" loading="lazy" />
+              <img th:src="${post.spec.cover}" th:alt="${post.spec.title}" width="400" height="400" loading="lazy" />
             </th:block>
           </div>
         </section>

@@ -25,6 +25,11 @@ spec:
               value: "true"
             - label: 隐藏
               value: "false"
+        - $formkit: textarea
+          name: meta_description
+          label: 站点描述 (Meta Description)
+          value: ""
+          placeholder: "建议 150-220 个字符，用于 SEO 和社交媒体分享摘要"
     - group: hero
       label: Hero 轮播
       formSchema:

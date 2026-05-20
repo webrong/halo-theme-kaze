@@ -9,6 +9,8 @@
         th:src="${post.spec.cover}"
         th:srcset="|${thumbnail.gen(post.spec.cover, 's')} 400w, ${thumbnail.gen(post.spec.cover, 'm')} 800w|"
         th:alt="${post.spec.title}"
+        width="800"
+        height="450"
         loading="lazy"
         sizes="(max-width: 768px) 100vw, 50vw"
       />

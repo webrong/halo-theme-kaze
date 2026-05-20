@@ -30,6 +30,8 @@
             class="moment-avatar"
             th:src="${moment.owner?.avatar ?: theme.config.profile.avatar}"
             th:alt="${moment.owner?.displayName ?: '作者'}"
+            width="44"
+            height="44"
           />
           <div class="moment-body">
             <div class="moment-header">
@@ -57,6 +59,8 @@
                     th:if="${media.type?.name() == 'PHOTO'}"
                     th:src="${media.url}"
                     alt=""
+                    width="400"
+                    height="400"
                     loading="lazy"
                     data-action="moment-photo"
                     style="cursor: zoom-in"

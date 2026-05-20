@@ -12,7 +12,7 @@ spec:
   issues: https://github.com/webrong/halo-theme-kaze/issues
   settingName: "theme-kaze-setting"
   configMapName: "theme-kaze-configMap"
-  version: 1.0.2
+  version: 1.0.3
   requires: ">=2.22.0"
   license:
     - name: "GPL-3.0"

@@ -4,14 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <slot name="seo">
-      <meta name="description" th:content="${site.subtitle}" />
+      <meta name="description" th:content="${!#strings.isEmpty(theme.config.basic.meta_description) ? theme.config.basic.meta_description : site.subtitle}" />
       <meta property="og:site_name" th:content="${site.title}" />
       <meta property="og:type" content="website" />
       <meta property="og:title" th:content="${site.title}" />
-      <meta property="og:description" th:content="${site.subtitle}" />
+      <meta property="og:description" th:content="${!#strings.isEmpty(theme.config.basic.meta_description) ? theme.config.basic.meta_description : site.subtitle}" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" th:content="${site.title}" />
-      <meta name="twitter:description" th:content="${site.subtitle}" />
+      <meta name="twitter:description" th:content="${!#strings.isEmpty(theme.config.basic.meta_description) ? theme.config.basic.meta_description : site.subtitle}" />
     </slot>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -158,6 +158,8 @@
                   class="footer-friend-logo"
                   th:src="${link.spec.logo}"
                   th:alt="${link.spec.displayName}"
+                  width="32"
+                  height="32"
                   loading="lazy"
                 />
                 <span

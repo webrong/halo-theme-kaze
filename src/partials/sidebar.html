@@ -6,6 +6,8 @@
       class="sidebar-author-avatar"
       th:src="${theme.config.profile.avatar}"
       th:alt="${theme.config.profile.display_name}"
+      width="72"
+      height="72"
       loading="lazy"
     />
     <div class="sidebar-author-info" th:if="${!#strings.isEmpty(theme.config.profile?.display_name)}">

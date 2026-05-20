@@ -52,6 +52,8 @@
                 class="moment-avatar"
                 th:src="${moment.owner?.avatar ?: theme.config.profile.avatar}"
                 th:alt="${moment.owner?.displayName ?: 'Author'}"
+                width="44"
+                height="44"
               />
               <div class="moment-body">
                 <div class="moment-header">
@@ -81,7 +83,7 @@
                         th:if="${media.type?.name() == 'PHOTO'}"
                         th:data-src="${media.url}"
                       >
-                        <img th:src="${media.url}" alt="" loading="lazy" />
+                        <img th:src="${media.url}" alt="" width="400" height="400" loading="lazy" />
                       </button>
                       <div class="moment-video" th:if="${media.type?.name() == 'VIDEO'}">
                         <video
@@ -160,7 +162,7 @@
         <th:block th:if="${moments == null}">
           <th:block th:each="post : ${postFinder.list({page: 1, size: 20}).items}">
             <div class="moment-card">
-              <img class="moment-avatar" th:src="${theme.config.profile.avatar}" alt="头像" />
+              <img class="moment-avatar" th:src="${theme.config.profile.avatar}" alt="头像" width="44" height="44" />
               <div class="moment-body">
                 <div class="moment-header">
                   <span

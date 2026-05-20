@@ -59,6 +59,8 @@
         <img
           th:src="${#strings.isEmpty(photo.spec.thumbnail) ? photo.spec.url : photo.spec.thumbnail}"
           th:alt="${photo.spec.title}"
+          width="600"
+          height="400"
           loading="lazy"
         />
         <div class="photo-card-overlay">
