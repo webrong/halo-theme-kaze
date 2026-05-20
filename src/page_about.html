@@ -524,8 +524,8 @@
           class="about-card"
           th:if="${theme.config.profile.changelog != null and !#lists.isEmpty(theme.config.profile.changelog)}"
         >
-          <h3 class="about-card-title">网站更新日志</h3>
-          <ol class="about-timeline">
+          <h3 class="about-card-title">更新记录</h3>
+          <ol class="about-timeline about-timeline-compact">
             <th:block th:each="item : ${theme.config.profile.changelog}">
               <li class="about-timeline-item">
                 <p class="about-timeline-year" th:text="${item.date}">日期</p>

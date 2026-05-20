@@ -4134,6 +4134,10 @@ html.dark .article-content figure img {
   line-height: 1.6;
 }
 
+.about-timeline-compact .about-timeline-item {
+  padding-bottom: 12px;
+}
+
 /* Skills radar */
 .about-radar-container {
   width: 100%;
