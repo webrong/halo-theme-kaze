@@ -53,18 +53,16 @@
             <th:block
               th:if="${moment.spec.content?.medium != null and !moment.spec.content.medium.isEmpty()}"
             >
-              <div class="moment-photos">
+              <div class="moment-photos" data-moment-photos>
                 <th:block th:each="media : ${moment.spec.content.medium}">
-                  <img
+                  <button
+                    type="button"
+                    class="moment-photo-btn"
                     th:if="${media.type?.name() == 'PHOTO'}"
-                    th:src="${media.url}"
-                    alt=""
-                    width="400"
-                    height="400"
-                    loading="lazy"
-                    data-action="moment-photo"
-                    style="cursor: zoom-in"
-                  />
+                    th:data-src="${media.url}"
+                  >
+                    <img th:src="${media.url}" alt="" width="400" height="400" loading="lazy" />
+                  </button>
                   <div class="moment-video" th:if="${media.type?.name() == 'VIDEO'}">
                     <video
                       th:attr="data-src=${media.url}"
