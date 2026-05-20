@@ -2557,18 +2557,14 @@ html.dark .post-related-body h3 {
 
 .footer-runtime-days {
   color: var(--color-primary);
-  font-size: 20px;
   font-weight: 700;
-  letter-spacing: 0.5px;
   font-variant-numeric: tabular-nums;
 }
 
 .footer-runtime-time {
   color: var(--color-primary);
-  font-size: 20px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.5px;
   margin-left: 4px;
 }
 
@@ -2584,10 +2580,8 @@ html.dark .post-related-body h3 {
 
 .footer-visit-count {
   color: var(--color-primary);
-  font-size: 20px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.5px;
 }
 
 /* Credit */
