@@ -42,13 +42,13 @@
       lbRenderThumbs();
     }
 
-    document.querySelectorAll(".moment-photos").forEach(function (grid) {
-      var imgs = grid.querySelectorAll('[data-action="moment-photo"]');
-      imgs.forEach(function (img, idx) {
-        img.addEventListener("click", function () {
+    document.querySelectorAll("[data-moment-photos]").forEach(function (grid) {
+      var btns = grid.querySelectorAll(".moment-photo-btn");
+      btns.forEach(function (btn, idx) {
+        btn.addEventListener("click", function () {
           lbPhotos = [];
-          imgs.forEach(function (im) {
-            lbPhotos.push((im as HTMLImageElement).src);
+          btns.forEach(function (b) {
+            lbPhotos.push(b.getAttribute("data-src") || "");
           });
           lbShow(idx);
           lbEl!.classList.add("active");
@@ -147,6 +147,12 @@
         btn.classList.remove("playing");
       });
     }
+  });
+
+  // Set photo grid count (photos + videos)
+  document.querySelectorAll("[data-moment-photos]").forEach(function (grid) {
+    var count = grid.querySelectorAll(".moment-photo-btn, .moment-video").length;
+    (grid as HTMLElement).setAttribute("data-count", String(count));
   });
 
   // Comment toggle
