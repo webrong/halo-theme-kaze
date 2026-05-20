@@ -2584,8 +2584,10 @@ html.dark .post-related-body h3 {
 
 .footer-visit-count {
   color: var(--color-primary);
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
 /* Credit */
