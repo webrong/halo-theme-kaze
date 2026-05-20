@@ -519,38 +519,6 @@
           </section>
         </th:block>
 
-        <!-- Recent Posts -->
-        <section class="about-card">
-          <div class="about-card-header">
-            <h3 class="about-card-title">最近文章</h3>
-            <a th:href="@{/archives}" class="about-card-link">
-              查看所有文章
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </a>
-          </div>
-          <ul class="about-recent-posts">
-            <th:block th:each="post : ${postFinder.list({page: 1, size: 5}).items}">
-              <li class="about-recent-post-item">
-                <a th:href="${post.status.permalink}">
-                  <span class="about-recent-post-title" th:text="${post.spec.title}">标题</span>
-                  <span class="about-recent-post-date" th:text="${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}">日期</span>
-                </a>
-              </li>
-            </th:block>
-          </ul>
-        </section>
-
         <!-- Changelog -->
         <section
           class="about-card"

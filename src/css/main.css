@@ -4269,51 +4269,6 @@ html.dark .about-radar-svg .radar-label {
   transition: transform 0.3s;
 }
 
-/* Recent posts on about page */
-.about-recent-posts {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.about-recent-post-item {
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.about-recent-post-item:last-child {
-  border-bottom: none;
-}
-
-.about-recent-post-item a {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  text-decoration: none;
-  color: inherit;
-  gap: 16px;
-  transition: color 0.2s;
-}
-
-.about-recent-post-item a:hover {
-  color: var(--color-primary);
-}
-
-.about-recent-post-title {
-  font-weight: 500;
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.about-recent-post-date {
-  font-size: 12px;
-  color: #9ca3af;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-}
-
 /* ===== Page template (generic) ===== */
 .page-content-wrapper {
   padding-top: 32px;
@@ -4515,10 +4470,6 @@ html.dark .about-social-btn {
 html.dark .about-social-btn:hover {
   border-color: var(--color-primary);
   color: var(--color-primary);
-}
-
-html.dark .about-recent-post-item {
-  border-color: var(--color-border-dark);
 }
 
 html.dark .about-stats {
