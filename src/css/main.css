@@ -3123,6 +3123,18 @@ html.dark .lightbox-caption {
   margin: 0 4px;
 }
 
+.photo-pagination .page-ellipsis {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 14px;
+  letter-spacing: 2px;
+  user-select: none;
+}
+
 .photo-pagination .page-btn {
   width: 40px;
   height: 40px;
@@ -3175,6 +3187,10 @@ html.dark .photo-pagination .page-btn.active {
   background-color: var(--color-primary);
   color: var(--color-white);
   border-color: var(--color-primary);
+}
+
+html.dark .photo-pagination .page-ellipsis {
+  color: var(--color-border-dark);
 }
 
 /* Dark mode */
@@ -4134,6 +4150,9 @@ html.dark .article-content figure img {
   line-height: 1.6;
 }
 
+.about-timeline-compact {
+  margin-top: 16px;
+}
 .about-timeline-compact .about-timeline-item {
   padding-bottom: 12px;
 }

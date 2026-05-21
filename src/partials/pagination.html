@@ -1,7 +1,7 @@
 <div
   class="photo-pagination"
   th:if="${posts != null and posts.totalPages > 1}"
-  th:with="urlSrc=${posts.nextUrl ?: posts.prevUrl}"
+  th:with="urlSrc=${posts.nextUrl ?: posts.prevUrl}, baseUrl=${#strings.contains(urlSrc, '/page/') ? #strings.substringBefore(urlSrc, '/page/') : '/'}"
 >
   <a class="page-prev" th:if="${posts.hasPrevious()}" th:href="@{${posts.prevUrl}}">
     <svg
@@ -40,23 +40,73 @@
     上一页
   </span>
   <div class="page-numbers">
+    <!-- 7页以内：全部显示 -->
+    <th:block th:if="${posts.totalPages <= 7}">
+      <th:block th:each="pageNum : ${#numbers.sequence(1, posts.totalPages)}">
+        <a
+          th:if="${pageNum == 1}"
+          class="page-btn"
+          th:classappend="${pageNum == posts.page} ? 'active'"
+          th:href="@{${baseUrl}}"
+          th:text="${pageNum}"
+        ></a>
+        <a
+          th:if="${pageNum != 1}"
+          class="page-btn"
+          th:classappend="${pageNum == posts.page} ? 'active'"
+          th:href="@{${baseUrl + '/page/' + pageNum}}"
+          th:text="${pageNum}"
+        ></a>
+      </th:block>
+    </th:block>
+    <!-- 超过7页：省略号分页 -->
     <th:block
-      th:each="pageNum : ${#numbers.sequence(1, posts.totalPages)}"
-      th:with="isCurrent=${pageNum == posts.page}"
+      th:if="${posts.totalPages > 7}"
+      th:with="cur=${posts.page}, last=${posts.totalPages}"
     >
       <a
-        th:if="${pageNum == 1}"
         class="page-btn"
-        th:classappend="${isCurrent} ? 'active'"
-        th:href="@{${#strings.contains(urlSrc, '/page/') ? #strings.substringBefore(urlSrc, '/page/') : '/'}}"
-        th:text="${pageNum}"
+        th:classappend="${cur == 1} ? 'active'"
+        th:href="@{${baseUrl}}"
+        >1</a
+      >
+      <span class="page-ellipsis" th:if="${cur - 2 > 2}">...</span>
+      <a
+        th:if="${cur - 2 > 1}"
+        class="page-btn"
+        th:href="@{${baseUrl + '/page/' + (cur - 2)}}"
+        th:text="${cur - 2}"
       ></a>
       <a
-        th:if="${pageNum != 1}"
+        th:if="${cur - 1 > 1}"
         class="page-btn"
-        th:classappend="${isCurrent} ? 'active'"
-        th:href="@{${#strings.contains(urlSrc, '/page/') ? #strings.substringBefore(urlSrc, '/page/') + '/page/' + pageNum : '/page/' + pageNum}}"
-        th:text="${pageNum}"
+        th:href="@{${baseUrl + '/page/' + (cur - 1)}}"
+        th:text="${cur - 1}"
+      ></a>
+      <a
+        th:if="${cur > 1 and cur < last}"
+        class="page-btn active"
+        th:href="@{${baseUrl + '/page/' + cur}}"
+        th:text="${cur}"
+      ></a>
+      <a
+        th:if="${cur + 1 < last}"
+        class="page-btn"
+        th:href="@{${baseUrl + '/page/' + (cur + 1)}}"
+        th:text="${cur + 1}"
+      ></a>
+      <a
+        th:if="${cur + 2 < last}"
+        class="page-btn"
+        th:href="@{${baseUrl + '/page/' + (cur + 2)}}"
+        th:text="${cur + 2}"
+      ></a>
+      <span class="page-ellipsis" th:if="${cur + 2 < last - 1}">...</span>
+      <a
+        class="page-btn"
+        th:classappend="${cur == last} ? 'active'"
+        th:href="@{${baseUrl + '/page/' + last}}"
+        th:text="${last}"
       ></a>
     </th:block>
   </div>
