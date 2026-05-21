@@ -40,8 +40,8 @@
     上一页
   </span>
   <div class="page-numbers">
-    <!-- 7页以内：全部显示 -->
-    <th:block th:if="${posts.totalPages <= 7}">
+    <!-- 5页以内：全部显示 -->
+    <th:block th:if="${posts.totalPages <= 5}">
       <th:block th:each="pageNum : ${#numbers.sequence(1, posts.totalPages)}">
         <a
           th:if="${pageNum == 1}"
@@ -59,49 +59,46 @@
         ></a>
       </th:block>
     </th:block>
-    <!-- 超过7页：省略号分页 -->
-    <th:block
-      th:if="${posts.totalPages > 7}"
-      th:with="cur=${posts.page}, last=${posts.totalPages}"
-    >
+    <!-- 超过5页：省略号分页 -->
+    <th:block th:if="${posts.totalPages gt 5}" th:with="cur=${posts.page}, last=${posts.totalPages}">
       <a
         class="page-btn"
         th:classappend="${cur == 1} ? 'active'"
         th:href="@{${baseUrl}}"
         >1</a
       >
-      <span class="page-ellipsis" th:if="${cur - 2 > 2}">...</span>
+      <span class="page-ellipsis" th:if="${cur gt 4}">...</span>
       <a
-        th:if="${cur - 2 > 1}"
+        th:if="${cur gt 3 and cur le last}"
         class="page-btn"
         th:href="@{${baseUrl + '/page/' + (cur - 2)}}"
         th:text="${cur - 2}"
       ></a>
       <a
-        th:if="${cur - 1 > 1}"
+        th:if="${cur gt 2 and cur le last}"
         class="page-btn"
         th:href="@{${baseUrl + '/page/' + (cur - 1)}}"
         th:text="${cur - 1}"
       ></a>
       <a
-        th:if="${cur > 1 and cur < last}"
+        th:if="${cur gt 1 and cur lt last}"
         class="page-btn active"
         th:href="@{${baseUrl + '/page/' + cur}}"
         th:text="${cur}"
       ></a>
       <a
-        th:if="${cur + 1 < last}"
+        th:if="${last - cur gt 1}"
         class="page-btn"
         th:href="@{${baseUrl + '/page/' + (cur + 1)}}"
         th:text="${cur + 1}"
       ></a>
       <a
-        th:if="${cur + 2 < last}"
+        th:if="${last - cur gt 2}"
         class="page-btn"
         th:href="@{${baseUrl + '/page/' + (cur + 2)}}"
         th:text="${cur + 2}"
       ></a>
-      <span class="page-ellipsis" th:if="${cur + 2 < last - 1}">...</span>
+      <span class="page-ellipsis" th:if="${last - cur gt 3}">...</span>
       <a
         class="page-btn"
         th:classappend="${cur == last} ? 'active'"
