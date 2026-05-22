@@ -334,7 +334,7 @@ ol {
 }
 
 /* ===== Mobile Menu ===== */
-.menu-toggle {
+.header-actions .menu-toggle {
   display: none;
 }
 
