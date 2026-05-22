@@ -757,31 +757,6 @@ html.dark .post-grid-list .post-card {
   border-color: var(--color-border-dark);
 }
 
-/* Load More button */
-.load-more-wrap {
-  display: flex;
-  justify-content: center;
-  margin-top: 48px;
-}
-
-.load-more-btn {
-  padding: 0 24px;
-  height: 44px;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  background-color: #ffffff;
-  color: #1f2937;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.load-more-btn:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-}
-
 /* ===== Article card ===== */
 .post-card {
   border-radius: 12px;
@@ -1087,36 +1062,7 @@ html.dark .sidebar-categories-count {
   padding-bottom: 96px;
 }
 
-/* ===== Pagination - Load More ===== */
-.load-more {
-  display: flex;
-  justify-content: center;
-  margin-top: 48px;
-}
-
-.btn-load-more {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 24px;
-  height: 44px;
-  border-radius: 8px;
-  border: 1px solid var(--color-border-dark);
-  background-color: var(--color-white);
-  color: var(--color-title);
-  font-size: 14px;
-  font-weight: 600;
-  font-family: var(--font-family);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-load-more:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-}
-
-/* Standard pagination */
+/* ===== Standard pagination ===== */
 .pagination {
   display: flex;
   align-items: center;
@@ -1647,12 +1593,6 @@ html.dark .toast-msg {
   fill: #f43f5e;
 }
 
-.post-action-label {
-  font-size: 11px;
-  color: #6b7280;
-  margin-top: 2px;
-}
-
 .post-action-count {
   font-size: 11px;
   color: #6b7280;
@@ -1941,14 +1881,6 @@ html.dark .toast-msg {
   font-weight: 600;
 }
 
-.article-content figcaption {
-  text-align: center;
-  margin-top: 12px;
-  color: #6b7280;
-  font-size: 13px;
-  font-style: italic;
-}
-
 /* Bottom toolbar card */
 .post-toolbar-card {
   margin-top: 48px;
@@ -2194,7 +2126,7 @@ html.dark {
 
 @media (max-width: 768px) {
   .post-related-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
   .post-cover-wrapper > img,
   .post-cover {
@@ -2303,6 +2235,31 @@ html.dark .article-content pre {
   background-color: #0f172a;
 }
 
+html.dark .code-block-header {
+  background-color: #0f172a;
+  color: var(--color-body);
+}
+
+html.dark .code-block-header button {
+  color: var(--color-body);
+}
+
+html.dark .code-block-header button:hover {
+  color: var(--color-title);
+}
+
+html.dark .code-block-header button.copied {
+  color: var(--color-success);
+}
+
+html.dark .post-toc-heading {
+  color: var(--color-body);
+}
+
+html.dark .post-related-thumb {
+  background-color: var(--color-border);
+}
+
 html.dark .post-action-btn {
   background-color: var(--color-white);
   border-color: var(--color-border-dark);
@@ -2383,7 +2340,6 @@ html.dark .article-content figcaption {
   color: var(--color-body);
 }
 
-html.dark .post-action-label,
 html.dark .post-action-count {
   color: var(--color-body);
 }
@@ -2654,7 +2610,7 @@ html.dark .post-follow-btn {
   gap: 16px;
 }
 
-@media (min-width: 750px) {
+@media (min-width: 768px) {
   .photo-grid {
     columns: 2;
   }
@@ -2904,6 +2860,19 @@ html.dark .lightbox-topbar {
 
 html.dark .lightbox-topbar-title {
   color: var(--color-title);
+}
+
+html.dark .lightbox-topbar-counter {
+  color: var(--color-body);
+}
+
+html.dark .lightbox-nav-btn {
+  background-color: rgba(31, 41, 55, 0.85);
+  color: var(--color-title);
+}
+
+html.dark .lightbox-nav-btn:hover {
+  background-color: #374151;
 }
 
 html.dark .lightbox-close-btn {
@@ -3265,16 +3234,6 @@ html.dark .footer-link-exchange:hover {
   color: var(--color-primary);
 }
 
-html.dark .load-more-btn {
-  background-color: var(--color-white);
-  border-color: var(--color-border-dark);
-  color: var(--color-title);
-}
-
-html.dark .load-more-btn:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-}
 
 html.dark .article-content figure img {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
@@ -4576,6 +4535,7 @@ html.dark .footer-friend-name {
 html.dark .footer-sponsor-box {
   background-color: var(--color-white);
   border-color: var(--color-border-dark);
+  color: var(--color-body);
 }
 
 html.dark .footer-bottom {
@@ -4612,6 +4572,15 @@ html.dark .footer-visit-count {
 
 html.dark .footer-credit {
   color: var(--color-border-dark);
+}
+
+html.dark .footer-friend-avatar {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+html.dark .footer-sponsor {
+  border-top-color: var(--color-border);
 }
 
 /* Dark mode toggle icon visibility */
@@ -4700,6 +4669,34 @@ html.dark .about-timeline {
   border-left-color: var(--color-border-dark);
 }
 
+html.dark .moments-sidebar-label {
+  color: var(--color-body);
+}
+
+html.dark .moments-month-count {
+  color: var(--color-border-dark);
+}
+
+html.dark .moment-actions .like-btn:hover {
+  color: #f43f5e;
+}
+
+html.dark .moment-actions .like-btn.liked {
+  color: #f43f5e;
+}
+
+html.dark .moment-actions .like-btn.liked svg {
+  fill: #f43f5e;
+}
+
+html.dark .about-gear-thumb {
+  background-color: var(--color-border);
+}
+
+html.dark .about-photo-masonry img {
+  background-color: var(--color-border);
+}
+
 html.dark .moments-month-nav a {
   color: var(--color-title);
 }
@@ -4776,6 +4773,36 @@ html.dark .moments-month-nav a:hover {
   }
 
   .categories-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-social-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .about-photo-masonry {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .about-social-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .about-photo-masonry {
+    grid-template-columns: 1fr;
+  }
+
+  .post-related-grid {
     grid-template-columns: 1fr;
   }
 }

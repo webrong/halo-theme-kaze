@@ -5,7 +5,7 @@
     <meta property="og:site_name" th:content="${site.title}" />
     <meta property="og:type" content="profile" />
     <meta property="og:title" th:content="${singlePage.spec.title}" />
-    <meta property="og:description" th:content="${theme.config.profile.bio}" />
+    <meta property="og:description" th:content="${theme.config.profile.bio ?: site.subtitle}" />
     <meta property="og:url" th:content="${singlePage.status.permalink}" />
     <meta
       th:if="${theme.config.profile.avatar}"
@@ -14,7 +14,7 @@
     />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" th:content="${singlePage.spec.title}" />
-    <meta name="twitter:description" th:content="${theme.config.profile.bio}" />
+    <meta name="twitter:description" th:content="${theme.config.profile.bio ?: site.subtitle}" />
     <script type="application/ld+json" th:inline="javascript">
       {
         "@context": "https://schema.org",

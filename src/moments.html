@@ -5,12 +5,12 @@
     <meta property="og:site_name" th:content="${site.title}" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="瞬间" />
-    <meta property="og:description" th:content="${site.subtitle}" />
+    <meta property="og:description" th:content="${!#strings.isEmpty(theme.config.basic.meta_description) ? theme.config.basic.meta_description : site.subtitle}" />
     <meta property="og:url" th:content="@{/moments}" />
     <meta th:if="${theme.config.hero.hero_image}" property="og:image" th:content="${theme.config.hero.hero_image}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="瞬间" />
-    <meta name="twitter:description" th:content="${site.subtitle}" />
+    <meta name="twitter:description" th:content="${!#strings.isEmpty(theme.config.basic.meta_description) ? theme.config.basic.meta_description : site.subtitle}" />
     <meta th:if="${theme.config.hero.hero_image}" name="twitter:image" th:content="${theme.config.hero.hero_image}" />
     <script type="application/ld+json" th:inline="javascript">
       {

@@ -19,6 +19,7 @@
       if (_si) _si.focus();
     }
     function closeSearch() {
+      if (debounceTimer) clearTimeout(debounceTimer);
       sb.classList.remove("active");
       document.body.style.overflow = "";
       if (_sr) _sr.innerHTML = "";
@@ -60,7 +61,10 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ keyword: keyword, limit: 8, highlightPreTag: "<B>", highlightPostTag: "</B>" }),
           })
-            .then(function (res) { return res.json(); })
+            .then(function (res) {
+              if (!res.ok) throw new Error("Search failed");
+              return res.json();
+            })
             .then(function (data) {
               var hits: Array<{ title: string; permalink: string; description: string; content: string; type: string }> = data.hits || [];
               if (hits.length === 0) {
@@ -75,14 +79,12 @@
               liveResults.innerHTML = hits.map(function (hit) {
                 var label = typeLabel[hit.type] || "";
                 var desc = hit.description || hit.content || "";
-                // Strip HTML tags for description, keep <B> highlights
-                var cleanDesc = desc.replace(/<(?!\/?B\b)[^>]*>/gi, "");
-                // Truncate
+                var cleanDesc = desc.replace(/<[^>]*>/g, "");
                 if (cleanDesc.length > 120) cleanDesc = cleanDesc.substring(0, 120) + "…";
                 return '<a class="search-result-item" href="' + escapeHtml(hit.permalink) + '">' +
                   '<div class="search-result-item-title">' + escapeHtml(hit.title) + '</div>' +
-                  '<div class="search-result-item-desc">' + cleanDesc + '</div>' +
-                  (label ? '<div class="search-result-item-meta">' + label + '</div>' : '') +
+                  '<div class="search-result-item-desc">' + escapeHtml(cleanDesc) + '</div>' +
+                  (label ? '<div class="search-result-item-meta">' + escapeHtml(label) + '</div>' : '') +
                   '</a>';
               }).join("");
               // Close search on result click
@@ -151,7 +153,15 @@
         String(secs).padStart(2, "0");
   }
   update();
-  setInterval(update, 1000);
+  var runtimeTimer = setInterval(update, 1000);
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+      clearInterval(runtimeTimer);
+    } else {
+      runtimeTimer = setInterval(update, 1000);
+      update();
+    }
+  });
 
   // Mobile menu toggle
   var menuToggle = document.getElementById("menuToggle");

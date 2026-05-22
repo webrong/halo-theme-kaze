@@ -7,10 +7,10 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="搜索" />
     <meta property="og:url" th:content="@{/search}" />
-    <meta property="og:description" th:content="${site.subtitle}" />
+    <meta property="og:description" th:content="${!#strings.isEmpty(theme.config.basic.meta_description) ? theme.config.basic.meta_description : site.subtitle}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="搜索" />
-    <meta name="twitter:description" th:content="${site.subtitle}" />
+    <meta name="twitter:description" th:content="${!#strings.isEmpty(theme.config.basic.meta_description) ? theme.config.basic.meta_description : site.subtitle}" />
   </template>
   <template name="head">
     <title th:text="|Search - ${site.title}|">搜索</title>
