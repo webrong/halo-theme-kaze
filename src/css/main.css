@@ -11,6 +11,7 @@
   --color-primary: #2563eb;
   --color-primary-light: #eff6ff;
   --color-bg: #f9fafb;
+  --color-bg-secondary: #ffffff;
   --color-title: #1f2937;
   --color-body: #6b7280;
   --color-border: #f3f4f6;
@@ -29,6 +30,7 @@ html.dark {
   --color-primary: #60a5fa;
   --color-primary-light: rgba(96, 165, 250, 0.15);
   --color-bg: #111827;
+  --color-bg-secondary: #1e293b;
   --color-title: #f9fafb;
   --color-body: #9ca3af;
   --color-border: #1f2937;
@@ -1176,10 +1178,16 @@ html.dark .sidebar-categories-count {
 
 html.dark .pagination a {
   border-color: var(--color-border-dark);
+  color: var(--color-body);
 }
 
 html.dark .pagination a:hover {
   border-color: var(--color-primary);
+}
+
+html.dark .pagination span.disabled {
+  border-color: var(--color-border-dark);
+  color: var(--color-border-dark);
 }
 
 /* ===== Archive page ===== */
@@ -1933,10 +1941,6 @@ html.dark .toast-msg {
   font-weight: 600;
 }
 
-.article-content figure {
-  margin: 32px 0;
-}
-
 .article-content figcaption {
   text-align: center;
   margin-top: 12px;
@@ -2341,7 +2345,7 @@ html.dark .post-author-bio {
 }
 
 html.dark .post-toc {
-  border-left-color: var(--color-border);
+  border-right-color: var(--color-border);
 }
 
 html.dark .post-toc a {
@@ -2369,6 +2373,39 @@ html.dark .post-related-card {
 
 html.dark .post-related-body h3 {
   color: var(--color-title);
+}
+
+html.dark .article-content a {
+  color: var(--color-primary);
+}
+
+html.dark .article-content figcaption {
+  color: var(--color-body);
+}
+
+html.dark .post-action-label,
+html.dark .post-action-count {
+  color: var(--color-body);
+}
+
+html.dark .post-back-btn {
+  color: var(--color-body);
+}
+
+html.dark .post-back-btn:hover {
+  color: var(--color-primary);
+}
+
+html.dark .post-license {
+  color: var(--color-body);
+}
+
+html.dark .post-license a {
+  color: var(--color-primary);
+}
+
+html.dark .post-follow-btn {
+  background-color: var(--color-primary);
 }
 
 /* ===== Footer ===== */
@@ -3197,6 +3234,10 @@ html.dark .photo-pagination .page-ellipsis {
 html.dark .album-card {
   background-color: var(--color-white);
   border-color: var(--color-border-dark);
+}
+
+html.dark .album-card-cover {
+  background-color: var(--color-border);
 }
 
 html.dark .album-card-body h3 {
@@ -4541,6 +4582,38 @@ html.dark .footer-bottom {
   border-top-color: var(--color-border);
 }
 
+html.dark .footer-link-exchange {
+  color: var(--color-body);
+}
+
+html.dark .footer-section-heading {
+  color: var(--color-body);
+}
+
+html.dark .footer-sponsor-contact {
+  color: var(--color-border-dark);
+}
+
+html.dark .footer-legal {
+  color: var(--color-border-dark);
+}
+
+html.dark .footer-runtime {
+  color: var(--color-body);
+}
+
+html.dark .footer-visit {
+  color: var(--color-body);
+}
+
+html.dark .footer-visit-count {
+  color: var(--color-primary);
+}
+
+html.dark .footer-credit {
+  color: var(--color-border-dark);
+}
+
 /* Dark mode toggle icon visibility */
 html.dark .icon-moon {
   display: none;
@@ -4613,6 +4686,18 @@ html.dark .moments-sidebar-card {
 
 html.dark .moments-about-card {
   background-color: var(--color-white);
+}
+
+html.dark .moments-about-text {
+  color: var(--color-title);
+}
+
+html.dark .moments-activity-label {
+  color: var(--color-body);
+}
+
+html.dark .about-timeline {
+  border-left-color: var(--color-border-dark);
 }
 
 html.dark .moments-month-nav a {

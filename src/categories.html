@@ -1,12 +1,12 @@
 <include src="layout.html">
   <template name="seo">
-    <meta name="description" th:content="${site.subtitle}" />
+    <meta name="description" th:content="${!#strings.isEmpty(theme.config.basic.meta_description) ? theme.config.basic.meta_description : site.subtitle}" />
     <link rel="canonical" th:href="@{/categories}" />
     <meta property="og:site_name" th:content="${site.title}" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="分类" />
     <meta property="og:description" th:content="${site.subtitle}" />
-    <meta property="og:url" th:href="@{/categories}" />
+    <meta property="og:url" th:content="@{/categories}" />
     <meta th:if="${theme.config.hero.hero_image}" property="og:image" th:content="${theme.config.hero.hero_image}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="分类" />

@@ -42,6 +42,11 @@
     if (_si && _sr) {
       var liveInput = _si;
       var liveResults = _sr;
+      function escapeHtml(s: string) {
+        var d = document.createElement("div");
+        d.textContent = s;
+        return d.innerHTML;
+      }
       liveInput.addEventListener("input", function () {
         if (debounceTimer) clearTimeout(debounceTimer);
         var keyword = liveInput.value.trim();
@@ -74,8 +79,8 @@
                 var cleanDesc = desc.replace(/<(?!\/?B\b)[^>]*>/gi, "");
                 // Truncate
                 if (cleanDesc.length > 120) cleanDesc = cleanDesc.substring(0, 120) + "…";
-                return '<a class="search-result-item" href="' + hit.permalink + '">' +
-                  '<div class="search-result-item-title">' + hit.title + '</div>' +
+                return '<a class="search-result-item" href="' + escapeHtml(hit.permalink) + '">' +
+                  '<div class="search-result-item-title">' + escapeHtml(hit.title) + '</div>' +
                   '<div class="search-result-item-desc">' + cleanDesc + '</div>' +
                   (label ? '<div class="search-result-item-meta">' + label + '</div>' : '') +
                   '</a>';
@@ -99,7 +104,7 @@
       (link as HTMLAnchorElement).getAttribute("data-href") ||
       (link as HTMLAnchorElement).getAttribute("href") ||
       "";
-    if (href === path || (path.startsWith(href) && href !== "/")) {
+    if (href === path || (path.startsWith(href) && href !== "/" && (path.length === href.length || path.charAt(href.length) === "/"))) {
       link.classList.add("active");
     }
     if (href === "/" && path === "/") {

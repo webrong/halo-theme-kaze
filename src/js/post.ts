@@ -114,7 +114,7 @@ likeBtn?.addEventListener("click", () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ group: "content.halo.run", plural: "posts", name: postName }),
-      });
+      }).catch(function () {});
     }
   } else {
     svg?.setAttribute("fill", "none");

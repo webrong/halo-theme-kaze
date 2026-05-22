@@ -112,9 +112,29 @@
     });
   });
 
-  // Hashtag highlighting
+  // Hashtag highlighting (safe: only modifies text nodes)
   document.querySelectorAll("[data-highlight-hashtags]").forEach(function (el) {
-    el.innerHTML = el.innerHTML.replace(/(#[\p{L}\d_]+)/gu, '<span class="hashtag">$1</span>');
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    var nodes: Text[] = [];
+    var n: Text | null;
+    while ((n = walker.nextNode() as Text | null)) nodes.push(n);
+    nodes.forEach(function (textNode) {
+      var text = textNode.textContent || "";
+      if (!/#[\p{L}\d_]+/u.test(text)) return;
+      var frag = document.createDocumentFragment();
+      var parts = text.split(/(#[\p{L}\d_]+)/u);
+      parts.forEach(function (part) {
+        if (/^#[\p{L}\d_]+$/u.test(part)) {
+          var span = document.createElement("span");
+          span.className = "hashtag";
+          span.textContent = part;
+          frag.appendChild(span);
+        } else {
+          frag.appendChild(document.createTextNode(part));
+        }
+      });
+      textNode.parentNode?.replaceChild(frag, textNode);
+    });
   });
 
   // Like button with Halo API upvote
@@ -141,7 +161,7 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ group: "moment.halo.run", plural: "moments", name: momentName }),
-          });
+          }).catch(function () {});
         }
       }
     });

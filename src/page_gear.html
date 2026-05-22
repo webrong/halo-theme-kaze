@@ -1,6 +1,6 @@
 <include src="layout.html">
   <template name="seo">
-    <meta name="description" th:content="${site.subtitle}" />
+    <meta name="description" th:content="${!#strings.isEmpty(theme.config.basic.meta_description) ? theme.config.basic.meta_description : site.subtitle}" />
     <link rel="canonical" th:href="${singlePage.status.permalink}" />
     <meta property="og:site_name" th:content="${site.title}" />
     <meta property="og:type" content="website" />
