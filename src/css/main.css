@@ -200,6 +200,33 @@ ol {
   color: var(--color-title);
 }
 
+.header-auth-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.header-auth-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.header-auth-btn svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-title);
+}
+
+.header-auth-btn img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 /* Search bar */
 .search-bar {
   display: none;
@@ -401,6 +428,11 @@ ol {
   }
 
   .header-actions button {
+    width: 34px;
+    height: 34px;
+  }
+
+  .header-auth-btn {
     width: 34px;
     height: 34px;
   }
@@ -4398,6 +4430,14 @@ html.dark .site-header {
 
 html.dark .header-actions button:hover {
   background-color: var(--color-border-dark);
+}
+
+html.dark .header-auth-btn:hover {
+  background-color: var(--color-border-dark);
+}
+
+html.dark .header-auth-btn svg {
+  color: var(--color-title);
 }
 
 /* Hero dark mode */
