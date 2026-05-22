@@ -1,76 +1,144 @@
-# Theme Vite Starter
+# Kaze
 
-面向 [Halo](https://www.halo.run/) 的主题脚手架：在 `src/` 中编写模板与前端资源，经构建生成 Halo 实际读取的 `templates/` 目录。
+A modern, minimal personal blog theme for [Halo](https://www.halo.run/) — clean, minimal, and beautiful.
 
-官方主题开发指南：<https://docs.halo.run/developer-guide/theme/prepare>
+**Requires Halo >= 2.22.0**
 
-## 技术栈
+## Features
 
-| 类别     | 说明                                                                                                                                                                                                  |
-| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 运行时   | Halo 使用 **Thymeleaf** 渲染主题；模板变量与 Finder API 随 Halo 版本演进，请以[官方文档](https://docs.halo.run/developer-guide/theme/prepare)为准。                                                   |
-| 构建     | Vite，同时集成 [Vite Plus](https://viteplus.dev/)，集成格式化、Lint 等功能                                                                                                                            |
-| 语言     | **TypeScript**（`tsc` 参与 `build` 脚本）                                                                                                                                                             |
-| 主题插件 | [`@halo-dev/vite-plugin-halo-theme`](https://www.npmjs.com/package/@halo-dev/vite-plugin-halo-theme) — 源码见 [halo-sigs/vite-plugin-halo-theme](https://github.com/halo-sigs/vite-plugin-halo-theme) |
-| 打包发布 | [`@halo-dev/theme-package-cli`](https://github.com/halo-dev/theme-package-cli) — 将主题打成 ZIP 供控制台上传                                                                                          |
-| 包管理   | **pnpm**（版本见 `package.json` 的 `packageManager`）                                                                                                                                                 |
+- **Homepage** — Hero carousel (up to 10 configurable slides with CTA buttons), grid or list post layout, optional sidebar
+- **Blog** — Archives timeline, categories, tags, single post with TOC / likes / comments, author page
+- **Custom Pages** — About (profile card + milestone timeline + skill radar chart), Photography (masonry gallery with lightbox), Moments (timeline), Gear (equipment card grid)
+- **Search** — Live search with API-powered instant results
+- **Dark Mode** — Toggle with system preference detection, comprehensive dark color overrides
+- **SEO / GEO** — Open Graph, Twitter Cards, JSON-LD structured data (WebSite, BlogPosting, Person, BreadcrumbList), configurable meta descriptions, `llms.txt` for AI crawlers
+- **Responsive** — Mobile-first breakpoints (480px / 768px / 1024px), touch-friendly navigation
+- **Social Links** — 10 platforms: GitHub, Email, Twitter/X, Bilibili, Weibo, Zhihu, WeChat QR, YouTube, Xiaohongshu, personal website
+- **Footer** — Copyright, site runtime counter, visit statistics, sponsor section, ICP / police registration (China compliance)
 
-## 目录结构
+## Pages
 
-- **`src/` 是源码目录**：在此维护 `.html` 页面与 `partials/` 片段、`css/`、`js/`（含 TS）等。插件在 **Vite 构建时** 处理 `<include>` / `<slot>` 等语法（与服务器上 **Thymeleaf 运行时** 互不替代，可同时使用）。
-- **`templates/` 是构建产物**：Halo 只认主题根目录下的 `templates/`（内含页面 HTML 与 `templates/assets/` 等）。**不要**把 `src/` 当作 Halo 直接读取的路径；开发或发版前需执行构建，使 `templates/` 与当前源码一致。
+| Template | Description |
+|----------|-------------|
+| `index` | Homepage with hero carousel and post grid |
+| `post` | Single post with TOC, code copy, likes |
+| `page` | Default standalone page |
+| `page_about` | About page — profile, milestones, radar chart, gear, changelog |
+| `page_photography` | Photography — masonry album grid |
+| `page_moments` | Moments — timeline feed with comments |
+| `page_gear` | Gear showcase — equipment card grid |
+| `archives` | Post archives by date |
+| `categories` | Category listing |
+| `tags` | Tag cloud |
+| `author` | Author profile with Person schema |
+| `gallery_detail` | Album detail with lightbox |
+| `moments` | Standalone moments listing |
+| `search` | Search results |
+| `404 / 4xx / 5xx` | Error pages |
+
+## Theme Settings
+
+All settings are configurable from the Halo admin console:
+
+| Group | Key Settings |
+|-------|-------------|
+| **Homepage** | Post layout (grid/list), sidebar visibility, meta description |
+| **Hero** | Title, subtitle, badge, background image, carousel slides (image/badge/title/subtitle/CTA) |
+| **Footer** | Copyright text, site launch date, sponsor info, ICP/police registration |
+| **Profile** | Avatar, display name, bio, about text, interest tags, milestone timeline, skill radar, changelog |
+| **Social** | GitHub, Email, Twitter/X, Bilibili, Weibo, Zhihu, WeChat QR, YouTube, Xiaohongshu, website |
+| **Gear** | Equipment list with name/brand/image/specs/review/status |
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Templates | Thymeleaf + Vite build-time `<include>` / `<slot>` |
+| Style | CSS custom properties, dark mode via `html.dark` class |
+| Script | TypeScript |
+| Build | Vite + [`@halo-dev/vite-plugin-halo-theme`](https://github.com/halo-sigs/vite-plugin-halo-theme) |
+| Package | [`@halo-dev/theme-package-cli`](https://github.com/halo-dev/theme-package-cli) |
+| Package Manager | pnpm |
+
+## Directory Structure
 
 ```
-.
-├── src/                 # 源码：页面 HTML、partials、css、js
-├── public/              # 可选；复制到 templates/assets/
-├── templates/           # 构建生成
-├── theme.yaml           # 主题元数据（必填）
-├── settings.yaml        # 控制台主题设置表单（可选）
-├── vite.config.ts
-└── package.json
+src/
+├── css/
+│   └── main.css          # All styles (light + dark + responsive)
+├── js/
+│   ├── layout.ts         # Dark mode, search, nav, runtime counter
+│   ├── index.ts          # Hero carousel
+│   ├── post.ts           # TOC, code copy, likes
+│   ├── about.ts          # Radar chart
+│   ├── photography.ts    # Masonry + lightbox
+│   ├── moments.ts        # Moments timeline interactions
+│   ├── moments-inline.ts # Inline moments widget
+│   └── gallery-detail.ts # Gallery lightbox
+├── partials/
+│   ├── layout.html       # Base layout (head, nav, footer)
+│   ├── sidebar.html      # Sidebar widget
+│   ├── post-card.html    # Post card component
+│   └── pagination.html   # Ellipsis pagination
+├── error/
+│   ├── 404.html
+│   ├── 4xx.html
+│   ├── 5xx.html
+│   └── error.html
+├── index.html            # Homepage
+├── post.html             # Single post
+├── page.html             # Default page
+├── page_about.html       # About page
+├── page_photography.html # Photography page
+├── page_moments.html     # Moments page
+├── page_gear.html        # Gear page
+├── archives.html         # Archives
+├── categories.html       # Categories
+├── category.html         # Single category
+├── tags.html             # Tags
+├── tag.html              # Single tag
+├── author.html           # Author
+├── gallery_detail.html   # Album detail
+├── moments.html          # Moments listing
+└── search.html           # Search
 ```
 
-### `@halo-dev/vite-plugin-halo-theme`
-
-1. **多页入口**：自动将 `src/` 下（除 `src/partials/` 外）的 `.html` 作为入口，输出到 `templates/` 下同名文件（例如 `src/index.html` → `templates/index.html`）。
-2. **静态资源**：`src/` 中的 CSS/JS 由 Vite 打包进 `templates/assets/`；`public/` 中的文件会原样复制到 `templates/assets/`（不经打包）。
-3. **模板复用**：支持构建期 `<include>`、`<slot>`，减轻纯 Thymeleaf 片段的重复书写。
-4. **资源路径约定**：所有 HTML（含 `partials`）里引用静态资源时，路径按 **`src/` 根** 解析，而不是按当前文件所在子目录；说明见 [vite-plugin-halo-theme](https://github.com/halo-sigs/vite-plugin-halo-theme)。
-
-## 开发
+## Development
 
 ```bash
-git clone git@github.com:halo-dev/theme-vite-starter.git ~/halo2-dev/themes/theme-vite-starter
-cd ~/halo2-dev/themes/theme-vite-starter
+# Clone
+git clone https://github.com/webrong/halo-theme-kaze.git
+cd halo-theme-kaze
+
+# Install dependencies
 pnpm install
+
+# Watch mode — rebuilds templates/ on file changes
 pnpm dev
-```
 
-`pnpm dev` 等价于对主题执行 `vp build --watch`：修改 `src/` 后会持续重新生成 `templates/`。将主题目录链到或复制到 Halo 的 `themes/<metadata.name>/` 后，在控制台安装并启用主题即可预览。
-
-开发 Halo 端建议关闭 Thymeleaf 缓存（例如环境变量 `SPRING_THYMELEAF_CACHE=false` 或配置 `spring.thymeleaf.cache: false`），便于模板热更新调试。
-
-## 构建与打包
-
-```bash
+# Production build + ZIP package
 pnpm build
 ```
 
-该命令会执行 TypeScript 检查、`vp build` 生成 `templates/`，并调用 `theme-package` 生成可分发的 ZIP。默认会打包 `templates/`、`theme.yaml` / `settings.yaml` 等必要文件，详见 [theme-package-cli](https://github.com/halo-dev/theme-package-cli)。
+Link or copy the theme directory to Halo's `themes/theme-kaze/`, then install and enable it from the admin console.
 
-仅需要产物目录、不需要 ZIP 时：
+Tip: Disable Thymeleaf cache during development (`spring.thymeleaf.cache: false`).
+
+## Build & Package
 
 ```bash
+# Full build (type check + build + ZIP)
+pnpm build
+
+# Build only (no ZIP)
 pnpm build-only
+
+# Format and lint
+pnpm check
 ```
 
-## 其他脚本
+The distributable ZIP is output to `dist/theme-kaze-<version>.zip`.
 
-| 命令         | 作用                                     |
-| ------------ | ---------------------------------------- |
-| `pnpm check` | `vp check --fix`（执行格式化和代码检查） |
+## License
 
-## Agent Skills
-
-仓库在 `.agents/skills/` 下内置了 **Halo 主题开发** 相关的 Agent Skill（例如 `halo-theme-dev`），整理了 Thymeleaf 要点、Finder API、`theme.yaml` / `settings.yaml`、vite 插件用法等参考材料。若在 Cursor 等支持 Agent Skills 的环境里开发，启用后可让 AI 更贴合 Halo 主题的约定来辅助编写与修改主题。
+[GPL-3.0](https://opensource.org/licenses/GPL-3.0)
