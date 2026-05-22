@@ -1,144 +1,144 @@
 # Kaze
 
-A modern, minimal personal blog theme for [Halo](https://www.halo.run/) — clean, minimal, and beautiful.
+一款面向 [Halo](https://www.halo.run/) 的现代个人博客主题 —— 简洁、克制、美观。
 
-**Requires Halo >= 2.22.0**
+**要求 Halo >= 2.22.0**
 
-## Features
+## 功能特性
 
-- **Homepage** — Hero carousel (up to 10 configurable slides with CTA buttons), grid or list post layout, optional sidebar
-- **Blog** — Archives timeline, categories, tags, single post with TOC / likes / comments, author page
-- **Custom Pages** — About (profile card + milestone timeline + skill radar chart), Photography (masonry gallery with lightbox), Moments (timeline), Gear (equipment card grid)
-- **Search** — Live search with API-powered instant results
-- **Dark Mode** — Toggle with system preference detection, comprehensive dark color overrides
-- **SEO / GEO** — Open Graph, Twitter Cards, JSON-LD structured data (WebSite, BlogPosting, Person, BreadcrumbList), configurable meta descriptions, `llms.txt` for AI crawlers
-- **Responsive** — Mobile-first breakpoints (480px / 768px / 1024px), touch-friendly navigation
-- **Social Links** — 10 platforms: GitHub, Email, Twitter/X, Bilibili, Weibo, Zhihu, WeChat QR, YouTube, Xiaohongshu, personal website
-- **Footer** — Copyright, site runtime counter, visit statistics, sponsor section, ICP / police registration (China compliance)
+- **首页** — Hero 轮播（最多 10 张幻灯片，支持 CTA 按钮）、文章网格/列表布局、可选侧边栏
+- **博客** — 归档时间线、分类、标签、文章详情（目录 / 点赞 / 评论）、作者页
+- **自定义页面** — 关于（个人卡片 + 里程碑时间线 + 技能雷达图）、摄影（瀑布流相册 + 灯箱）、瞬间（时间线）、装备（卡片网格）
+- **搜索** — 实时搜索，API 驱动即时结果
+- **暗色模式** — 手动切换 + 系统偏好检测，全站暗色适配
+- **SEO / GEO** — Open Graph、Twitter Cards、JSON-LD 结构化数据（WebSite、BlogPosting、Person、BreadcrumbList）、可配置 meta description、`llms.txt` 供 AI 爬虫读取
+- **响应式** — 480px / 768px / 1024px 多级断点，触屏友好导航
+- **社交链接** — 10 个平台：GitHub、Email、Twitter/X、Bilibili、微博、知乎、微信二维码、YouTube、小红书、个人网站
+- **页脚** — 版权声明、建站运行时间、访问量统计、赞助信息、ICP 备案 / 公安备案
 
-## Pages
+## 页面模板
 
-| Template | Description |
-|----------|-------------|
-| `index` | Homepage with hero carousel and post grid |
-| `post` | Single post with TOC, code copy, likes |
-| `page` | Default standalone page |
-| `page_about` | About page — profile, milestones, radar chart, gear, changelog |
-| `page_photography` | Photography — masonry album grid |
-| `page_moments` | Moments — timeline feed with comments |
-| `page_gear` | Gear showcase — equipment card grid |
-| `archives` | Post archives by date |
-| `categories` | Category listing |
-| `tags` | Tag cloud |
-| `author` | Author profile with Person schema |
-| `gallery_detail` | Album detail with lightbox |
-| `moments` | Standalone moments listing |
-| `search` | Search results |
-| `404 / 4xx / 5xx` | Error pages |
+| 模板 | 说明 |
+|------|------|
+| `index` | 首页 — Hero 轮播 + 文章网格 |
+| `post` | 文章详情 — 目录、代码复制、点赞 |
+| `page` | 默认独立页面 |
+| `page_about` | 关于页 — 个人信息、里程碑、雷达图、装备、更新记录 |
+| `page_photography` | 摄影页 — 瀑布流相册 |
+| `page_moments` | 瞬间页 — 时间线动态 + 评论 |
+| `page_gear` | 装备页 — 设备卡片网格 |
+| `archives` | 文章归档 |
+| `categories` | 分类列表 |
+| `tags` | 标签云 |
+| `author` | 作者主页（含 Person Schema） |
+| `gallery_detail` | 相册详情 + 灯箱 |
+| `moments` | 瞬间列表页 |
+| `search` | 搜索结果 |
+| `404 / 4xx / 5xx` | 错误页 |
 
-## Theme Settings
+## 主题设置
 
-All settings are configurable from the Halo admin console:
+所有设置均可在 Halo 后台「主题设置」中配置：
 
-| Group | Key Settings |
-|-------|-------------|
-| **Homepage** | Post layout (grid/list), sidebar visibility, meta description |
-| **Hero** | Title, subtitle, badge, background image, carousel slides (image/badge/title/subtitle/CTA) |
-| **Footer** | Copyright text, site launch date, sponsor info, ICP/police registration |
-| **Profile** | Avatar, display name, bio, about text, interest tags, milestone timeline, skill radar, changelog |
-| **Social** | GitHub, Email, Twitter/X, Bilibili, Weibo, Zhihu, WeChat QR, YouTube, Xiaohongshu, website |
-| **Gear** | Equipment list with name/brand/image/specs/review/status |
+| 分组 | 主要设置项 |
+|------|-----------|
+| **首页设置** | 文章列表布局（网格/列表）、侧边栏显示、站点描述（Meta Description） |
+| **Hero 轮播** | 标题、副标题、徽章、背景图片、轮播幻灯片（图片/徽章/标题/副标题/CTA） |
+| **页脚设置** | 版权文字、建站日期、赞助信息、ICP 备案、公安备案 |
+| **个人信息** | 头像、昵称、简介、关于我、兴趣标签、里程碑时间线、技能雷达图、更新记录 |
+| **社交链接** | GitHub、Email、Twitter/X、Bilibili、微博、知乎、微信二维码、YouTube、小红书、个人网站 |
+| **设备展示** | 设备列表（名称/品牌/图片/规格/评价/状态） |
 
-## Tech Stack
+## 技术栈
 
-| Layer | Technology |
-|-------|-----------|
-| Templates | Thymeleaf + Vite build-time `<include>` / `<slot>` |
-| Style | CSS custom properties, dark mode via `html.dark` class |
-| Script | TypeScript |
-| Build | Vite + [`@halo-dev/vite-plugin-halo-theme`](https://github.com/halo-sigs/vite-plugin-halo-theme) |
-| Package | [`@halo-dev/theme-package-cli`](https://github.com/halo-dev/theme-package-cli) |
-| Package Manager | pnpm |
+| 层级 | 技术 |
+|------|------|
+| 模板 | Thymeleaf + Vite 构建期 `<include>` / `<slot>` |
+| 样式 | CSS 自定义属性，暗色模式通过 `html.dark` 类切换 |
+| 脚本 | TypeScript |
+| 构建 | Vite + [`@halo-dev/vite-plugin-halo-theme`](https://github.com/halo-sigs/vite-plugin-halo-theme) |
+| 打包 | [`@halo-dev/theme-package-cli`](https://github.com/halo-dev/theme-package-cli) |
+| 包管理 | pnpm |
 
-## Directory Structure
+## 目录结构
 
 ```
 src/
 ├── css/
-│   └── main.css          # All styles (light + dark + responsive)
+│   └── main.css          # 全站样式（亮色 + 暗色 + 响应式）
 ├── js/
-│   ├── layout.ts         # Dark mode, search, nav, runtime counter
-│   ├── index.ts          # Hero carousel
-│   ├── post.ts           # TOC, code copy, likes
-│   ├── about.ts          # Radar chart
-│   ├── photography.ts    # Masonry + lightbox
-│   ├── moments.ts        # Moments timeline interactions
-│   ├── moments-inline.ts # Inline moments widget
-│   └── gallery-detail.ts # Gallery lightbox
+│   ├── layout.ts         # 暗色模式、搜索、导航、运行计时
+│   ├── index.ts          # Hero 轮播
+│   ├── post.ts           # 文章目录、代码复制、点赞
+│   ├── about.ts          # 技能雷达图
+│   ├── photography.ts    # 瀑布流 + 灯箱
+│   ├── moments.ts        # 瞬间时间线交互
+│   ├── moments-inline.ts # 内嵌瞬间组件
+│   └── gallery-detail.ts # 相册灯箱
 ├── partials/
-│   ├── layout.html       # Base layout (head, nav, footer)
-│   ├── sidebar.html      # Sidebar widget
-│   ├── post-card.html    # Post card component
-│   └── pagination.html   # Ellipsis pagination
+│   ├── layout.html       # 基础布局（head、导航、页脚）
+│   ├── sidebar.html      # 侧边栏组件
+│   ├── post-card.html    # 文章卡片组件
+│   └── pagination.html   # 省略号分页组件
 ├── error/
 │   ├── 404.html
 │   ├── 4xx.html
 │   ├── 5xx.html
 │   └── error.html
-├── index.html            # Homepage
-├── post.html             # Single post
-├── page.html             # Default page
-├── page_about.html       # About page
-├── page_photography.html # Photography page
-├── page_moments.html     # Moments page
-├── page_gear.html        # Gear page
-├── archives.html         # Archives
-├── categories.html       # Categories
-├── category.html         # Single category
-├── tags.html             # Tags
-├── tag.html              # Single tag
-├── author.html           # Author
-├── gallery_detail.html   # Album detail
-├── moments.html          # Moments listing
-└── search.html           # Search
+├── index.html            # 首页
+├── post.html             # 文章详情
+├── page.html             # 默认独立页面
+├── page_about.html       # 关于页
+├── page_photography.html # 摄影页
+├── page_moments.html     # 瞬间页
+├── page_gear.html        # 装备页
+├── archives.html         # 归档
+├── categories.html       # 分类
+├── category.html         # 单个分类
+├── tags.html             # 标签
+├── tag.html              # 单个标签
+├── author.html           # 作者
+├── gallery_detail.html   # 相册详情
+├── moments.html          # 瞬间列表
+└── search.html           # 搜索
 ```
 
-## Development
+## 开发
 
 ```bash
-# Clone
+# 克隆仓库
 git clone https://github.com/webrong/halo-theme-kaze.git
 cd halo-theme-kaze
 
-# Install dependencies
+# 安装依赖
 pnpm install
 
-# Watch mode — rebuilds templates/ on file changes
+# 开发模式 — 文件变更时自动重新构建 templates/
 pnpm dev
 
-# Production build + ZIP package
+# 生产构建 + 打包 ZIP
 pnpm build
 ```
 
-Link or copy the theme directory to Halo's `themes/theme-kaze/`, then install and enable it from the admin console.
+将主题目录链接或复制到 Halo 的 `themes/theme-kaze/`，然后在后台安装并启用即可。
 
-Tip: Disable Thymeleaf cache during development (`spring.thymeleaf.cache: false`).
+开发时建议关闭 Thymeleaf 缓存：`spring.thymeleaf.cache: false`
 
-## Build & Package
+## 构建与打包
 
 ```bash
-# Full build (type check + build + ZIP)
+# 完整构建（类型检查 + 构建 + ZIP）
 pnpm build
 
-# Build only (no ZIP)
+# 仅构建（不打包 ZIP）
 pnpm build-only
 
-# Format and lint
+# 格式化和代码检查
 pnpm check
 ```
 
-The distributable ZIP is output to `dist/theme-kaze-<version>.zip`.
+打包产物输出到 `dist/theme-kaze-<版本号>.zip`。
 
-## License
+## 许可证
 
 [GPL-3.0](https://opensource.org/licenses/GPL-3.0)
