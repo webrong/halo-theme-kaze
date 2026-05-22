@@ -39,7 +39,7 @@
     <h3 class="sidebar-card-title">分类</h3>
     <ul class="sidebar-categories-list">
       <li th:each="cat : ${categoryFinder.listAll()}">
-        <a th:href="${cat.status.permalink}" th:text="${cat.spec.displayName}"></a>
+        <a th:href="${cat.status.permalink}" target="_blank" rel="noopener" th:text="${cat.spec.displayName}"></a>
         <span class="sidebar-categories-count" th:if="${cat.postCount != null}" th:text="${cat.postCount}"></span>
       </li>
     </ul>
@@ -53,6 +53,8 @@
         th:each="tag : ${tagFinder.listAll()}"
         class="sidebar-tag-pill"
         th:href="${tag.status.permalink}"
+        target="_blank"
+        rel="noopener"
         th:text="${tag.spec.displayName}"
       ></a>
     </div>
