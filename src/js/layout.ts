@@ -163,6 +163,65 @@
     }
   });
 
+  // Auth check — detect login state via API
+  var loginBtn = document.getElementById("headerLoginBtn");
+  var userWrap = document.getElementById("headerUserWrap");
+  var userBtn = document.getElementById("headerUserBtn");
+  var userAvatar = document.getElementById("headerUserAvatar") as HTMLImageElement | null;
+  var userIcon = document.getElementById("headerUserIcon");
+  var logoutBtn = document.getElementById("headerLogoutBtn");
+  if (loginBtn && userWrap && userBtn) {
+    fetch("/apis/api.console.halo.run/v1alpha1/users/-", { credentials: "same-origin" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("Not authenticated");
+        return res.json();
+      })
+      .then(function (data) {
+        loginBtn!.style.display = "none";
+        userWrap!.style.display = "";
+        var avatar = (data.spec && data.spec.avatar) || (data.status && data.status.avatar) || "";
+        if (userAvatar && avatar) {
+          userAvatar.src = avatar;
+          userAvatar.alt = (data.spec && data.spec.displayName) || "";
+          userAvatar.style.display = "";
+          if (userIcon) userIcon.style.display = "none";
+        }
+      })
+      .catch(function () {
+        // Not authenticated — login button stays visible
+      });
+
+    // Dropdown: hover works on desktop; click fallback for mobile/touch
+    var _menuOpen = false;
+    userBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      _menuOpen = !_menuOpen;
+      var menu = document.getElementById("headerUserMenu");
+      if (menu) {
+        if (_menuOpen) {
+          menu.classList.add("active");
+        } else {
+          menu.classList.remove("active");
+        }
+      }
+    });
+    document.addEventListener("click", function (e) {
+      if (_menuOpen && !userWrap!.contains(e.target as Node)) {
+        _menuOpen = false;
+        var menu = document.getElementById("headerUserMenu");
+        if (menu) menu.classList.remove("active");
+      }
+    });
+
+    // Logout — navigate to Halo's built-in logout confirmation page
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", function () {
+        window.location.href = "/logout";
+      });
+    }
+  }
+
   // Mobile menu toggle
   var menuToggle = document.getElementById("menuToggle");
   var navEl = document.querySelector(".site-nav nav") as HTMLElement | null;
