@@ -34,8 +34,17 @@
     <header class="site-header">
       <div class="container">
         <a class="site-logo" th:href="@{/}">
-          <span class="site-logo-icon"></span>
-          <span class="site-logo-text" th:text="${site.title}">Halo Blog</span>
+          <img
+            th:if="${!#strings.isEmpty(site.logo)}"
+            class="site-logo-image"
+            th:src="${site.logo}"
+            th:alt="${site.title}"
+            height="32"
+          />
+          <th:block th:if="${#strings.isEmpty(site.logo)}">
+            <span class="site-logo-icon"></span>
+            <span class="site-logo-text" th:text="${site.title}">Halo Blog</span>
+          </th:block>
         </a>
         <div class="site-nav" th:with="menu = ${menuFinder.getPrimary()}">
           <nav
