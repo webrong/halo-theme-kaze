@@ -1816,26 +1816,14 @@ html.dark .toast-msg {
   margin: 32px 0;
 }
 
-/* Wide image breakout */
 .article-content figure {
-  margin: 40px 0;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  max-width: 100vw;
-}
-
-.article-content figure > div,
-.article-content figure > picture {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 0 24px;
+  margin: 32px 0;
 }
 
 .article-content figure img {
   width: 100%;
   object-fit: cover;
   border-radius: 12px;
-  max-height: 520px;
   margin: 0;
 }
 
@@ -1845,10 +1833,6 @@ html.dark .toast-msg {
   color: #6b7280;
   font-size: 13px;
   font-style: italic;
-  max-width: 880px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 24px;
 }
 
 .article-content a {
