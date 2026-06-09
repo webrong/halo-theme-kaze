@@ -22,8 +22,20 @@
   --color-danger: #9ca3af;
   --font-family: "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --max-width: 1400px;
+  --max-width: 1200px;
   --header-height: 64px;
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --max-width: 1320px;
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --max-width: 1480px;
+  }
 }
 
 html.dark {
@@ -495,9 +507,10 @@ html.dark .header-user-menu-logout:hover {
     gap: 2px;
   }
 
-  .header-actions button {
-    width: 34px;
-    height: 34px;
+  .header-actions button,
+  .header-auth-btn {
+    width: 40px;
+    height: 40px;
   }
 
   .search-bar {
@@ -1132,6 +1145,22 @@ html.dark .post-grid-list .post-card {
   }
   .home-layout {
     display: block;
+  }
+}
+
+/* iPad / tablet transition (768-1023px) — softer paddings, single-column article */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .post-shell {
+    padding: 32px 32px 56px;
+  }
+  .post-body {
+    max-width: 720px;
+  }
+  .recent-posts {
+    padding: 0 32px;
+  }
+  .hero {
+    padding: 0 32px;
   }
 }
 
@@ -2218,6 +2247,18 @@ html.dark {
   }
   .article-title {
     font-size: 28px;
+  }
+  /* Footer compact on phones */
+  .footer-runtime,
+  .footer-visit {
+    font-size: 12px;
+    gap: 6px;
+  }
+  .footer-legal {
+    font-size: 11px;
+  }
+  .footer-bottom {
+    gap: 8px;
   }
 }
 
@@ -4891,6 +4932,44 @@ html.dark .moments-month-nav a:hover {
 
   .post-related-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Hero compact on small phones */
+  .hero-inner {
+    height: 220px;
+  }
+  .hero-title {
+    font-size: 22px;
+  }
+  .hero-subtitle {
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  .hero-content {
+    padding: 0 16px;
+  }
+  .hero-badge {
+    font-size: 10px;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+  }
+  .hero-cta {
+    height: 34px;
+    font-size: 11px;
+    padding: 0 10px;
+    margin-top: 12px;
+  }
+  .hero {
+    padding: 0 16px;
+  }
+  .recent-posts {
+    padding: 0 16px;
+  }
+  .post-shell {
+    padding: 20px 16px 48px;
+  }
+  .article-title {
+    font-size: 24px;
   }
 }
 

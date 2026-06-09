@@ -54,7 +54,7 @@
           th:data-cta-title="${slide.title}"
           th:data-cta-url="${slide.cta_url}"
         >
-          <img class="hero-image" th:src="${slide.image}" th:alt="${slide.title}" width="1600" height="900" th:attr="loading=${iter.index > 0 ? 'lazy' : 'eager'}" />
+          <img class="hero-image" th:src="${slide.image}" th:srcset="|${thumbnail.gen(slide.image, 'm')} 800w, ${thumbnail.gen(slide.image, 'l')} 1600w, ${thumbnail.gen(slide.image, 'xl')} 2400w|" th:alt="${slide.title}" width="1600" height="900" th:attr="loading=${iter.index > 0 ? 'lazy' : 'eager'}" sizes="100vw" />
           <div class="hero-overlay"></div>
         </div>
 
@@ -65,10 +65,12 @@
           <img
             class="hero-image"
             th:src="${theme.config.hero.hero_image ?: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80'}"
+            th:srcset="|${thumbnail.gen(theme.config.hero.hero_image ?: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80', 'm')} 800w, ${thumbnail.gen(theme.config.hero.hero_image ?: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80', 'l')} 1600w, ${thumbnail.gen(theme.config.hero.hero_image ?: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80', 'xl')} 2400w|"
             alt="首页横幅"
             width="1600"
             height="900"
             loading="eager"
+            sizes="100vw"
           />
           <div class="hero-overlay"></div>
         </th:block>
