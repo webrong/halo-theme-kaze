@@ -282,24 +282,28 @@ spec:
               specs: "CPU: M3 Max;RAM: 64GB;SSD: 2TB"
               review: "Quiet, fast, and somehow still cool to the touch after hours."
               status: "in_use"
+              link: ""
             - name: "Leica Q3"
               brand: "Leica · 2023"
               image: ""
               specs: "Sensor: 60MP;Lens: 28mm f/1.7;ISO: 50-100k"
               review: "The camera I actually carry. Tiny menus, enormous joy."
               status: "in_use"
+              link: ""
             - name: "Sony WH-1000XM5"
               brand: "Sony · 2022"
               image: ""
               specs: "ANC: Yes;Battery: 30h;Bluetooth: 5.2"
               review: "Practically a noise-cancelling time machine for long flights."
               status: "in_use"
+              link: ""
             - name: "Kindle Oasis"
               brand: "Amazon · 2021"
               image: ""
               specs: 'Screen: 7";Storage: 32GB;Waterproof: IPX8'
               review: "Reads like paper, charges like a phone."
               status: "retired"
+              link: ""
           children:
             - $formkit: text
               name: name
@@ -314,7 +318,7 @@ spec:
               accepts: ["image/*"]
             - $formkit: text
               name: specs
-              label: 规格（分号分隔）
+              label: 规格（中英文分号均可）
               placeholder: "例：CPU: M3 Max;RAM: 64GB;SSD: 2TB"
             - $formkit: text
               name: review
@@ -328,3 +332,7 @@ spec:
                   value: "in_use"
                 - label: 已退役
                   value: "retired"
+            - $formkit: text
+              name: link
+              label: 购买链接（可选）
+              placeholder: "https://..."

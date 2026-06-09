@@ -3996,6 +3996,30 @@ html.dark .article-content figure img {
   line-height: 1.6;
 }
 
+.gear-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.gear-card-link:hover {
+  opacity: 0.85;
+}
+
+.gear-card-link svg {
+  flex-shrink: 0;
+}
+
 /* ===== About Page ===== */
 .about-page {
   padding-top: 32px;

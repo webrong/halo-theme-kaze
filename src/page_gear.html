@@ -51,10 +51,12 @@
             <img
               th:if="${item.image != null and !#strings.isEmpty(item.image)}"
               th:src="${item.image}"
+              th:srcset="|${thumbnail.gen(item.image, 's')} 400w, ${thumbnail.gen(item.image, 'm')} 800w|"
               th:alt="${item.name}"
               width="400"
               height="300"
               loading="lazy"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
             <div
               th:if="${item.image == null or #strings.isEmpty(item.image)}"
@@ -66,7 +68,7 @@
             </div>
             <span class="gear-card-status">
               <span class="dot" th:classappend="${item.status == 'retired'} ? ' retired'"></span>
-              <span th:text="${item.status == 'retired'} ? 'Retired' : 'In use'"></span>
+              <span th:text="${item.status == 'retired'} ? '已退役' : '使用中'"></span>
             </span>
           </div>
           <div class="gear-card-body">
@@ -81,10 +83,11 @@
             <div
               class="gear-card-specs"
               th:if="${item.specs != null and !#strings.isEmpty(item.specs)}"
+              th:with="normalizedSpecs=${#strings.replace(item.specs, '；', ';')}"
             >
               <span
                 class="gear-card-spec"
-                th:each="spec : ${#strings.arraySplit(item.specs, ';')}"
+                th:each="spec : ${#strings.arraySplit(normalizedSpecs, ';')}"
                 th:text="${#strings.trim(spec)}"
               ></span>
             </div>
@@ -94,6 +97,16 @@
             >
               "<span th:text="${item.review}"></span>"
             </p>
+            <a
+              th:if="${item.link != null and !#strings.isEmpty(item.link)}"
+              class="gear-card-link"
+              th:href="${item.link}"
+              target="_blank"
+              rel="noopener"
+            >
+              查看详情
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            </a>
           </div>
         </div>
       </div>
