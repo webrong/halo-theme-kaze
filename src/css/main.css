@@ -4500,6 +4500,13 @@ html.dark .article-content figure img {
   gap: 16px;
 }
 
+.about-story-text > p {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
 .about-interests-blue {
   margin-top: 20px;
   display: flex;
@@ -4538,10 +4545,6 @@ html.dark .article-content figure img {
 .about-timeline-item {
   position: relative;
   padding-bottom: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 4px 20px;
 }
 
 .about-timeline-item:last-child {
@@ -4563,18 +4566,15 @@ html.dark .article-content figure img {
 }
 
 .about-timeline-year {
-  flex: 0 0 96px;
+  margin: 0 0 4px;
   font-size: 13px;
   font-weight: 700;
   color: var(--color-primary);
   font-variant-numeric: tabular-nums;
-  white-space: nowrap;
 }
 
 .about-timeline-text {
-  flex: 1 1 200px;
-  min-width: 0;
-  margin-top: 0;
+  margin: 0;
   color: var(--color-title);
   font-size: 14px;
   line-height: 1.65;
@@ -4582,41 +4582,11 @@ html.dark .article-content figure img {
   word-break: break-word;
 }
 
-/* Milestone timeline (non-compact, single column) uses old stack layout */
-.about-timeline:not(.about-timeline-compact) .about-timeline-item {
-  flex-direction: column;
-  gap: 4px;
-}
-
-.about-timeline:not(.about-timeline-compact) .about-timeline-year {
-  flex: none;
-}
-
-.about-timeline:not(.about-timeline-compact) .about-timeline-text {
-  flex: none;
-  margin-top: 2px;
-}
-
 .about-timeline-compact {
   margin-top: 16px;
 }
 .about-timeline-compact .about-timeline-item {
   padding-bottom: 12px;
-}
-
-@media (max-width: 640px) {
-  /* Stack date above content on small screens */
-  .about-timeline-compact .about-timeline-item {
-    flex-direction: column;
-    gap: 2px;
-  }
-  .about-timeline-compact .about-timeline-year {
-    flex: none;
-  }
-  .about-timeline-compact .about-timeline-text {
-    flex: none;
-    margin-top: 2px;
-  }
 }
 
 /* Skills radar */

@@ -19,18 +19,23 @@
 })();
 
 (function () {
-  // Sort changelog items by date descending (newest first)
+  // Sort changelog items by date ascending (oldest first — story/evolution narrative)
+  function normalize(raw: string): string {
+    var parts = raw.trim().split(/[-/.年月日]/).filter(function (p) { return p.length > 0; });
+    if (parts.length < 2) return raw.trim();
+    var year = parts[0].padStart(4, "0");
+    var month = parts[1].padStart(2, "0");
+    var day = parts[2] ? parts[2].padStart(2, "0") : "00";
+    return year + "-" + month + "-" + day;
+  }
   var list = document.getElementById("changelog-list");
   if (!list) return;
   var _list = list;
   var items = Array.prototype.slice.call(_list.querySelectorAll(".about-timeline-item"));
   items.sort(function (a: Element, b: Element) {
-    var da = (a.getAttribute("data-date") || "").trim();
-    var db = (b.getAttribute("data-date") || "").trim();
-    // Pad short dates like "2025-05" to "2025-05-00" for correct compare
-    var daPadded = da.length === 7 ? da + "-00" : da;
-    var dbPadded = db.length === 7 ? db + "-00" : db;
-    return dbPadded < daPadded ? -1 : dbPadded > daPadded ? 1 : 0;
+    var da = normalize(a.getAttribute("data-date") || "");
+    var db = normalize(b.getAttribute("data-date") || "");
+    return da < db ? -1 : da > db ? 1 : 0;
   });
   items.forEach(function (item: Element) {
     _list.appendChild(item);
