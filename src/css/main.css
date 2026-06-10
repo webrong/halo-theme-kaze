@@ -4707,6 +4707,50 @@ html.dark .about-radar-svg .radar-label {
   height: 13px;
 }
 
+/* Recent posts on about page */
+.about-recent-posts {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+}
+
+.about-recent-post-item {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.about-recent-post-item:last-child {
+  border-bottom: none;
+}
+
+.about-recent-post-item a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  text-decoration: none;
+  color: inherit;
+  gap: 16px;
+  transition: color 0.2s;
+}
+
+.about-recent-post-item a:hover {
+  color: var(--color-primary);
+}
+
+.about-recent-post-title {
+  font-weight: 500;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.about-recent-post-date {
+  font-size: 12px;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+
 /* Photo grid */
 .about-photo-masonry {
   margin-top: 16px;
@@ -4946,6 +4990,14 @@ html.dark .about-stat-item + .about-stat-item {
 html.dark .about-gear-item {
   background-color: var(--color-border-dark);
   border-color: var(--color-border-dark);
+}
+
+html.dark .about-recent-post-item {
+  border-color: var(--color-border-dark);
+}
+
+html.dark .about-recent-post-date {
+  color: #6b7280;
 }
 
 html.dark .about-interest-blue,

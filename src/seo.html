@@ -3,7 +3,7 @@
     seoTools=${pluginFinder != null and pluginFinder.available('seo-tools')},
     seoDesc=${site.seo != null ? site.seo.description : null},
     seoKeywords=${site.seo != null ? site.seo.keywords : null},
-    seoBlockSpiders=${site.seo != null and site.seo.blockSpiders}
+    seoBlockSpiders=${site.seo?.blockSpiders == true}
   ">
 
     <th:block th:unless="${seoTools}">
@@ -107,6 +107,40 @@
             <meta th:if="${!#strings.isEmpty(pagePermalink)}" property="og:url" th:content="${pagePermalink}" />
             <meta name="twitter:card" content="summary_large_image" />
             <meta th:if="${pageTitle != null}" name="twitter:title" th:content="${pageTitle}" />
+          </th:block>
+        </th:block>
+
+        <th:block th:case="'photography'">
+          <th:block th:with="
+            pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null}
+          ">
+            <meta name="description" th:content="${site.title + ' - 摄影作品集'}" />
+            <link th:if="${!#strings.isEmpty(pagePermalink)}" rel="canonical" th:href="${pagePermalink}" />
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:type" content="website" />
+            <meta property="og:title" th:content="${site.title + ' - 摄影'}" />
+            <meta property="og:description" th:content="${site.title + ' - 摄影作品集'}" />
+            <meta th:if="${!#strings.isEmpty(pagePermalink)}" property="og:url" th:content="${pagePermalink}" />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" th:content="${site.title + ' - 摄影'}" />
+            <meta name="twitter:description" th:content="${site.title + ' - 摄影作品集'}" />
+          </th:block>
+        </th:block>
+
+        <th:block th:case="'gear'">
+          <th:block th:with="
+            pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null}
+          ">
+            <meta name="description" th:content="${site.title + ' - 装备清单'}" />
+            <link th:if="${!#strings.isEmpty(pagePermalink)}" rel="canonical" th:href="${pagePermalink}" />
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:type" content="website" />
+            <meta property="og:title" th:content="${site.title + ' - 装备'}" />
+            <meta property="og:description" th:content="${site.title + ' - 装备清单'}" />
+            <meta th:if="${!#strings.isEmpty(pagePermalink)}" property="og:url" th:content="${pagePermalink}" />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" th:content="${site.title + ' - 装备'}" />
+            <meta name="twitter:description" th:content="${site.title + ' - 装备清单'}" />
           </th:block>
         </th:block>
 
@@ -283,6 +317,226 @@
     <th:block th:if="${seoTools}">
       <th:block th:if="${#lists.contains({'archives','categories','tags','search'}, pageType)}">
         <meta name="robots" content="noindex, follow" />
+      </th:block>
+
+      <th:block th:switch="${pageType}">
+        <th:block th:case="'home'">
+          <meta property="og:site_name" th:content="${site.title}" />
+          <meta property="og:url" th:content="${site.url + '/'}" />
+          <meta property="og:locale" content="zh_CN" />
+          <meta name="twitter:url" th:content="${site.url + '/'}" />
+        </th:block>
+
+        <th:block th:case="'post'">
+          <th:block th:with="
+            postPermalink=${post.status != null ? post.status.permalink : null}
+          ">
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:locale" content="zh_CN" />
+            <meta name="twitter:url" th:if="${!#strings.isEmpty(postPermalink)}" th:content="${site.url + postPermalink}" />
+          </th:block>
+        </th:block>
+
+        <th:block th:case="'page'">
+          <th:block th:with="
+            pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null}
+          ">
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:locale" content="zh_CN" />
+            <meta name="twitter:url" th:if="${!#strings.isEmpty(pagePermalink)}" th:content="${site.url + pagePermalink}" />
+          </th:block>
+        </th:block>
+
+        <th:block th:case="'photography'">
+          <th:block th:with="
+            pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null},
+            photoOgTitle=${site.title + ' - 摄影'},
+            photoOgDesc=${site.title + ' - 摄影作品集'}
+          ">
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:title" th:content="${photoOgTitle}" />
+            <meta property="og:description" th:content="${photoOgDesc}" />
+            <meta property="og:locale" content="zh_CN" />
+            <meta name="twitter:title" th:content="${photoOgTitle}" />
+            <meta name="twitter:description" th:content="${photoOgDesc}" />
+            <meta name="twitter:url" th:if="${!#strings.isEmpty(pagePermalink)}" th:content="${site.url + pagePermalink}" />
+            <script type="application/ld+json" th:inline="javascript">
+              {
+                "@context": "https://schema.org",
+                "@type": "CollectionPage",
+                "name": /*[[${photoOgTitle}]]*/ "",
+                "description": /*[[${photoOgDesc}]]*/ "",
+                "url": /*[[${pagePermalink}]]*/ "",
+                "inLanguage": "zh-CN"
+              }
+            </script>
+          </th:block>
+        </th:block>
+
+        <th:block th:case="'gear'">
+          <th:block th:with="
+            pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null},
+            gearOgTitle=${site.title + ' - 装备'},
+            gearOgDesc=${site.title + ' - 装备清单'}
+          ">
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:title" th:content="${gearOgTitle}" />
+            <meta property="og:description" th:content="${gearOgDesc}" />
+            <meta property="og:locale" content="zh_CN" />
+            <meta name="twitter:title" th:content="${gearOgTitle}" />
+            <meta name="twitter:description" th:content="${gearOgDesc}" />
+            <meta name="twitter:url" th:if="${!#strings.isEmpty(pagePermalink)}" th:content="${site.url + pagePermalink}" />
+            <script type="application/ld+json" th:inline="javascript">
+              {
+                "@context": "https://schema.org",
+                "@type": "CollectionPage",
+                "name": /*[[${gearOgTitle}]]*/ "",
+                "description": /*[[${gearOgDesc}]]*/ "",
+                "url": /*[[${pagePermalink}]]*/ "",
+                "inLanguage": "zh-CN"
+              }
+            </script>
+          </th:block>
+        </th:block>
+
+        <th:block th:case="'category'">
+          <th:block th:with="
+            catPermalink=${category.status != null ? category.status.permalink : null},
+            catName=${category.spec != null ? category.spec.displayName : null},
+            catDesc=${category.spec != null ? category.spec.description : null},
+            catOgTitle=${catName != null ? catName + ' - ' + site.title : site.title},
+            catOgDesc=${!#strings.isEmpty(catDesc) ? catDesc : (catName != null ? catName + ' 相关文章 - ' + site.title : site.subtitle)}
+          ">
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:title" th:content="${catOgTitle}" />
+            <meta property="og:description" th:content="${catOgDesc}" />
+            <meta property="og:locale" content="zh_CN" />
+            <meta name="twitter:title" th:content="${catOgTitle}" />
+            <meta name="twitter:description" th:content="${catOgDesc}" />
+            <meta name="twitter:url" th:if="${!#strings.isEmpty(catPermalink)}" th:content="${site.url + catPermalink}" />
+          </th:block>
+        </th:block>
+
+        <th:block th:case="'tag'">
+          <th:block th:with="
+            tagPermalink=${tag.status != null ? tag.status.permalink : null},
+            tagName=${tag.spec != null ? tag.spec.displayName : null},
+            tagOgTitle=${tagName != null ? tagName + ' - ' + site.title : site.title},
+            tagOgDesc=${tagName != null ? tagName + ' 相关文章 - ' + site.title : site.subtitle}
+          ">
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:title" th:content="${tagOgTitle}" />
+            <meta property="og:description" th:content="${tagOgDesc}" />
+            <meta property="og:locale" content="zh_CN" />
+            <meta name="twitter:title" th:content="${tagOgTitle}" />
+            <meta name="twitter:description" th:content="${tagOgDesc}" />
+            <meta name="twitter:url" th:if="${!#strings.isEmpty(tagPermalink)}" th:content="${site.url + tagPermalink}" />
+          </th:block>
+        </th:block>
+
+        <th:block th:case="'author'">
+          <th:block th:with="
+            authorPermalink=${author.status != null ? author.status.permalink : null}
+          ">
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:locale" content="zh_CN" />
+            <meta name="twitter:url" th:if="${!#strings.isEmpty(authorPermalink)}" th:content="${site.url + authorPermalink}" />
+          </th:block>
+        </th:block>
+
+        <th:block th:case="'about'">
+          <th:block th:with="
+            pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null},
+            profileName=${theme.config.profile != null ? (theme.config.profile.display_name ?: site.title) : site.title},
+            profileBio=${theme.config.profile != null ? theme.config.profile.bio : null},
+            profileAvatar=${theme.config.profile != null ? theme.config.profile.avatar : null}
+          ">
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:locale" content="zh_CN" />
+            <meta property="og:description" th:if="${!#strings.isEmpty(profileBio)}" th:content="${profileBio}" />
+            <meta name="twitter:description" th:if="${!#strings.isEmpty(profileBio)}" th:content="${profileBio}" />
+            <meta name="twitter:url" th:if="${!#strings.isEmpty(pagePermalink)}" th:content="${site.url + pagePermalink}" />
+            <script type="application/ld+json" th:inline="javascript">
+              {
+                "@context": "https://schema.org",
+                "@type": "Person",
+                "name": /*[[${profileName}]]*/ "",
+                "url": /*[[${site.url}]]*/ "",
+                "description": /*[[${!#strings.isEmpty(profileBio) ? profileBio : ''}]]*/ "",
+                "image": /*[[${!#strings.isEmpty(profileAvatar) ? profileAvatar : null}]]*/ null,
+                "inLanguage": "zh-CN",
+                "sameAs": [
+                  <th:block th:if="${theme.config.social != null}">
+                    <th:block th:if="${!#strings.isEmpty(theme.config.social.github)}" th:text="|&quot;${theme.config.social.github}&quot;|"></th:block><th:block th:if="${!#strings.isEmpty(theme.config.social.github)} and (!#strings.isEmpty(theme.config.social.twitter) or !#strings.isEmpty(theme.config.social.youtube) or !#strings.isEmpty(theme.config.social.zhihu) or !#strings.isEmpty(theme.config.social.bilibili) or !#strings.isEmpty(theme.config.social.weibo) or !#strings.isEmpty(theme.config.social.xiaohongshu) or !#strings.isEmpty(theme.config.social.website))">, </th:block>
+                    <th:block th:if="${!#strings.isEmpty(theme.config.social.twitter)}" th:text="|&quot;${theme.config.social.twitter}&quot;|"></th:block><th:block th:if="${!#strings.isEmpty(theme.config.social.twitter)} and (!#strings.isEmpty(theme.config.social.youtube) or !#strings.isEmpty(theme.config.social.zhihu) or !#strings.isEmpty(theme.config.social.bilibili) or !#strings.isEmpty(theme.config.social.weibo) or !#strings.isEmpty(theme.config.social.xiaohongshu) or !#strings.isEmpty(theme.config.social.website))">, </th:block>
+                    <th:block th:if="${!#strings.isEmpty(theme.config.social.youtube)}" th:text="|&quot;${theme.config.social.youtube}&quot;|"></th:block><th:block th:if="${!#strings.isEmpty(theme.config.social.youtube)} and (!#strings.isEmpty(theme.config.social.zhihu) or !#strings.isEmpty(theme.config.social.bilibili) or !#strings.isEmpty(theme.config.social.weibo) or !#strings.isEmpty(theme.config.social.xiaohongshu) or !#strings.isEmpty(theme.config.social.website))">, </th:block>
+                    <th:block th:if="${!#strings.isEmpty(theme.config.social.zhihu)}" th:text="|&quot;${theme.config.social.zhihu}&quot;|"></th:block><th:block th:if="${!#strings.isEmpty(theme.config.social.zhihu)} and (!#strings.isEmpty(theme.config.social.bilibili) or !#strings.isEmpty(theme.config.social.weibo) or !#strings.isEmpty(theme.config.social.xiaohongshu) or !#strings.isEmpty(theme.config.social.website))">, </th:block>
+                    <th:block th:if="${!#strings.isEmpty(theme.config.social.bilibili)}" th:text="|&quot;${theme.config.social.bilibili}&quot;|"></th:block><th:block th:if="${!#strings.isEmpty(theme.config.social.bilibili)} and (!#strings.isEmpty(theme.config.social.weibo) or !#strings.isEmpty(theme.config.social.xiaohongshu) or !#strings.isEmpty(theme.config.social.website))">, </th:block>
+                    <th:block th:if="${!#strings.isEmpty(theme.config.social.weibo)}" th:text="|&quot;${theme.config.social.weibo}&quot;|"></th:block><th:block th:if="${!#strings.isEmpty(theme.config.social.weibo)} and (!#strings.isEmpty(theme.config.social.xiaohongshu) or !#strings.isEmpty(theme.config.social.website))">, </th:block>
+                    <th:block th:if="${!#strings.isEmpty(theme.config.social.xiaohongshu)}" th:text="|&quot;${theme.config.social.xiaohongshu}&quot;|"></th:block><th:block th:if="${!#strings.isEmpty(theme.config.social.xiaohongshu)} and (!#strings.isEmpty(theme.config.social.website))">, </th:block>
+                    <th:block th:if="${!#strings.isEmpty(theme.config.social.website)}" th:text="|&quot;${theme.config.social.website}&quot;|"></th:block>
+                  </th:block>
+                ]
+              }
+            </script>
+          </th:block>
+        </th:block>
+
+        <th:block th:case="'gallery'">
+          <th:block th:with="
+            albumName=${album.spec != null ? album.spec.displayName : null},
+            albumDesc=${album.spec != null ? album.spec.description : null},
+            albumPermalink=${album.status != null ? album.status.permalink : null},
+            albumOgTitle=${albumName != null ? albumName + ' - ' + site.title : site.title},
+            albumOgDesc=${!#strings.isEmpty(albumDesc) ? albumDesc : (albumName != null ? albumName + ' 相册 - ' + site.title : site.subtitle)}
+          ">
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:title" th:content="${albumOgTitle}" />
+            <meta property="og:description" th:content="${albumOgDesc}" />
+            <meta property="og:locale" content="zh_CN" />
+            <meta name="twitter:title" th:content="${albumOgTitle}" />
+            <meta name="twitter:description" th:content="${albumOgDesc}" />
+            <meta name="twitter:url" th:if="${!#strings.isEmpty(albumPermalink)}" th:content="${site.url + albumPermalink}" />
+            <script type="application/ld+json" th:inline="javascript">
+              {
+                "@context": "https://schema.org",
+                "@type": "ImageGallery",
+                "name": /*[[${albumName}]]*/ "",
+                "description": /*[[${!#strings.isEmpty(albumDesc) ? albumDesc : ''}]]*/ "",
+                "url": /*[[${albumPermalink}]]*/ "",
+                "inLanguage": "zh-CN"
+              }
+            </script>
+          </th:block>
+        </th:block>
+
+        <th:block th:case="'moments'">
+          <th:block th:with="
+            momentsDesc=${site.title + ' - 瞬间动态'}
+          ">
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:url" th:content="${site.url + '/moments'}" />
+            <meta property="og:description" th:content="${momentsDesc}" />
+            <meta property="og:locale" content="zh_CN" />
+            <meta name="twitter:url" th:content="${site.url + '/moments'}" />
+            <meta name="twitter:description" th:content="${momentsDesc}" />
+            <script type="application/ld+json" th:inline="javascript">
+              {
+                "@context": "https://schema.org",
+                "@type": "Blog",
+                "name": /*[[${site.title + ' - 瞬间'}]]*/ "",
+                "description": /*[[${momentsDesc}]]*/ "",
+                "url": /*[[${site.url + '/moments'}]]*/ "",
+                "inLanguage": "zh-CN"
+              }
+            </script>
+          </th:block>
+        </th:block>
+
+        <th:block th:case="*">
+          <meta property="og:site_name" th:content="${site.title}" />
+          <meta property="og:locale" content="zh_CN" />
+        </th:block>
       </th:block>
     </th:block>
 
