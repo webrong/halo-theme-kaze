@@ -1710,19 +1710,84 @@ html.dark .pagination span.disabled {
 }
 
 /* Left action rail */
+/* Mobile: bottom fixed action bar (default) */
 .post-actions-rail {
-  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  gap: 0;
+  padding: 8px calc(env(safe-area-inset-right) + 8px) calc(env(safe-area-inset-bottom) + 8px);
+  background-color: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
+.post-actions-rail .post-action-btn {
+  position: relative;
+}
+
+.post-actions-rail .post-action-count {
+  position: absolute;
+  top: 2px;
+  right: -2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background-color: var(--color-border-dark);
+  color: var(--color-body);
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+}
+
+/* Add space at bottom of post so action bar doesn't cover content */
+@media (max-width: 1023px) {
+  .post-detail {
+    padding-bottom: 80px;
+  }
+}
+
+html.dark .post-actions-rail {
+  background-color: rgba(17, 24, 39, 0.94);
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Desktop: right sticky column */
 @media (min-width: 1024px) {
   .post-actions-rail {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
     position: sticky;
     top: 112px;
-    align-self: start;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 0;
+    background-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-top: none;
+  }
+
+  .post-actions-rail .post-action-count {
+    position: static;
+    min-width: 0;
+    height: auto;
+    padding: 0;
+    background: none;
+    font-size: 11px;
+    line-height: inherit;
   }
 }
 
@@ -1880,6 +1945,8 @@ html.dark .toast-msg {
   line-height: 1.8;
   font-size: 18px;
   color: #1f2937;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .article-content h1,
@@ -2055,6 +2122,9 @@ html.dark .toast-msg {
   width: 100%;
   border-collapse: collapse;
   margin: 24px 0;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .article-content th,
@@ -2312,10 +2382,19 @@ html.dark {
   gap: 24px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .post-related-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+@media (max-width: 640px) {
+  .post-related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
   .post-cover-wrapper > img,
   .post-cover {
     aspect-ratio: 16 / 9;
@@ -2327,6 +2406,7 @@ html.dark {
   }
   .article-title {
     font-size: 28px;
+    line-height: 1.3;
   }
   /* Footer compact on phones */
   .footer-runtime,
@@ -2382,6 +2462,57 @@ html.dark {
   .article-content pre {
     font-size: 12.5px;
     padding: 12px;
+  }
+  .article-content blockquote {
+    padding: 14px 16px;
+    font-size: 15.5px;
+    margin: 20px 0;
+  }
+  .article-content :not(pre) > code {
+    word-break: break-all;
+    white-space: normal;
+  }
+  .post-meta-row {
+    gap: 12px;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+  .post-meta-item {
+    font-size: 13px;
+  }
+  .post-related {
+    padding: 40px 0;
+  }
+  .post-related-inner {
+    padding: 0 16px;
+  }
+  .post-related-title {
+    font-size: 19px;
+    margin-bottom: 16px;
+  }
+  .post-toolbar-card {
+    padding: 16px;
+    margin-top: 32px;
+  }
+  /* Author card stacks vertically on phones */
+  .post-toolbar-card .post-author-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  .post-toolbar-card .post-author-avatar {
+    width: 64px;
+    height: 64px;
+  }
+  .post-toolbar-card .post-author-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .post-follow-btn {
+    width: 100%;
+    text-align: center;
   }
 }
 
@@ -5097,8 +5228,20 @@ html.dark .moments-month-nav a:hover {
     grid-template-columns: 1fr;
   }
 
-  .post-related-grid {
-    grid-template-columns: 1fr;
+  /* Article title: clamp to 3 lines on small phones */
+  .article-title {
+    font-size: 22px;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Cover image compact on small phones */
+  .post-cover-wrapper > img,
+  .post-cover {
+    max-height: 220px;
   }
 
   /* Hero compact on small phones */
@@ -5145,9 +5288,6 @@ html.dark .moments-month-nav a:hover {
   }
   .post-shell {
     padding: 20px 16px 48px;
-  }
-  .article-title {
-    font-size: 24px;
   }
 }
 
