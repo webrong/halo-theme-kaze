@@ -491,10 +491,7 @@
                 th:attr="data-date=${item.date}"
               >
                 <p class="about-timeline-year" th:text="${item.date}">日期</p>
-                <p
-                  class="about-timeline-text"
-                  th:utext="${#strings.replace(#strings.escapeXml(item.content), T(java.lang.System).getProperty('line.separator'), '<br/>')}"
-                >内容</p>
+                <p class="about-timeline-text" th:text="${item.content}">内容</p>
               </li>
             </th:block>
           </ol>
