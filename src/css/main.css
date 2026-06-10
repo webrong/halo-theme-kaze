@@ -3004,10 +3004,12 @@ html.dark .post-follow-btn {
   position: relative;
   cursor: pointer;
   background-color: var(--color-border);
+  min-height: 80px;
 }
 
 .photo-card img {
   width: 100%;
+  height: auto;
   display: block;
   transition: transform 0.5s;
 }
@@ -3320,6 +3322,7 @@ html.dark .lightbox-caption {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 30%;
   transition: transform 0.5s;
 }
 
@@ -3581,6 +3584,11 @@ html.dark .album-card {
 
 html.dark .album-card-cover {
   background-color: var(--color-border);
+}
+
+html.dark .album-card-cover img,
+html.dark .photo-card img {
+  filter: brightness(0.92);
 }
 
 html.dark .album-card-body h3 {

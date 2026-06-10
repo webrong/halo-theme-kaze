@@ -70,11 +70,11 @@
         th:data-caption="${photo.spec.title}"
       >
         <img
-          th:src="${#strings.isEmpty(photo.spec.thumbnail) ? photo.spec.url : photo.spec.thumbnail}"
+          th:src="${#strings.isEmpty(photo.spec.thumbnail) ? thumbnail.gen(photo.spec.url, 'm') : photo.spec.thumbnail}"
+          th:srcset="|${thumbnail.gen(photo.spec.url, 's')} 400w, ${thumbnail.gen(photo.spec.url, 'm')} 800w|"
           th:alt="${photo.spec.title}"
-          width="600"
-          height="400"
           loading="lazy"
+          sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 33vw"
         />
         <div class="photo-card-overlay">
           <div class="photo-card-eye">

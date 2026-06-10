@@ -66,11 +66,11 @@
           <div class="album-card-cover">
             <img
               th:if="${album.spec.cover}"
-              th:src="${album.spec.cover}"
+              th:src="${thumbnail.gen(album.spec.cover, 'm')}"
+              th:srcset="|${thumbnail.gen(album.spec.cover, 's')} 400w, ${thumbnail.gen(album.spec.cover, 'm')} 800w|"
               th:alt="${album.spec.displayName}"
-              width="400"
-              height="300"
               loading="lazy"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
             <div th:unless="${album.spec.cover}" class="album-card-placeholder">
               <svg
@@ -137,7 +137,13 @@
           th:data-src="${post.spec.cover}"
           th:data-caption="${post.spec.title}"
         >
-          <img th:src="${post.spec.cover}" th:alt="${post.spec.title}" width="600" height="400" loading="lazy" />
+          <img
+            th:src="${thumbnail.gen(post.spec.cover, 'm')}"
+            th:srcset="|${thumbnail.gen(post.spec.cover, 's')} 400w, ${thumbnail.gen(post.spec.cover, 'm')} 800w|"
+            th:alt="${post.spec.title}"
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 33vw"
+          />
           <div class="photo-card-overlay">
             <div class="photo-card-eye">
               <svg
