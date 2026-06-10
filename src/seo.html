@@ -1,6 +1,6 @@
 <th:block th:fragment="meta(pageType)">
   <th:block th:with="
-    seoTools=${pluginFinder != null ? pluginFinder.getActivated('seo-tools') : null},
+    seoTools=${pluginFinder != null and pluginFinder.available('seo-tools')},
     seoDesc=${site.seo != null ? site.seo.description : null},
     seoKeywords=${site.seo != null ? site.seo.keywords : null},
     seoBlockSpiders=${site.seo != null and site.seo.blockSpiders}

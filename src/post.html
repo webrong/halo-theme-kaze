@@ -1,7 +1,7 @@
 <include src="layout.html">
   <template name="seo">
     <th:block th:replace="~{seo :: meta('post')}"></th:block>
-    <th:block th:with="seoTools=${pluginFinder.getActivated('seo-tools')}">
+    <th:block th:with="seoTools=${pluginFinder != null and pluginFinder.available('seo-tools')}">
       <th:block th:unless="${seoTools}">
         <meta
           property="article:published_time"
