@@ -334,3 +334,12 @@ spec:
               name: link
               label: 购买链接（可选）
               placeholder: "https://..."
+
+    - group: links
+      label: 友情链接
+      formSchema:
+        - $formkit: textarea
+          name: apply_note
+          label: 友链申请说明
+          placeholder: "写明你的友链交换要求和申请格式"
+          value: "交换友链请确保：\n1. 网站正常运行且 HTTPS\n2. 原创内容为主\n3. 在下方留言提供：站点名称、地址、描述、头像链接"

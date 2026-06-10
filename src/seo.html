@@ -267,6 +267,19 @@
           </th:block>
         </th:block>
 
+        <th:block th:case="'links'">
+          <meta name="description" th:content="${site.title + ' - 友情链接'}" />
+          <link rel="canonical" th:href="${site.url + '/links'}" />
+          <meta property="og:site_name" th:content="${site.title}" />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" th:content="${(linksTitle ?: '友情链接') + ' - ' + site.title}" />
+          <meta property="og:description" th:content="${site.title + ' - 友情链接'}" />
+          <meta property="og:url" th:content="${site.url + '/links'}" />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:title" th:content="${(linksTitle ?: '友情链接') + ' - ' + site.title}" />
+          <meta name="twitter:description" th:content="${site.title + ' - 友情链接'}" />
+        </th:block>
+
         <th:block th:case="'moments'">
           <meta
             name="description"
@@ -473,6 +486,13 @@
               }
             </script>
           </th:block>
+        </th:block>
+
+        <th:block th:case="'links'">
+          <meta property="og:site_name" th:content="${site.title}" />
+          <meta property="og:locale" content="zh_CN" />
+          <meta property="og:url" th:content="${site.url + '/links'}" />
+          <meta name="twitter:url" th:content="${site.url + '/links'}" />
         </th:block>
 
         <th:block th:case="'gallery'">

@@ -1,0 +1,115 @@
+<include src="layout.html">
+  <template name="seo">
+    <th:block th:replace="~{seo :: meta('links')}"></th:block>
+  </template>
+  <template name="head">
+    <title th:text="|${linksTitle ?: '友情链接'} - ${site.title}|">友情链接</title>
+  </template>
+
+  <div class="links-page">
+    <div class="section-header" style="margin-bottom: 32px">
+      <div>
+        <h1 class="section-title" style="font-size: 32px" th:text="${linksTitle ?: '友情链接'}">
+          友情链接
+        </h1>
+        <p class="section-subtitle">
+          互链互助，共同成长。欢迎交换友链，请在下方留言申请。
+        </p>
+      </div>
+    </div>
+
+    <th:block th:if="${pluginName != null}">
+      <div
+        class="filter-pills"
+        th:if="${simpleGroups != null and !#lists.isEmpty(simpleGroups)}"
+      >
+        <a class="filter-pill active" th:href="@{/links}" th:classappend="${group != null} ? '' : ' active'">全部</a>
+        <a
+          class="filter-pill"
+          th:each="item : ${simpleGroups}"
+          th:href="@{/links(group=${item.metadata.name})}"
+          th:classappend="${group == item.metadata.name} ? ' active'"
+          th:text="${item.spec.displayName}"
+        ></a>
+      </div>
+
+      <div class="links-grid" th:if="${links != null and !#lists.isEmpty(links)}">
+        <a
+          th:each="link : ${links}"
+          th:href="${link.spec.url}"
+          class="links-card"
+          target="_blank"
+          rel="noopener"
+          th:with="accessState=${link.status?.verification?.access?.state?.name()}"
+        >
+          <div class="links-card-avatar">
+            <img
+              th:if="${link.spec.logo != null and !#strings.isEmpty(link.spec.logo)}"
+              th:src="${link.spec.logo}"
+              th:alt="${link.spec.displayName}"
+              loading="lazy"
+              width="48"
+              height="48"
+            />
+            <div
+              th:if="${link.spec.logo == null or #strings.isEmpty(link.spec.logo)}"
+              class="links-card-avatar-placeholder"
+            >
+              <span th:text="${#strings.substring(link.spec.displayName, 0, 1)}">B</span>
+            </div>
+            <span
+              class="links-card-status"
+              th:if="${accessState != null}"
+            >
+              <span
+                class="dot"
+                th:classappend="${accessState == 'INACCESSIBLE'} ? ' retired'"
+              ></span>
+            </span>
+          </div>
+          <div class="links-card-body">
+            <h3 class="links-card-name" th:text="${link.spec.displayName}">站点名称</h3>
+            <p
+              class="links-card-desc"
+              th:if="${link.spec.description != null and !#strings.isEmpty(link.spec.description)}"
+              th:text="${link.spec.description}"
+            >站点描述</p>
+          </div>
+        </a>
+      </div>
+
+      <div
+        class="links-empty"
+        th:if="${links == null or #lists.isEmpty(links)}"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+        </svg>
+        <p>暂无友链，欢迎在下方留言申请。</p>
+      </div>
+
+      <div class="links-apply-card" th:if="${theme.config.links != null and !#strings.isEmpty(theme.config.links.apply_note)}">
+        <h3 class="links-apply-title">申请说明</h3>
+        <div class="links-apply-content" th:utext="${theme.config.links.apply_note}"></div>
+      </div>
+
+      <div class="links-comment" th:if="${haloCommentEnabled}">
+        <h3 class="links-comment-title">留言申请友链</h3>
+        <halo:comment
+          group="plugin.halo.run"
+          kind="Plugin"
+          th:attr="name=${pluginName}"
+        />
+      </div>
+    </th:block>
+
+    <div class="links-empty" th:if="${pluginName == null}">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+      </svg>
+      <p>请先在后台安装「链接管理」插件</p>
+    </div>
+  </div>
+</include>
