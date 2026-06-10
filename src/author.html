@@ -1,6 +1,6 @@
 <include src="layout.html">
   <template name="seo">
-    <th:block th:replace="~{partials/seo :: meta('author')}"></th:block>
+    <th:block th:replace="~{seo :: meta('author')}"></th:block>
   </template>
   <template name="head">
     <title th:text="|${author.spec.displayName} - ${site.title}|">Author</title>
