@@ -213,7 +213,7 @@
           <th:block th:with="
             albumDesc=${album.spec != null ? album.spec.description : null},
             albumName=${album.spec != null ? album.spec.displayName : null},
-            albumPermalink=${album.status != null ? album.status.permalink : null}
+            albumPermalink=${(album.spec != null and album.spec.slug != null) ? '/gallery/' + album.spec.slug : null}
           ">
             <meta
               name="description"
@@ -227,7 +227,7 @@
               property="og:description"
               th:content="${!#strings.isEmpty(albumDesc) ? albumDesc : site.subtitle}"
             />
-            <meta th:if="${!#strings.isEmpty(albumPermalink)}" property="og:url" th:content="${albumPermalink}" />
+            <meta th:if="${!#strings.isEmpty(albumPermalink)}" property="og:url" th:content="${site.url + albumPermalink}" />
             <meta name="twitter:card" content="summary_large_image" />
             <meta th:if="${albumName != null}" name="twitter:title" th:content="${albumName + ' - ' + site.title}" />
           </th:block>
@@ -333,6 +333,7 @@
           ">
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:locale" content="zh_CN" />
+            <meta property="og:url" th:if="${!#strings.isEmpty(postPermalink)}" th:content="${site.url + postPermalink}" />
             <meta name="twitter:url" th:if="${!#strings.isEmpty(postPermalink)}" th:content="${site.url + postPermalink}" />
           </th:block>
         </th:block>
@@ -413,6 +414,7 @@
             <meta property="og:title" th:content="${catOgTitle}" />
             <meta property="og:description" th:content="${catOgDesc}" />
             <meta property="og:locale" content="zh_CN" />
+            <meta property="og:url" th:if="${!#strings.isEmpty(catPermalink)}" th:content="${site.url + catPermalink}" />
             <meta name="twitter:title" th:content="${catOgTitle}" />
             <meta name="twitter:description" th:content="${catOgDesc}" />
             <meta name="twitter:url" th:if="${!#strings.isEmpty(catPermalink)}" th:content="${site.url + catPermalink}" />
@@ -430,6 +432,7 @@
             <meta property="og:title" th:content="${tagOgTitle}" />
             <meta property="og:description" th:content="${tagOgDesc}" />
             <meta property="og:locale" content="zh_CN" />
+            <meta property="og:url" th:if="${!#strings.isEmpty(tagPermalink)}" th:content="${site.url + tagPermalink}" />
             <meta name="twitter:title" th:content="${tagOgTitle}" />
             <meta name="twitter:description" th:content="${tagOgDesc}" />
             <meta name="twitter:url" th:if="${!#strings.isEmpty(tagPermalink)}" th:content="${site.url + tagPermalink}" />
@@ -476,7 +479,7 @@
           <th:block th:with="
             albumName=${album.spec != null ? album.spec.displayName : null},
             albumDesc=${album.spec != null ? album.spec.description : null},
-            albumPermalink=${album.status != null ? album.status.permalink : null},
+            albumPermalink=${(album.spec != null and album.spec.slug != null) ? '/gallery/' + album.spec.slug : null},
             albumOgTitle=${albumName != null ? albumName + ' - ' + site.title : site.title},
             albumOgDesc=${!#strings.isEmpty(albumDesc) ? albumDesc : (albumName != null ? albumName + ' 相册 - ' + site.title : site.subtitle)},
             albumOgUrl=${!#strings.isEmpty(albumPermalink) ? site.url + albumPermalink : site.url}
@@ -485,6 +488,7 @@
             <meta property="og:title" th:content="${albumOgTitle}" />
             <meta property="og:description" th:content="${albumOgDesc}" />
             <meta property="og:locale" content="zh_CN" />
+            <meta property="og:url" th:if="${!#strings.isEmpty(albumPermalink)}" th:content="${albumOgUrl}" />
             <meta name="twitter:title" th:content="${albumOgTitle}" />
             <meta name="twitter:description" th:content="${albumOgDesc}" />
             <meta name="twitter:url" th:if="${!#strings.isEmpty(albumPermalink)}" th:content="${albumOgUrl}" />
