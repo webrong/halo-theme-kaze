@@ -1,40 +1,20 @@
 <include src="layout.html">
   <template name="seo">
-    <meta name="description" th:content="${theme.config.profile.bio}" />
-    <link rel="canonical" th:href="${singlePage.status.permalink}" />
-    <meta property="og:site_name" th:content="${site.title}" />
-    <meta property="og:type" content="profile" />
-    <meta property="og:title" th:content="${singlePage.spec.title}" />
-    <meta property="og:description" th:content="${theme.config.profile.bio ?: site.subtitle}" />
-    <meta property="og:url" th:content="${singlePage.status.permalink}" />
-    <meta
-      th:if="${theme.config.profile.avatar}"
-      property="og:image"
-      th:content="${theme.config.profile.avatar}"
-    />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" th:content="${singlePage.spec.title}" />
-    <meta name="twitter:description" th:content="${theme.config.profile.bio ?: site.subtitle}" />
-    <script type="application/ld+json" th:inline="javascript">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": /*[[${theme.config.profile.display_name}]]*/ "",
-        "url": /*[[${site.url}]]*/ "",
-        "image": /*[[${theme.config.profile.avatar}]]*/ "",
-        "description": /*[[${theme.config.profile.bio}]]*/ ""
-      }
-    </script>
-    <script type="application/ld+json" th:inline="javascript">
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "首页", "item": /*[[${site.url}]]*/ "" },
-          { "@type": "ListItem", "position": 2, "name": /*[[${singlePage.spec.title}]]*/ "" }
-        ]
-      }
-    </script>
+    <th:block th:replace="~{partials/seo :: meta('about')}"></th:block>
+    <th:block th:with="seoTools=${pluginFinder.getActivated('seo-tools')}">
+      <th:block th:unless="${seoTools}">
+        <script type="application/ld+json" th:inline="javascript">
+          {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": /*[[${theme.config.profile.display_name}]]*/ "",
+            "url": /*[[${site.url}]]*/ "",
+            "image": /*[[${theme.config.profile.avatar}]]*/ "",
+            "description": /*[[${theme.config.profile.bio}]]*/ ""
+          }
+        </script>
+      </th:block>
+    </th:block>
   </template>
   <template name="head">
     <title th:text="|${singlePage.spec.title} - ${site.title}|">About</title>

@@ -25,11 +25,6 @@ spec:
               value: "true"
             - label: 隐藏
               value: "false"
-        - $formkit: textarea
-          name: meta_description
-          label: 站点描述 (Meta Description)
-          value: ""
-          placeholder: "建议 150-220 个字符，用于 SEO 和社交媒体分享摘要"
     - group: hero
       label: Hero 轮播
       formSchema:
@@ -175,6 +170,10 @@ spec:
             - $formkit: text
               name: event
               label: 描述
+        - $formkit: text
+          name: skills_subtitle
+          label: 技能区副标题
+          value: "一份随性的自我评估，随心情更新。"
         - $formkit: array
           name: radar_items
           label: 技能雷达图
@@ -227,10 +226,6 @@ spec:
               validation: required
               rows: 3
               placeholder: "支持多行，每行一条要点。例如：\n- 修复响应式问题\n- 新增底部操作栏"
-        - $formkit: text
-          name: skills_subtitle
-          label: 技能区副标题
-          value: "一份随性的自我评估，随心情更新。"
     - group: social
       label: 社交链接
       formSchema:

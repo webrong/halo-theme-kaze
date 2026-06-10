@@ -1,69 +1,62 @@
 <include src="layout.html">
   <template name="seo">
-    <meta name="description" th:content="${post.status.excerpt ?: site.subtitle}" />
-    <link rel="canonical" th:href="${post.status.permalink}" />
-    <meta property="og:site_name" th:content="${site.title}" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" th:content="${post.spec.title}" />
-    <meta property="og:description" th:content="${post.status.excerpt ?: site.subtitle}" />
-    <meta property="og:url" th:content="${post.status.permalink}" />
-    <meta th:if="${post.spec.cover}" property="og:image" th:content="${post.spec.cover}" />
-    <meta
-      property="article:published_time"
-      th:content="${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}"
-    />
-    <meta
-      th:if="${post.status.lastModifyTime}"
-      property="article:modified_time"
-      th:content="${#temporals.format(post.status.lastModifyTime, 'yyyy-MM-dd')}"
-    />
-    <meta property="article:author" th:content="${post.owner.displayName}" />
-    <meta
-      th:if="${not #lists.isEmpty(post.categories)}"
-      property="article:section"
-      th:content="${post.categories[0].spec.displayName}"
-    />
-    <th:block th:if="${not #lists.isEmpty(post.tags)}">
-      <meta
-        th:each="tag : ${post.tags}"
-        property="article:tag"
-        th:content="${tag.spec.displayName}"
-      />
+    <th:block th:replace="~{partials/seo :: meta('post')}"></th:block>
+    <th:block th:with="seoTools=${pluginFinder.getActivated('seo-tools')}">
+      <th:block th:unless="${seoTools}">
+        <meta
+          property="article:published_time"
+          th:content="${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}"
+        />
+        <meta
+          th:if="${post.status.lastModifyTime}"
+          property="article:modified_time"
+          th:content="${#temporals.format(post.status.lastModifyTime, 'yyyy-MM-dd')}"
+        />
+        <meta property="article:author" th:content="${post.owner.displayName}" />
+        <meta
+          th:if="${not #lists.isEmpty(post.categories)}"
+          property="article:section"
+          th:content="${post.categories[0].spec.displayName}"
+        />
+        <th:block th:if="${not #lists.isEmpty(post.tags)}">
+          <meta
+            th:each="tag : ${post.tags}"
+            property="article:tag"
+            th:content="${tag.spec.displayName}"
+          />
+        </th:block>
+        <script type="application/ld+json" th:inline="javascript">
+          {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": /*[[${post.spec.title}]]*/ "",
+            "description": /*[[${post.status.excerpt}]]*/ "",
+            "url": /*[[${post.status.permalink}]]*/ "",
+            "mainEntityOfPage": { "@type": "WebPage", "@id": /*[[${post.status.permalink}]]*/ "" },
+            "datePublished": /*[[${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}]]*/ "",
+            "dateModified": /*[[${post.status.lastModifyTime != null ? #temporals.format(post.status.lastModifyTime, 'yyyy-MM-dd') : ''}]]*/ "",
+            "author": { "@type": "Person", "name": /*[[${post.owner?.displayName}]]*/ "" },
+            "image": /*[[${post.spec.cover}]]*/ "",
+            "publisher": {
+              "@type": "Organization",
+              "name": /*[[${site.title}]]*/ "",
+              "logo": { "@type": "ImageObject", "url": /*[[${theme.config.profile.avatar}]]*/ "" }
+            }
+          }
+        </script>
+        <script type="application/ld+json" th:inline="javascript">
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "首页", "item": /*[[${site.url}]]*/ "" },
+              { "@type": "ListItem", "position": 2, "name": /*[[${not #lists.isEmpty(post.categories) ? post.categories[0].spec.displayName : '未分类'}]]*/ "", "item": /*[[${not #lists.isEmpty(post.categories) ? post.categories[0].status.permalink : ''}]]*/ "" },
+              { "@type": "ListItem", "position": 3, "name": /*[[${post.spec.title}]]*/ "" }
+            ]
+          }
+        </script>
+      </th:block>
     </th:block>
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" th:content="${post.spec.title}" />
-    <meta name="twitter:description" th:content="${post.status.excerpt ?: site.subtitle}" />
-    <meta th:if="${post.spec.cover}" name="twitter:image" th:content="${post.spec.cover}" />
-    <script type="application/ld+json" th:inline="javascript">
-      {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": /*[[${post.spec.title}]]*/ "",
-        "description": /*[[${post.status.excerpt}]]*/ "",
-        "url": /*[[${post.status.permalink}]]*/ "",
-        "mainEntityOfPage": { "@type": "WebPage", "@id": /*[[${post.status.permalink}]]*/ "" },
-        "datePublished": /*[[${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}]]*/ "",
-        "dateModified": /*[[${post.status.lastModifyTime != null ? #temporals.format(post.status.lastModifyTime, 'yyyy-MM-dd') : ''}]]*/ "",
-        "author": { "@type": "Person", "name": /*[[${post.owner?.displayName}]]*/ "" },
-        "image": /*[[${post.spec.cover}]]*/ "",
-        "publisher": {
-          "@type": "Organization",
-          "name": /*[[${site.title}]]*/ "",
-          "logo": { "@type": "ImageObject", "url": /*[[${theme.config.profile.avatar}]]*/ "" }
-        }
-      }
-    </script>
-    <script type="application/ld+json" th:inline="javascript">
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "首页", "item": /*[[${site.url}]]*/ "" },
-          { "@type": "ListItem", "position": 2, "name": /*[[${not #lists.isEmpty(post.categories) ? post.categories[0].spec.displayName : '未分类'}]]*/ "", "item": /*[[${not #lists.isEmpty(post.categories) ? post.categories[0].status.permalink : ''}]]*/ "" },
-          { "@type": "ListItem", "position": 3, "name": /*[[${post.spec.title}]]*/ "" }
-        ]
-      }
-    </script>
   </template>
   <template name="head">
     <title th:text="|${post.spec.title} - ${site.title}|">文章标题</title>
