@@ -17,3 +17,22 @@
   });
   poly.setAttribute("points", pts.join(" "));
 })();
+
+(function () {
+  // Sort changelog items by date descending (newest first)
+  var list = document.getElementById("changelog-list");
+  if (!list) return;
+  var _list = list;
+  var items = Array.prototype.slice.call(_list.querySelectorAll(".about-timeline-item"));
+  items.sort(function (a: Element, b: Element) {
+    var da = (a.getAttribute("data-date") || "").trim();
+    var db = (b.getAttribute("data-date") || "").trim();
+    // Pad short dates like "2025-05" to "2025-05-00" for correct compare
+    var daPadded = da.length === 7 ? da + "-00" : da;
+    var dbPadded = db.length === 7 ? db + "-00" : db;
+    return dbPadded < daPadded ? -1 : dbPadded > daPadded ? 1 : 0;
+  });
+  items.forEach(function (item: Element) {
+    _list.appendChild(item);
+  });
+})();

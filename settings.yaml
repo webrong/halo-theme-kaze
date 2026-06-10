@@ -220,10 +220,13 @@ spec:
               name: date
               label: 日期
               validation: required
-            - $formkit: text
+              placeholder: "例：2026-06-10 或 2026-06"
+            - $formkit: textarea
               name: content
               label: 更新内容
               validation: required
+              rows: 3
+              placeholder: "支持多行，每行一条要点。例如：\n- 修复响应式问题\n- 新增底部操作栏"
         - $formkit: text
           name: skills_subtitle
           label: 技能区副标题
