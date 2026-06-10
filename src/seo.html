@@ -1,5 +1,10 @@
 <th:block th:fragment="meta(pageType)">
-  <th:block th:with="seoTools=${pluginFinder.getActivated('seo-tools')}">
+  <th:block th:with="
+    seoTools=${pluginFinder != null ? pluginFinder.getActivated('seo-tools') : null},
+    seoDesc=${site.seo != null ? site.seo.description : null},
+    seoKeywords=${site.seo != null ? site.seo.keywords : null},
+    seoBlockSpiders=${site.seo != null and site.seo.blockSpiders}
+  ">
 
     <th:block th:unless="${seoTools}">
       <th:block th:switch="${pageType}">
@@ -7,7 +12,7 @@
         <th:block th:case="'home'">
           <meta
             name="description"
-            th:content="${!#strings.isEmpty(site.seo.description) ? site.seo.description : site.subtitle}"
+            th:content="${!#strings.isEmpty(seoDesc) ? seoDesc : site.subtitle}"
           />
           <link rel="canonical" th:href="${site.url + '/'}" />
           <meta property="og:site_name" th:content="${site.title}" />
@@ -15,12 +20,12 @@
           <meta property="og:title" th:content="${site.title}" />
           <meta
             property="og:description"
-            th:content="${!#strings.isEmpty(site.seo.description) ? site.seo.description : site.subtitle}"
+            th:content="${!#strings.isEmpty(seoDesc) ? seoDesc : site.subtitle}"
           />
           <meta property="og:locale" content="zh_CN" />
           <meta property="og:url" th:content="${site.url + '/'}" />
           <meta
-            th:if="${!#strings.isEmpty(theme.config.hero.hero_image)}"
+            th:if="${!#strings.isEmpty(theme.config.hero?.hero_image)}"
             property="og:image"
             th:content="${theme.config.hero.hero_image}"
           />
@@ -28,167 +33,210 @@
           <meta name="twitter:title" th:content="${site.title}" />
           <meta
             name="twitter:description"
-            th:content="${!#strings.isEmpty(site.seo.description) ? site.seo.description : site.subtitle}"
+            th:content="${!#strings.isEmpty(seoDesc) ? seoDesc : site.subtitle}"
           />
           <meta
-            th:if="${!#strings.isEmpty(theme.config.hero.hero_image)}"
+            th:if="${!#strings.isEmpty(theme.config.hero?.hero_image)}"
             name="twitter:image"
             th:content="${theme.config.hero.hero_image}"
           />
           <meta
-            th:if="${!#strings.isEmpty(site.seo.keywords)}"
+            th:if="${!#strings.isEmpty(seoKeywords)}"
             name="keywords"
-            th:content="${site.seo.keywords}"
+            th:content="${seoKeywords}"
           />
         </th:block>
 
         <th:block th:case="'post'">
-          <meta
-            name="description"
-            th:content="${!#strings.isEmpty(post.status.excerpt) ? post.status.excerpt : (!#strings.isEmpty(site.seo.description) ? site.seo.description : site.subtitle)}"
-          />
-          <link rel="canonical" th:href="${post.status.permalink}" />
-          <meta property="og:site_name" th:content="${site.title}" />
-          <meta property="og:type" content="article" />
-          <meta property="og:title" th:content="${post.spec.title}" />
-          <meta
-            property="og:description"
-            th:content="${!#strings.isEmpty(post.status.excerpt) ? post.status.excerpt : site.subtitle}"
-          />
-          <meta property="og:url" th:content="${post.status.permalink}" />
-          <meta
-            th:if="${!#strings.isEmpty(post.status.cover)}"
-            property="og:image"
-            th:content="${post.status.cover}"
-          />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" th:content="${post.spec.title}" />
-          <meta
-            name="twitter:description"
-            th:content="${!#strings.isEmpty(post.status.excerpt) ? post.status.excerpt : site.subtitle}"
-          />
-          <meta
-            th:if="${!#strings.isEmpty(post.status.cover)}"
-            name="twitter:image"
-            th:content="${post.status.cover}"
-          />
+          <th:block th:with="
+            postExcerpt=${post.status != null ? post.status.excerpt : null},
+            postCover=${post.spec != null ? post.spec.cover : null},
+            postPermalink=${post.status != null ? post.status.permalink : null},
+            postTitle=${post.spec != null ? post.spec.title : null}
+          ">
+            <meta
+              name="description"
+              th:content="${!#strings.isEmpty(postExcerpt) ? postExcerpt : (!#strings.isEmpty(seoDesc) ? seoDesc : site.subtitle)}"
+            />
+            <link th:if="${!#strings.isEmpty(postPermalink)}" rel="canonical" th:href="${postPermalink}" />
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:type" content="article" />
+            <meta th:if="${postTitle != null}" property="og:title" th:content="${postTitle}" />
+            <meta
+              property="og:description"
+              th:content="${!#strings.isEmpty(postExcerpt) ? postExcerpt : site.subtitle}"
+            />
+            <meta th:if="${!#strings.isEmpty(postPermalink)}" property="og:url" th:content="${postPermalink}" />
+            <meta
+              th:if="${!#strings.isEmpty(postCover)}"
+              property="og:image"
+              th:content="${postCover}"
+            />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta th:if="${postTitle != null}" name="twitter:title" th:content="${postTitle}" />
+            <meta
+              name="twitter:description"
+              th:content="${!#strings.isEmpty(postExcerpt) ? postExcerpt : site.subtitle}"
+            />
+            <meta
+              th:if="${!#strings.isEmpty(postCover)}"
+              name="twitter:image"
+              th:content="${postCover}"
+            />
+          </th:block>
         </th:block>
 
         <th:block th:case="'page'">
-          <meta
-            name="description"
-            th:content="${!#strings.isEmpty(singlePage.status.excerpt) ? singlePage.status.excerpt : (!#strings.isEmpty(site.seo.description) ? site.seo.description : site.subtitle)}"
-          />
-          <link rel="canonical" th:href="${singlePage.status.permalink}" />
-          <meta property="og:site_name" th:content="${site.title}" />
-          <meta property="og:type" content="article" />
-          <meta property="og:title" th:content="${singlePage.spec.title}" />
-          <meta
-            property="og:description"
-            th:content="${!#strings.isEmpty(singlePage.status.excerpt) ? singlePage.status.excerpt : site.subtitle}"
-          />
-          <meta property="og:url" th:content="${singlePage.status.permalink}" />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" th:content="${singlePage.spec.title}" />
+          <th:block th:with="
+            pageExcerpt=${singlePage.status != null ? singlePage.status.excerpt : null},
+            pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null},
+            pageTitle=${singlePage.spec != null ? singlePage.spec.title : null}
+          ">
+            <meta
+              name="description"
+              th:content="${!#strings.isEmpty(pageExcerpt) ? pageExcerpt : (!#strings.isEmpty(seoDesc) ? seoDesc : site.subtitle)}"
+            />
+            <link th:if="${!#strings.isEmpty(pagePermalink)}" rel="canonical" th:href="${pagePermalink}" />
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:type" content="article" />
+            <meta th:if="${pageTitle != null}" property="og:title" th:content="${pageTitle}" />
+            <meta
+              property="og:description"
+              th:content="${!#strings.isEmpty(pageExcerpt) ? pageExcerpt : site.subtitle}"
+            />
+            <meta th:if="${!#strings.isEmpty(pagePermalink)}" property="og:url" th:content="${pagePermalink}" />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta th:if="${pageTitle != null}" name="twitter:title" th:content="${pageTitle}" />
+          </th:block>
         </th:block>
 
         <th:block th:case="'category'">
-          <meta
-            name="description"
-            th:content="${!#strings.isEmpty(category.spec.description) ? category.spec.description : (category.spec.displayName + ' - ' + site.title)}"
-          />
-          <link rel="canonical" th:href="${category.status.permalink}" />
-          <meta property="og:site_name" th:content="${site.title}" />
-          <meta property="og:type" content="website" />
-          <meta property="og:title" th:content="${category.spec.displayName + ' - ' + site.title}" />
-          <meta
-            property="og:description"
-            th:content="${!#strings.isEmpty(category.spec.description) ? category.spec.description : site.subtitle}"
-          />
-          <meta property="og:url" th:content="${category.status.permalink}" />
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:title" th:content="${category.spec.displayName + ' - ' + site.title}" />
+          <th:block th:with="
+            catDesc=${category.spec != null ? category.spec.description : null},
+            catName=${category.spec != null ? category.spec.displayName : null},
+            catPermalink=${category.status != null ? category.status.permalink : null}
+          ">
+            <meta
+              name="description"
+              th:content="${!#strings.isEmpty(catDesc) ? catDesc : (catName + ' - ' + site.title)}"
+            />
+            <link th:if="${!#strings.isEmpty(catPermalink)}" rel="canonical" th:href="${catPermalink}" />
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:type" content="website" />
+            <meta th:if="${catName != null}" property="og:title" th:content="${catName + ' - ' + site.title}" />
+            <meta
+              property="og:description"
+              th:content="${!#strings.isEmpty(catDesc) ? catDesc : site.subtitle}"
+            />
+            <meta th:if="${!#strings.isEmpty(catPermalink)}" property="og:url" th:content="${catPermalink}" />
+            <meta name="twitter:card" content="summary" />
+            <meta th:if="${catName != null}" name="twitter:title" th:content="${catName + ' - ' + site.title}" />
+          </th:block>
         </th:block>
 
         <th:block th:case="'tag'">
-          <meta
-            name="description"
-            th:content="${tag.spec.displayName + ' 相关文章 - ' + site.title}"
-          />
-          <link rel="canonical" th:href="${tag.status.permalink}" />
-          <meta property="og:site_name" th:content="${site.title}" />
-          <meta property="og:type" content="website" />
-          <meta property="og:title" th:content="${tag.spec.displayName + ' - ' + site.title}" />
-          <meta property="og:description" th:content="${tag.spec.displayName + ' 相关文章'}" />
-          <meta property="og:url" th:content="${tag.status.permalink}" />
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:title" th:content="${tag.spec.displayName + ' - ' + site.title}" />
+          <th:block th:with="
+            tagName=${tag.spec != null ? tag.spec.displayName : null},
+            tagPermalink=${tag.status != null ? tag.status.permalink : null}
+          ">
+            <meta
+              name="description"
+              th:content="${tagName + ' 相关文章 - ' + site.title}"
+            />
+            <link th:if="${!#strings.isEmpty(tagPermalink)}" rel="canonical" th:href="${tagPermalink}" />
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:type" content="website" />
+            <meta th:if="${tagName != null}" property="og:title" th:content="${tagName + ' - ' + site.title}" />
+            <meta property="og:description" th:content="${tagName + ' 相关文章'}" />
+            <meta th:if="${!#strings.isEmpty(tagPermalink)}" property="og:url" th:content="${tagPermalink}" />
+            <meta name="twitter:card" content="summary" />
+            <meta th:if="${tagName != null}" name="twitter:title" th:content="${tagName + ' - ' + site.title}" />
+          </th:block>
         </th:block>
 
         <th:block th:case="'author'">
-          <meta
-            name="description"
-            th:content="${!#strings.isEmpty(author.spec.bio) ? author.spec.bio : (author.spec.displayName + ' - ' + site.title)}"
-          />
-          <link rel="canonical" th:href="${author.status.permalink}" />
-          <meta property="og:site_name" th:content="${site.title}" />
-          <meta property="og:type" content="profile" />
-          <meta property="og:title" th:content="${author.spec.displayName + ' - ' + site.title}" />
-          <meta property="og:description" th:content="${author.spec.bio}" />
-          <meta property="og:url" th:content="${author.status.permalink}" />
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:title" th:content="${author.spec.displayName + ' - ' + site.title}" />
+          <th:block th:with="
+            authorBio=${author.spec != null ? author.spec.bio : null},
+            authorName=${author.spec != null ? author.spec.displayName : null},
+            authorPermalink=${author.status != null ? author.status.permalink : null}
+          ">
+            <meta
+              name="description"
+              th:content="${!#strings.isEmpty(authorBio) ? authorBio : (authorName + ' - ' + site.title)}"
+            />
+            <link th:if="${!#strings.isEmpty(authorPermalink)}" rel="canonical" th:href="${authorPermalink}" />
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:type" content="profile" />
+            <meta th:if="${authorName != null}" property="og:title" th:content="${authorName + ' - ' + site.title}" />
+            <meta property="og:description" th:content="${authorBio}" />
+            <meta th:if="${!#strings.isEmpty(authorPermalink)}" property="og:url" th:content="${authorPermalink}" />
+            <meta name="twitter:card" content="summary" />
+            <meta th:if="${authorName != null}" name="twitter:title" th:content="${authorName + ' - ' + site.title}" />
+          </th:block>
         </th:block>
 
         <th:block th:case="'gallery'">
-          <meta
-            name="description"
-            th:content="${!#strings.isEmpty(album.spec.description) ? album.spec.description : (album.spec.displayName + ' - ' + site.title)}"
-          />
-          <link rel="canonical" th:href="${album.status.permalink}" />
-          <meta property="og:site_name" th:content="${site.title}" />
-          <meta property="og:type" content="website" />
-          <meta property="og:title" th:content="${album.spec.displayName + ' - ' + site.title}" />
-          <meta
-            property="og:description"
-            th:content="${!#strings.isEmpty(album.spec.description) ? album.spec.description : site.subtitle}"
-          />
-          <meta property="og:url" th:content="${album.status.permalink}" />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" th:content="${album.spec.displayName + ' - ' + site.title}" />
+          <th:block th:with="
+            albumDesc=${album.spec != null ? album.spec.description : null},
+            albumName=${album.spec != null ? album.spec.displayName : null},
+            albumPermalink=${album.status != null ? album.status.permalink : null}
+          ">
+            <meta
+              name="description"
+              th:content="${!#strings.isEmpty(albumDesc) ? albumDesc : (albumName + ' - ' + site.title)}"
+            />
+            <link th:if="${!#strings.isEmpty(albumPermalink)}" rel="canonical" th:href="${albumPermalink}" />
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:type" content="website" />
+            <meta th:if="${albumName != null}" property="og:title" th:content="${albumName + ' - ' + site.title}" />
+            <meta
+              property="og:description"
+              th:content="${!#strings.isEmpty(albumDesc) ? albumDesc : site.subtitle}"
+            />
+            <meta th:if="${!#strings.isEmpty(albumPermalink)}" property="og:url" th:content="${albumPermalink}" />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta th:if="${albumName != null}" name="twitter:title" th:content="${albumName + ' - ' + site.title}" />
+          </th:block>
         </th:block>
 
         <th:block th:case="'about'">
-          <meta
-            name="description"
-            th:content="${!#strings.isEmpty(theme.config.profile.bio) ? theme.config.profile.bio : site.subtitle}"
-          />
-          <link rel="canonical" th:href="${singlePage.status.permalink}" />
-          <meta property="og:site_name" th:content="${site.title}" />
-          <meta property="og:type" content="profile" />
-          <meta property="og:title" th:content="${singlePage.spec.title}" />
-          <meta
-            property="og:description"
-            th:content="${!#strings.isEmpty(theme.config.profile.bio) ? theme.config.profile.bio : site.subtitle}"
-          />
-          <meta property="og:url" th:content="${singlePage.status.permalink}" />
-          <meta
-            th:if="${!#strings.isEmpty(theme.config.profile.avatar)}"
-            property="og:image"
-            th:content="${theme.config.profile.avatar}"
-          />
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:title" th:content="${singlePage.spec.title}" />
-          <meta
-            name="twitter:description"
-            th:content="${!#strings.isEmpty(theme.config.profile.bio) ? theme.config.profile.bio : site.subtitle}"
-          />
+          <th:block th:with="
+            profileBio=${theme.config.profile != null ? theme.config.profile.bio : null},
+            profileAvatar=${theme.config.profile != null ? theme.config.profile.avatar : null},
+            pageTitle=${singlePage.spec != null ? singlePage.spec.title : null},
+            pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null}
+          ">
+            <meta
+              name="description"
+              th:content="${!#strings.isEmpty(profileBio) ? profileBio : site.subtitle}"
+            />
+            <link th:if="${!#strings.isEmpty(pagePermalink)}" rel="canonical" th:href="${pagePermalink}" />
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:type" content="profile" />
+            <meta th:if="${pageTitle != null}" property="og:title" th:content="${pageTitle}" />
+            <meta
+              property="og:description"
+              th:content="${!#strings.isEmpty(profileBio) ? profileBio : site.subtitle}"
+            />
+            <meta th:if="${!#strings.isEmpty(pagePermalink)}" property="og:url" th:content="${pagePermalink}" />
+            <meta
+              th:if="${!#strings.isEmpty(profileAvatar)}"
+              property="og:image"
+              th:content="${profileAvatar}"
+            />
+            <meta name="twitter:card" content="summary" />
+            <meta th:if="${pageTitle != null}" name="twitter:title" th:content="${pageTitle}" />
+            <meta
+              name="twitter:description"
+              th:content="${!#strings.isEmpty(profileBio) ? profileBio : site.subtitle}"
+            />
+          </th:block>
         </th:block>
 
         <th:block th:case="'moments'">
           <meta
             name="description"
-            th:content="${!#strings.isEmpty(site.seo.description) ? site.seo.description : (site.title + ' - 瞬间动态')}"
+            th:content="${!#strings.isEmpty(seoDesc) ? seoDesc : (site.title + ' - 瞬间动态')}"
           />
           <link rel="canonical" th:href="${site.url + '/moments'}" />
           <meta property="og:site_name" th:content="${site.title}" />
@@ -196,7 +244,7 @@
           <meta property="og:title" th:content="${site.title + ' - 瞬间'}" />
           <meta
             property="og:description"
-            th:content="${!#strings.isEmpty(site.seo.description) ? site.seo.description : site.subtitle}"
+            th:content="${!#strings.isEmpty(seoDesc) ? seoDesc : site.subtitle}"
           />
           <meta property="og:url" th:content="${site.url + '/moments'}" />
           <meta name="twitter:card" content="summary" />
@@ -225,7 +273,7 @@
         <th:block th:case="*">
           <meta
             name="description"
-            th:content="${!#strings.isEmpty(site.seo.description) ? site.seo.description : site.subtitle}"
+            th:content="${!#strings.isEmpty(seoDesc) ? seoDesc : site.subtitle}"
           />
         </th:block>
 
@@ -241,7 +289,7 @@
     <meta name="applicable-device" content="pc,mobile" />
     <meta http-equiv="Cache-Control" content="no-transform" />
     <meta
-      th:if="${site.seo.blockSpiders}"
+      th:if="${seoBlockSpiders}"
       name="robots"
       content="noindex, nofollow"
     />
