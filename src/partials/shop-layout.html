@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <slot name="seo">
+      <th:block th:replace="~{seo :: meta('default')}"></th:block>
+    </slot>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+      onerror="
+        this.onerror = null;
+        this.href =
+          'https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap';
+      "
+    />
+    <slot name="head">
+      <title th:text="${site.title}">Site Title</title>
+    </slot>
+    <script type="module" src="../js/main.ts"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-logo" th:href="@{/}">
+          <img
+            th:if="${!#strings.isEmpty(site.logo)}"
+            class="site-logo-image"
+            th:src="${site.logo}"
+            th:alt="${site.title}"
+            height="32"
+          />
+          <th:block th:if="${#strings.isEmpty(site.logo)}">
+            <span class="site-logo-icon"></span>
+            <span class="site-logo-text" th:text="${site.title}">Halo Blog</span>
+          </th:block>
+        </a>
+        <div class="site-nav" th:with="menu = ${menuFinder.getPrimary()}">
+          <nav
+            th:if="${menu != null}"
+          >
+            <ul>
+              <li th:each="item : ${menu.menuItems}">
+                <a
+                  th:href="@{${item.status.href}}"
+                  th:text="${item.status.displayName}"
+                  th:target="${item.spec.target?.value}"
+                  th:data-href="${item.status.href}"
+                ></a>
+              </li>
+            </ul>
+          </nav>
+          <div class="header-actions">
+            <button id="searchToggle" aria-label="搜索">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+            </button>
+            <button id="themeToggle" aria-label="切换暗色模式">
+              <svg
+                class="icon-sun"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 2v2" />
+                <path d="M12 20v2" />
+                <path d="m4.93 4.93 1.41 1.41" />
+                <path d="m17.66 17.66 1.41 1.41" />
+                <path d="M2 12h2" />
+                <path d="M20 12h2" />
+                <path d="m6.34 17.66-1.41 1.41" />
+                <path d="m19.07 4.93-1.41 1.41" />
+              </svg>
+              <svg
+                class="icon-moon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+              </svg>
+            </button>
+            <a
+              class="header-auth-btn"
+              id="headerLoginBtn"
+              th:href="@{/login}"
+              aria-label="登录"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                <polyline points="10 17 15 12 10 7" />
+                <line x1="15" x2="3" y1="12" y2="12" />
+              </svg>
+            </a>
+            <div class="header-user-wrap" id="headerUserWrap" style="display: none">
+              <button
+                class="header-auth-btn"
+                id="headerUserBtn"
+                aria-label="控制台"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <img id="headerUserAvatar" width="20" height="20" style="display:none" alt="" />
+                <svg
+                  id="headerUserIcon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </button>
+              <div class="header-user-menu" id="headerUserMenu">
+                <a th:href="@{/console}" class="header-user-menu-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                  控制台
+                </a>
+                <a class="header-user-menu-item header-user-menu-logout" id="headerLogoutBtn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                  退出登录
+                </a>
+              </div>
+            </div>
+            <button id="menuToggle" class="menu-toggle" aria-label="菜单">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="4" x2="20" y1="12" y2="12" />
+                <line x1="4" x2="20" y1="6" y2="6" />
+                <line x1="4" x2="20" y1="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="search-bar" id="searchBar">
+        <div class="search-bar-inner">
+          <form th:action="@{/search}" method="get">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" name="keyword" id="searchInput" placeholder="搜索文章、照片、瞬间…" aria-label="搜索" autocomplete="off" />
+            <kbd>ESC</kbd>
+          </form>
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-bottom">
+        <div class="footer-stats">
+          <section class="footer-runtime">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            <span>本站已运行</span>
+            <span class="footer-runtime-days" id="runtime-days">0</span>
+            <span>天</span>
+            <span class="footer-runtime-time">
+              <span id="runtime-hms">00:00:00</span>
+            </span>
+          </section>
+          <span class="footer-stats-divider">·</span>
+          <section class="footer-visit" th:with="stats=${siteStatsFinder.getStats()}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            <span>访问量</span>
+            <span class="footer-visit-count" th:text="${stats.visit}">0</span>
+          </section>
+        </div>
+        <div class="footer-legal">
+          <span
+            th:if="${!#strings.isEmpty(theme.config.footer.custom_footer)}"
+            th:text="${theme.config.footer.custom_footer}"
+          ></span>
+          <a
+            th:if="${!#strings.isEmpty(theme.config.footer.footer_icp)}"
+            th:href="${theme.config.footer.footer_icp_url ?: 'https://beian.miit.gov.cn/'}"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              th:if="${!#strings.isEmpty(theme.config.footer.footer_icp_icon)}"
+              th:src="${theme.config.footer.footer_icp_icon}"
+              alt="ICP备案"
+              width="14"
+              height="14"
+              style="vertical-align: middle"
+            />
+            <span th:text="${theme.config.footer.footer_icp}"></span>
+          </a>
+          <a
+            th:if="${!#strings.isEmpty(theme.config.footer.footer_police)}"
+            th:href="${theme.config.footer.footer_police_url ?: 'http://www.beian.gov.cn/'}"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              th:if="${!#strings.isEmpty(theme.config.footer.footer_police_icon)}"
+              th:src="${theme.config.footer.footer_police_icon}"
+              alt="公安备案"
+              width="14"
+              height="14"
+              style="vertical-align: middle"
+            />
+            <span th:text="${theme.config.footer.footer_police}"></span>
+          </a>
+        </div>
+        <p class="footer-credit">
+          由 <a href="https://halo.run" target="_blank" rel="noopener">Halo</a> 驱动 ·
+          <a href="https://github.com/webrong/halo-theme-kaze" target="_blank" rel="noopener">Kaze</a>
+          主题
+        </p>
+        </div>
+      </div>
+    </footer>
+
+    <span
+      id="site-launch-date"
+      style="display: none"
+      th:attr="data-launch=${theme.config.footer.site_launch_date ?: '2022-09-01'}"
+    ></span>
+    <script type="module" src="../js/layout.ts"></script>
+  </body>
+</html>

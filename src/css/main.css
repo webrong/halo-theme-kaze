@@ -4561,6 +4561,24 @@ body:has(.docs-page) .site-header {
 }
 
 /* ===== Shop Pages ===== */
+.shop-page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 32px 24px 96px;
+}
+
+/* Override shop-entry to fit Kaze layout */
+.shop-page .shop-entry {
+  max-width: none;
+  margin-top: 0;
+  padding: 0;
+}
+
+/* On shop pages, hide Kaze search/theme-toggle */
+body:has(.shop-page) #searchToggle,
+body:has(.shop-page) #themeToggle {
+  display: none !important;
+}
 
 .about-page {
   padding-top: 32px;
