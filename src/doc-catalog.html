@@ -1,0 +1,19 @@
+<include src="layout.html">
+  <template name="seo">
+  </template>
+  <template name="head">
+    <title th:text="|目录 - ${site.title}|">目录</title>
+    <script>
+      var docsme = {
+        disableThemeFunction: true,
+      };
+    </script>
+    <th:block th:replace="~{plugin:plugin-docsme:modules/style}"></th:block>
+  </template>
+
+  <div class="dm-container docs-page docs-page--catalog">
+    <th:block th:replace="~{plugin:plugin-docsme:modules/doc-catalog :: doc-catalog(footer = null)}"></th:block>
+  </div>
+
+  <script th:src="@{/plugins/plugin-docsme/assets/static/dist/main.iife.js}"></script>
+</include>

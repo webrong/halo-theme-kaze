@@ -4537,6 +4537,29 @@ html.dark .links-comment-title {
 html.dark .links-card-avatar-placeholder {
   background: rgba(59, 130, 246, 0.15);
 }
+
+/* ===== Docsme Docs Pages ===== */
+.docs-page {
+  overflow-x: hidden;
+}
+
+/* Docsme layout fills below Kaze header */
+.docs-page--doc,
+.docs-page--catalog {
+  min-height: calc(100vh - var(--header-height, 64px));
+}
+
+/* On docs pages, hide Kaze's search/theme-toggle (Docsme provides its own) */
+body:has(.docs-page) #searchToggle,
+body:has(.docs-page) #themeToggle {
+  display: none !important;
+}
+
+/* Kaze header transparent blur conflicts with Docsme sticky sidebar — flatten it */
+body:has(.docs-page) .site-header {
+  box-shadow: none !important;
+}
+
 .about-page {
   padding-top: 32px;
   padding-bottom: 96px;

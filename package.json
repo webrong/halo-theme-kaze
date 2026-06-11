@@ -1,6 +1,6 @@
 {
   "name": "halo-theme-kaze",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "type": "module",
   "scripts": {
     "build": "tsc && vp build && theme-package",
