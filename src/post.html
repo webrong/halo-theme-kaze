@@ -350,4 +350,25 @@
       </div>
     </section>
   </div>
+
+  <!-- Article Image Lightbox -->
+  <div class="lightbox" id="postLightbox">
+    <div class="lightbox-modal">
+      <div class="lightbox-topbar">
+        <span class="lightbox-topbar-counter" id="postLightboxCounter"></span>
+        <button class="lightbox-close-btn" id="postLightboxClose" aria-label="关闭">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div class="lightbox-image-area">
+        <button class="lightbox-nav-btn lightbox-prev-btn" id="postLightboxPrev" aria-label="上一张">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <img id="postLightboxImg" src="" alt="" />
+        <button class="lightbox-nav-btn lightbox-next-btn" id="postLightboxNext" aria-label="下一张">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
 </include>

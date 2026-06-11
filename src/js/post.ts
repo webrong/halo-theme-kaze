@@ -106,6 +106,8 @@ likeBtn?.addEventListener("click", () => {
   const svg = likeBtn.querySelector("svg");
   if (!wasActive) {
     svg?.setAttribute("fill", "currentColor");
+    likeBtn.classList.add("like-pulse");
+    setTimeout(() => likeBtn.classList.remove("like-pulse"), 350);
     if (likeCountEl)
       likeCountEl.textContent = String((parseInt(likeCountEl.textContent || "0") || 0) + 1);
     const postName = likeBtn.getAttribute("data-post-name");
@@ -162,3 +164,63 @@ if (articleEl && readingTimeEl) {
   const minutes = Math.max(1, Math.ceil(words / 200));
   readingTimeEl.textContent = `${minutes} 分钟阅读`;
 }
+
+// === Article image lightbox ===
+(function () {
+  const lightbox = document.getElementById("postLightbox")!;
+  const lightboxImg = document.getElementById("postLightboxImg") as HTMLImageElement;
+  const counter = document.getElementById("postLightboxCounter");
+  const closeBtn = document.getElementById("postLightboxClose");
+  const prevBtn = document.getElementById("postLightboxPrev");
+  const nextBtn = document.getElementById("postLightboxNext");
+  const content = document.getElementById("article-content");
+  if (!content) return;
+
+  const images = Array.from(content.querySelectorAll("img")) as HTMLImageElement[];
+  if (images.length === 0) return;
+
+  let currentIdx = 0;
+
+  function showPhoto(idx: number) {
+    currentIdx = idx;
+    lightboxImg.src = images[idx].src;
+    lightboxImg.alt = images[idx].alt || "";
+    if (counter) counter.textContent = `${idx + 1} / ${images.length}`;
+  }
+
+  function openLightbox(idx: number) {
+    showPhoto(idx);
+    lightbox.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  images.forEach((img, idx) => {
+    img.style.cursor = "zoom-in";
+    img.addEventListener("click", () => openLightbox(idx));
+  });
+
+  closeBtn?.addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  prevBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    showPhoto((currentIdx - 1 + images.length) % images.length);
+  });
+  nextBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    showPhoto((currentIdx + 1) % images.length);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (!lightbox.classList.contains("active")) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowLeft") showPhoto((currentIdx - 1 + images.length) % images.length);
+    if (e.key === "ArrowRight") showPhoto((currentIdx + 1) % images.length);
+  });
+})();
