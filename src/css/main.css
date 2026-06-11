@@ -4560,6 +4560,20 @@ body:has(.docs-page) .site-header {
   box-shadow: none !important;
 }
 
+/* Hide Docsme backdrops on desktop (mobile needs them for close-tap) */
+@media (min-width: 769px) {
+  .dm-sidebar-backdrop,
+  .dm-toc-backdrop {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    background: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
 /* ===== Shop Pages ===== */
 .shop-page {
   max-width: var(--max-width);
