@@ -4560,6 +4560,8 @@ body:has(.docs-page) .site-header {
   box-shadow: none !important;
 }
 
+/* ===== Shop Pages ===== */
+
 .about-page {
   padding-top: 32px;
   padding-bottom: 96px;
