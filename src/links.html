@@ -89,9 +89,18 @@
         <p>暂无友链，欢迎在下方留言申请。</p>
       </div>
 
-      <div class="links-apply-card" th:if="${theme.config.links != null and !#strings.isEmpty(theme.config.links.apply_note)}">
+      <div class="links-apply-card">
         <h3 class="links-apply-title">申请说明</h3>
-        <div class="links-apply-content" th:utext="${theme.config.links.apply_note}"></div>
+        <div class="links-apply-content">
+          <p>交换友链请确保：</p>
+          <p>1. 网站正常运行且 HTTPS</p>
+          <p>2. 原创内容为主</p>
+          <p>3. 在下方留言提供：</p>
+          <p>网站地址：</p>
+          <p>网站名称：</p>
+          <p>网站logo：</p>
+          <p>网站描述：</p>
+        </div>
       </div>
 
       <div class="links-comment" th:if="${haloCommentEnabled}">

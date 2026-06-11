@@ -103,13 +103,6 @@ spec:
           label: 建站日期（YYYY-MM-DD）
           value: "2022-09-01"
         - $formkit: text
-          name: sponsor_text
-          label: 赞助文案
-          value: ""
-        - $formkit: url
-          name: sponsor_contact_url
-          label: 赞助联系链接
-        - $formkit: text
           name: footer_icp
           label: ICP 备案号
           placeholder: "例：京ICP备12345678号-1"
@@ -117,6 +110,10 @@ spec:
           name: footer_icp_url
           label: ICP 备案链接
           value: "https://beian.miit.gov.cn/"
+        - $formkit: attachment
+          name: footer_icp_icon
+          label: ICP 备案图标
+          accepts: ["image/*"]
         - $formkit: text
           name: footer_police
           label: 公安备案号
@@ -125,6 +122,10 @@ spec:
           name: footer_police_url
           label: 公安备案链接
           value: "http://www.beian.gov.cn/"
+        - $formkit: attachment
+          name: footer_police_icon
+          label: 公安备案图标
+          accepts: ["image/*"]
     - group: profile
       label: 个人信息
       formSchema:
@@ -334,12 +335,3 @@ spec:
               name: link
               label: 购买链接（可选）
               placeholder: "https://..."
-
-    - group: links
-      label: 友情链接
-      formSchema:
-        - $formkit: textarea
-          name: apply_note
-          label: 友链申请说明
-          placeholder: "写明你的友链交换要求和申请格式"
-          value: "交换友链请确保：\n1. 网站正常运行且 HTTPS\n2. 原创内容为主\n3. 在下方留言提供：站点名称、地址、描述、头像链接"
