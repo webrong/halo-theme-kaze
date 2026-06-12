@@ -449,6 +449,9 @@ html.dark .header-user-menu-logout:hover {
   .header-actions .menu-toggle {
     display: none !important;
   }
+  .mobile-nav-drawer {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {
