@@ -101,7 +101,7 @@
   }
 
   var path = window.location.pathname;
-  document.querySelectorAll(".site-nav nav a").forEach(function (link) {
+  document.querySelectorAll(".site-nav nav a, .mobile-nav-drawer a").forEach(function (link) {
     var href =
       (link as HTMLAnchorElement).getAttribute("data-href") ||
       (link as HTMLAnchorElement).getAttribute("href") ||
@@ -191,26 +191,32 @@
         // Not authenticated — login button stays visible
       });
 
-    // Dropdown: hover works on desktop; click fallback for mobile/touch
+    // Dropdown: position below avatar button (menu is outside header to escape backdrop-filter)
     var _menuOpen = false;
+    var _menuEl = document.getElementById("headerUserMenu");
+    function positionMenu() {
+      if (!_menuEl || !userBtn) return;
+      var rect = userBtn.getBoundingClientRect();
+      _menuEl.style.top = (rect.bottom + 8) + "px";
+      _menuEl.style.right = (window.innerWidth - rect.right) + "px";
+    }
     userBtn.addEventListener("click", function (e) {
       e.preventDefault();
       e.stopPropagation();
       _menuOpen = !_menuOpen;
-      var menu = document.getElementById("headerUserMenu");
-      if (menu) {
+      if (_menuEl) {
         if (_menuOpen) {
-          menu.classList.add("active");
+          positionMenu();
+          _menuEl.classList.add("active");
         } else {
-          menu.classList.remove("active");
+          _menuEl.classList.remove("active");
         }
       }
     });
     document.addEventListener("click", function (e) {
-      if (_menuOpen && !userWrap!.contains(e.target as Node)) {
+      if (_menuOpen && !userBtn!.contains(e.target as Node) && !(_menuEl && _menuEl.contains(e.target as Node))) {
         _menuOpen = false;
-        var menu = document.getElementById("headerUserMenu");
-        if (menu) menu.classList.remove("active");
+        if (_menuEl) _menuEl.classList.remove("active");
       }
     });
 
@@ -224,23 +230,52 @@
 
   // Mobile menu toggle
   var menuToggle = document.getElementById("menuToggle");
-  var navEl = document.querySelector(".site-nav nav") as HTMLElement | null;
-  if (menuToggle && navEl) {
+  var mobileDrawer = document.getElementById("mobileNavDrawer") as HTMLElement | null;
+  if (menuToggle && mobileDrawer) {
     var mt = menuToggle;
-    var nv = navEl;
+    var md = mobileDrawer;
+    function closeMenu() {
+      md.classList.remove("mobile-open");
+      mt.classList.remove("active");
+      mt.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    }
+    function openMenu() {
+      md.classList.add("mobile-open");
+      mt.classList.add("active");
+      mt.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+    }
     mt.addEventListener("click", function () {
-      nv.classList.toggle("mobile-open");
-      var expanded = nv.classList.contains("mobile-open");
-      mt.setAttribute("aria-expanded", String(expanded));
-      document.body.style.overflow = expanded ? "hidden" : "";
+      if (md.classList.contains("mobile-open")) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
     });
-    nv.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", function () {
-        nv.classList.remove("mobile-open");
-        mt.setAttribute("aria-expanded", "false");
-        document.body.style.overflow = "";
-      });
+    md.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", closeMenu);
     });
+
+    // Tap outside to close
+    document.addEventListener("click", function (e) {
+      if (!md.classList.contains("mobile-open")) return;
+      if (md.contains(e.target as Node) || mt.contains(e.target as Node)) return;
+      closeMenu();
+    });
+
+    // Swipe left to close
+    var touchStartX = 0;
+    var touchStartY = 0;
+    md.addEventListener("touchstart", function (e) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    md.addEventListener("touchend", function (e) {
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      var dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+      if (dx < -50 && dy < 80) closeMenu();
+    }, { passive: true });
   }
 
   // Back to top

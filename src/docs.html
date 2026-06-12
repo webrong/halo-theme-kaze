@@ -1,5 +1,6 @@
 <include src="layout.html">
   <template name="seo">
+    <th:block th:replace="~{seo :: meta('docs')}"></th:block>
   </template>
   <template name="head">
     <title th:text="|文档 - ${site.title}|">文档</title>

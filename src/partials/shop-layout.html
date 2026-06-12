@@ -288,6 +288,23 @@
       style="display: none"
       th:attr="data-launch=${theme.config.footer.site_launch_date ?: '2022-09-01'}"
     ></span>
+    <button class="back-to-top" id="backToTop" aria-label="回到顶部">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
+    <div th:with="menu = ${menuFinder.getPrimary()}">
+      <nav class="mobile-nav-drawer" id="mobileNavDrawer" th:if="${menu != null}">
+        <ul>
+          <li th:each="item : ${menu.menuItems}">
+            <a
+              th:href="@{${item.status.href}}"
+              th:text="${item.status.displayName}"
+              th:target="${item.spec.target?.value}"
+              th:data-href="${item.status.href}"
+            ></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
     <script type="module" src="../js/layout.ts"></script>
   </body>
 </html>

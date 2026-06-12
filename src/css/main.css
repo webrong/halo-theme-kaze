@@ -102,7 +102,7 @@ ol {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 50;
+  z-index: 1000;
   height: var(--header-height);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
@@ -234,21 +234,19 @@ ol {
   object-fit: cover;
 }
 
-/* User dropdown */
+/* User dropdown — moved outside header to escape backdrop-filter stacking context */
 .header-user-wrap {
   position: relative;
 }
 .header-user-menu {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
+  position: fixed;
   min-width: 150px;
   padding: 4px;
   border-radius: 10px;
   background: #fff;
   border: 1px solid #e5e7eb;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  z-index: 150;
+  z-index: 1050;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-4px);
@@ -259,7 +257,6 @@ ol {
   width: 14px;
   height: 14px;
 }
-.header-user-wrap:hover .header-user-menu,
 .header-user-menu.active {
   opacity: 1;
   visibility: visible;
@@ -455,6 +452,10 @@ html.dark .header-user-menu-logout:hover {
 }
 
 @media (max-width: 768px) {
+  .site-nav > nav {
+    display: none;
+  }
+
   .container,
   .post-shell,
   .post-body,
@@ -470,55 +471,76 @@ html.dark .header-user-menu-logout:hover {
     max-width: 100vw !important;
     overflow-x: hidden !important;
   }
-  .menu-toggle {
+  .header-actions .menu-toggle {
     display: flex;
   }
 
-  .site-nav nav {
-    display: none;
+  .menu-toggle svg line {
+    transition: transform 0.3s, opacity 0.3s;
+    transform-origin: center;
+  }
+
+  .menu-toggle.active svg line:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .menu-toggle.active svg line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle.active svg line:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* Mobile nav drawer — placed outside header to avoid containing block issues */
+  .mobile-nav-drawer {
     position: fixed;
-    top: var(--header-height);
-    left: 0;
+    top: 0;
     right: 0;
-    bottom: 0;
-    z-index: 49;
-    background: rgba(255, 255, 255, 0.96);
+    height: 100vh;
+    width: 240px;
+    max-width: 70vw;
+    z-index: 1010;
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    padding: 16px 24px;
+    padding: 80px 20px 24px;
     overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.08);
   }
 
-  html.dark .site-nav nav {
-    background: rgba(17, 24, 39, 0.96);
+  .mobile-nav-drawer.mobile-open {
+    transform: translateX(0);
   }
 
-  .site-nav nav.mobile-open {
-    display: block;
-  }
-
-  .site-nav nav ul {
+  .mobile-nav-drawer ul {
+    display: flex;
     flex-direction: column;
     gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
-  .site-nav nav a {
+  .mobile-nav-drawer a {
+    position: relative;
     display: block;
     padding: 14px 0;
     font-size: 16px;
     font-weight: 500;
+    color: var(--color-body);
     border-bottom: 1px solid var(--color-border);
+    transition: color 0.2s;
   }
 
-  .site-nav nav a:last-child {
+  .mobile-nav-drawer a:last-child {
     border-bottom: none;
   }
 
-  .site-nav nav a.active::after {
-    display: none;
-  }
-
-  .site-nav nav a.active {
+  .mobile-nav-drawer a:hover,
+  .mobile-nav-drawer a.active {
     color: var(--color-primary);
   }
 
@@ -3518,10 +3540,46 @@ html.dark .lightbox-caption {
 /* Photography pagination */
 .photo-pagination {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 8px;
   margin-top: 48px;
+}
+
+@media (max-width: 768px) {
+  .photo-pagination {
+    gap: 6px;
+    margin-top: 32px;
+  }
+  .photo-pagination .page-prev,
+  .photo-pagination .page-next {
+    padding: 0 10px;
+    font-size: 0;
+    height: 36px;
+    min-width: 36px;
+    justify-content: center;
+  }
+  .photo-pagination .page-prev svg,
+  .photo-pagination .page-next svg {
+    width: 16px;
+    height: 16px;
+  }
+  .photo-pagination .page-numbers {
+    order: -1;
+    width: 100%;
+    justify-content: center;
+    margin: 0;
+  }
+  .photo-pagination .page-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+  .photo-pagination .page-ellipsis {
+    width: 36px;
+    height: 36px;
+  }
 }
 
 .photo-pagination .page-prev,
@@ -4568,17 +4626,58 @@ body:has(.docs-page) .site-header {
   box-shadow: none !important;
 }
 
-/* Hide Docsme backdrops on desktop (mobile needs them for close-tap) */
+/* Docsme backdrops: transparent + unclickable until sidebar/toc opens */
+/* Uses :has() to detect Alpine class toggle — no fragile style-attribute parsing */
+.dm-sidebar-backdrop,
+.dm-toc-backdrop {
+  background: transparent !important;
+  pointer-events: none !important;
+  z-index: 45 !important;
+}
+
+.dm-layout:has(.dm-sidebar--show) .dm-sidebar-backdrop,
+.dm-main:has(.dm-toc--show) .dm-toc-backdrop {
+  background: rgba(0, 0, 0, 0.3) !important;
+  pointer-events: auto !important;
+}
+
+/* Docsme sidebar must be above backdrop but below header */
+.dm-sidebar {
+  z-index: 48 !important;
+}
+
+@media (max-width: 768px) {
+  .dm-sidebar {
+    top: var(--header-height, 64px) !important;
+  }
+  .dm-sidebar-backdrop,
+  .dm-toc-backdrop {
+    top: var(--header-height, 64px) !important;
+  }
+}
+
+/* Desktop: hide Docsme backdrops entirely */
 @media (min-width: 769px) {
   .dm-sidebar-backdrop,
   .dm-toc-backdrop {
     display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    background: none !important;
-    width: 0 !important;
-    height: 0 !important;
+  }
+}
+
+/* Docsme doc nav: stack prev/next vertically on mobile */
+@media (max-width: 768px) {
+  .dm-doc-nav {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .dm-doc-nav__item {
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .dm-doc-nav__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -4686,21 +4785,6 @@ body:has(.shop-page) #themeToggle {
   .about-sidebar-panel {
     position: sticky;
     top: 96px;
-  }
-}
-
-@media (max-width: 768px) {
-  .about-page {
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 16px;
-  }
-  .about-sidebar-panel {
-    padding: 20px 16px;
-  }
-  .about-avatar-large {
-    width: 110px;
-    height: 110px;
   }
 }
 
@@ -5086,6 +5170,99 @@ html.dark .about-radar-svg .radar-label {
   transition: transform 0.3s;
 }
 
+@media (max-width: 768px) {
+  .about-page {
+    padding: 16px 16px 64px;
+  }
+  .about-layout {
+    gap: 20px;
+  }
+  .about-sidebar-panel {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+  .about-avatar-large {
+    width: 100px;
+    height: 100px;
+  }
+  .about-sidebar-name {
+    font-size: 20px;
+    margin-top: 14px;
+  }
+  .about-sidebar-bio {
+    font-size: 13px;
+  }
+  .about-stats {
+    padding: 12px 6px;
+  }
+  .about-stat-value {
+    font-size: 16px;
+  }
+  .about-stat-label {
+    font-size: 10px;
+  }
+  .about-social-grid {
+    gap: 6px;
+  }
+  .about-social-btn {
+    height: 36px;
+  }
+  .about-content {
+    gap: 20px;
+  }
+  .about-card {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+  .about-card-title {
+    font-size: 16px;
+  }
+  .about-story-text {
+    font-size: 14px;
+    margin-top: 12px;
+  }
+  .about-timeline {
+    padding-left: 20px;
+  }
+  .about-timeline-item::before {
+    left: -27px;
+    width: 10px;
+    height: 10px;
+  }
+  .about-timeline-item {
+    padding-bottom: 14px;
+  }
+  .about-radar-container {
+    height: 260px;
+  }
+  .about-gear-item {
+    gap: 12px;
+    padding: 10px;
+  }
+  .about-gear-thumb {
+    width: 48px;
+    height: 48px;
+  }
+  .about-gear-name {
+    font-size: 13px;
+  }
+  .about-gear-review {
+    font-size: 12px;
+  }
+  .about-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .about-interests-blue {
+    gap: 6px;
+  }
+  .about-interest-blue {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+}
+
 /* ===== Page template (generic) ===== */
 .page-content-wrapper {
   padding-top: 32px;
@@ -5188,6 +5365,21 @@ html.dark .about-radar-svg .radar-label {
 html.dark .site-header {
   background-color: rgba(17, 24, 39, 0.72);
   border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+html.dark .mobile-nav-drawer {
+  background: rgba(17, 24, 39, 0.98);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .mobile-nav-drawer a {
+  color: var(--color-body);
+  border-bottom-color: var(--color-border-dark);
+}
+
+html.dark .mobile-nav-drawer a:hover,
+html.dark .mobile-nav-drawer a.active {
+  color: var(--color-primary);
 }
 
 html.dark .header-actions button:hover {
@@ -5599,6 +5791,13 @@ html.dark .moments-month-nav a:hover {
 
   .about-stats {
     grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .about-stat-item + .about-stat-item {
+    border-left: none;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 8px;
   }
 
   .about-photo-masonry {

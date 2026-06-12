@@ -1,5 +1,6 @@
 <include src="shop-layout.html">
   <template name="seo">
+    <th:block th:replace="~{seo :: meta('shop')}"></th:block>
   </template>
   <template name="head">
     <title th:text="|${product.title} - ${site.title}|">商品详情</title>

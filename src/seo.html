@@ -292,16 +292,30 @@
         </th:block>
 
         <th:block th:case="'doc'">
-          <th:block th:with="
-            docTitle=${docInfo != null ? (docInfo.title != null ? docInfo.title : '文档') : '文档'}
-          ">
-            <meta name="description" th:content="${docTitle != null ? docTitle : '文档'}" />
-            <meta property="og:site_name" th:content="${site.title}" />
-            <meta property="og:type" content="article" />
-            <meta th:if="${docTitle != null}" property="og:title" th:content="${docTitle}" />
-            <meta name="twitter:card" content="summary" />
-            <meta th:if="${docTitle != null}" name="twitter:title" th:content="${docTitle}" />
-          </th:block>
+          <meta name="description" th:content="${site.title + ' - 文档'}" />
+          <meta property="og:site_name" th:content="${site.title}" />
+          <meta property="og:type" content="article" />
+          <meta property="og:title" th:content="${site.title + ' - 文档'}" />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:title" th:content="${site.title + ' - 文档'}" />
+        </th:block>
+
+        <th:block th:case="'doc-catalog'">
+          <meta name="description" th:content="${site.title + ' - 文档目录'}" />
+          <meta property="og:site_name" th:content="${site.title}" />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" th:content="${site.title + ' - 文档目录'}" />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:title" th:content="${site.title + ' - 文档目录'}" />
+        </th:block>
+
+        <th:block th:case="'shop'">
+          <meta name="description" th:content="${site.title + ' - 商店'}" />
+          <meta property="og:site_name" th:content="${site.title}" />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" th:content="${site.title + ' - 商店'}" />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:title" th:content="${site.title + ' - 商店'}" />
         </th:block>
 
         <th:block th:case="'moments'">
@@ -527,6 +541,22 @@
         <th:block th:case="'doc'">
           <meta property="og:site_name" th:content="${site.title}" />
           <meta property="og:locale" content="zh_CN" />
+          <meta property="og:title" th:content="${site.title + ' - 文档'}" />
+          <meta name="twitter:title" th:content="${site.title + ' - 文档'}" />
+        </th:block>
+
+        <th:block th:case="'doc-catalog'">
+          <meta property="og:site_name" th:content="${site.title}" />
+          <meta property="og:locale" content="zh_CN" />
+          <meta property="og:title" th:content="${site.title + ' - 文档目录'}" />
+          <meta name="twitter:title" th:content="${site.title + ' - 文档目录'}" />
+        </th:block>
+
+        <th:block th:case="'shop'">
+          <meta property="og:site_name" th:content="${site.title}" />
+          <meta property="og:locale" content="zh_CN" />
+          <meta property="og:title" th:content="${site.title + ' - 商店'}" />
+          <meta name="twitter:title" th:content="${site.title + ' - 商店'}" />
         </th:block>
 
         <th:block th:case="'gallery'">
