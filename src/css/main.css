@@ -1,4 +1,5 @@
 /* ===== Reset & Variables ===== */
+@import "./fonts.css";
 *,
 *::before,
 *::after {
@@ -20,8 +21,10 @@
   --color-success: #10b981;
   --color-success-ring: rgba(16, 185, 129, 0.18);
   --color-danger: #9ca3af;
-  --font-family: "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-family:
+    "Inter", system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial,
+    sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --max-width: 1200px;
   --header-height: 64px;
 }

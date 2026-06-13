@@ -1,6 +1,49 @@
 <include src="layout.html">
   <template name="seo">
     <th:block th:replace="~{seo :: meta('post')}"></th:block>
+    <!-- Generate keywords from post tags (reliable iteration approach) -->
+    <th:block th:if="${post.tags != null and !#lists.isEmpty(post.tags)}">
+      <th:block
+        th:with="
+      kwParts=${post.tags.![spec.displayName]},
+      kwStr=${T(java.lang.String).join(',', kwParts)}
+    "
+      >
+        <meta
+          name="keywords"
+          th:if="${kwStr != null and !#strings.isEmpty(kwStr)}"
+          th:content="${kwStr}"
+        />
+      </th:block>
+    </th:block>
+    <!-- BreadcrumbList structured data for Google rich results -->
+    <th:block th:if="${post.categories != null and !#lists.isEmpty(post.categories)}">
+      <script type="application/ld+json" th:inline="javascript">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": /*[[${site.title}]]*/ "首页",
+              "item": /*[[${site.url}]]*/ ""
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": /*[[${post.categories[0].spec.displayName}]]*/ "分类",
+              "item": /*[[${site.url + post.categories[0].status.permalink}]]*/ ""
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": /*[[${post.spec.title}]]*/ "文章"
+            }
+          ]
+        }
+      </script>
+    </th:block>
     <th:block
       th:with="seoTools=${pluginFinder != null and pluginFinder.available('seo-tools')}"
       th:unless="${seoTools}"

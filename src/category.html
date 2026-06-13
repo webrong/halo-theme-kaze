@@ -1,6 +1,26 @@
 <include src="layout.html">
   <template name="seo">
     <th:block th:replace="~{seo :: meta('category')}"></th:block>
+    <script type="application/ld+json" th:inline="javascript">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": /*[[${site.title}]]*/ "首页",
+            "item": /*[[${site.url}]]*/ ""
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": /*[[${category.spec.displayName}]]*/ "分类",
+            "item": /*[[${site.url + category.status.permalink}]]*/ ""
+          }
+        ]
+      }
+    </script>
   </template>
   <template name="head">
     <title th:text="|${category.spec.displayName} - ${site.title}|">分类</title>

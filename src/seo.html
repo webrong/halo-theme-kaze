@@ -492,6 +492,26 @@
     <th:block th:if="${seoTools}">
       <th:block th:if="${#lists.contains({'archives','categories','tags','search'}, pageType)}">
         <meta name="robots" content="noindex, follow" />
+        <meta
+          name="description"
+          th:if="${pageType == 'archives'}"
+          th:content="${site.title + ' - 全部文章归档'}"
+        />
+        <meta
+          name="description"
+          th:if="${pageType == 'categories'}"
+          th:content="${site.title + ' - 分类目录'}"
+        />
+        <meta
+          name="description"
+          th:if="${pageType == 'tags'}"
+          th:content="${site.title + ' - 标签云'}"
+        />
+        <meta
+          name="description"
+          th:if="${pageType == 'search'}"
+          th:content="${site.title + ' - 文章搜索'}"
+        />
       </th:block>
 
       <th:block th:switch="${pageType}">
@@ -520,6 +540,7 @@
               th:if="${!#strings.isEmpty(postPermalink)}"
               th:content="${site.url + postPermalink}"
             />
+            <!-- post keywords meta is generated in post.html for reliable tag-name joining -->
           </th:block>
         </th:block>
 
@@ -726,11 +747,14 @@
         </th:block>
 
         <th:block th:case="'docs'">
+          <meta name="description" th:content="${site.title + ' - 文档中心'}" />
+          <link rel="canonical" th:href="${site.url + '/docs'}" />
           <meta property="og:site_name" th:content="${site.title}" />
           <meta property="og:locale" content="zh_CN" />
         </th:block>
 
         <th:block th:case="'doc'">
+          <meta name="description" th:content="${site.title + ' - 文档'}" />
           <meta property="og:site_name" th:content="${site.title}" />
           <meta property="og:locale" content="zh_CN" />
           <meta property="og:title" th:content="${site.title + ' - 文档'}" />
@@ -738,6 +762,7 @@
         </th:block>
 
         <th:block th:case="'doc-catalog'">
+          <meta name="description" th:content="${site.title + ' - 文档目录'}" />
           <meta property="og:site_name" th:content="${site.title}" />
           <meta property="og:locale" content="zh_CN" />
           <meta property="og:title" th:content="${site.title + ' - 文档目录'}" />
@@ -745,6 +770,8 @@
         </th:block>
 
         <th:block th:case="'shop'">
+          <meta name="description" th:content="${site.title + ' - 商店'}" />
+          <link rel="canonical" th:href="${site.url + '/shop/products'}" />
           <meta property="og:site_name" th:content="${site.title}" />
           <meta property="og:locale" content="zh_CN" />
           <meta property="og:title" th:content="${site.title + ' - 商店'}" />

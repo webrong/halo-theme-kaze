@@ -6,17 +6,6 @@
     <slot name="seo">
       <th:block th:replace="~{seo :: meta('default')}"></th:block>
     </slot>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-      onerror="
-        this.onerror = null;
-        this.href =
-          'https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap';
-      "
-    />
     <slot name="head">
       <title th:text="${site.title}">Site Title</title>
     </slot>

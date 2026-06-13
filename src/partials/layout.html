@@ -23,20 +23,7 @@
     <slot name="seo">
       <th:block th:replace="~{seo :: meta('default')}"></th:block>
     </slot>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-      media="print"
-      onload="this.media = 'all'"
-    />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
+    <!-- 字体由 main.css 顶部 @import fonts.css 内联的 @font-face 提供（自托管，不再依赖 Google Fonts）-->
     <slot name="head">
       <title th:text="${site.title}">Site Title</title>
     </slot>
