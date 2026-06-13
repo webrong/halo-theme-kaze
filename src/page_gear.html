@@ -36,6 +36,7 @@
               height="300"
               loading="lazy"
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              decoding="async"
             />
             <div
               th:if="${item.image == null or #strings.isEmpty(item.image)}"
@@ -81,10 +82,23 @@
               class="gear-card-link"
               th:href="${item.link}"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               查看详情
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M7 7h10v10" />
+                <path d="M7 17 17 7" />
+              </svg>
             </a>
           </div>
         </div>
@@ -97,4 +111,5 @@
       th:utext="${singlePage.content.content}"
     ></div>
   </div>
+  <script type="module" src="./js/gear.ts"></script>
 </include>

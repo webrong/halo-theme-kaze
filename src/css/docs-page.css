@@ -1,0 +1,76 @@
+/* ===== Docsme Docs Pages ===== */
+.docs-page {
+  overflow-x: hidden;
+}
+
+/* Docsme layout fills below Kaze header */
+.docs-page--doc,
+.docs-page--catalog {
+  min-height: calc(100vh - var(--header-height, 64px));
+}
+
+/* On docs pages, hide Kaze's search/theme-toggle (Docsme provides its own) */
+body:has(.docs-page) #searchToggle,
+body:has(.docs-page) #themeToggle {
+  display: none !important;
+}
+
+/* Kaze header transparent blur conflicts with Docsme sticky sidebar — flatten it */
+body:has(.docs-page) .site-header {
+  box-shadow: none !important;
+}
+
+/* Docsme backdrops: transparent + unclickable until sidebar/toc opens */
+/* Uses :has() to detect Alpine class toggle — no fragile style-attribute parsing */
+.dm-sidebar-backdrop,
+.dm-toc-backdrop {
+  background: transparent !important;
+  pointer-events: none !important;
+  z-index: 45 !important;
+}
+
+.dm-layout:has(.dm-sidebar--show) .dm-sidebar-backdrop,
+.dm-main:has(.dm-toc--show) .dm-toc-backdrop {
+  background: rgba(0, 0, 0, 0.3) !important;
+  pointer-events: auto !important;
+}
+
+/* Docsme sidebar must be above backdrop but below header */
+.dm-sidebar {
+  z-index: 48 !important;
+}
+
+@media (max-width: 768px) {
+  .dm-sidebar {
+    top: var(--header-height, 64px) !important;
+  }
+  .dm-sidebar-backdrop,
+  .dm-toc-backdrop {
+    top: var(--header-height, 64px) !important;
+  }
+}
+
+/* Desktop: hide Docsme backdrops entirely */
+@media (min-width: 769px) {
+  .dm-sidebar-backdrop,
+  .dm-toc-backdrop {
+    display: none !important;
+  }
+}
+
+/* Docsme doc nav: stack prev/next vertically on mobile */
+@media (max-width: 768px) {
+  .dm-doc-nav {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .dm-doc-nav__item {
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .dm-doc-nav__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

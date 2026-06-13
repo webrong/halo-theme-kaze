@@ -59,14 +59,25 @@
           fetch("/apis/api.halo.run/v1alpha1/indices/-/search", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ keyword: keyword, limit: 8, highlightPreTag: "<B>", highlightPostTag: "</B>" }),
+            body: JSON.stringify({
+              keyword: keyword,
+              limit: 8,
+              highlightPreTag: "<B>",
+              highlightPostTag: "</B>",
+            }),
           })
             .then(function (res) {
               if (!res.ok) throw new Error("Search failed");
               return res.json();
             })
             .then(function (data) {
-              var hits: Array<{ title: string; permalink: string; description: string; content: string; type: string }> = data.hits || [];
+              var hits: Array<{
+                title: string;
+                permalink: string;
+                description: string;
+                content: string;
+                type: string;
+              }> = data.hits || [];
               if (hits.length === 0) {
                 liveResults.innerHTML = '<div class="search-result-empty">未找到相关内容</div>';
                 return;
@@ -76,20 +87,34 @@
                 "singlepage.content.halo.run": "页面",
                 "moment.moment.halo.run": "瞬间",
               };
-              liveResults.innerHTML = hits.map(function (hit) {
-                var label = typeLabel[hit.type] || "";
-                var desc = hit.description || hit.content || "";
-                var cleanDesc = desc.replace(/<[^>]*>/g, "");
-                if (cleanDesc.length > 120) cleanDesc = cleanDesc.substring(0, 120) + "…";
-                return '<a class="search-result-item" href="' + escapeHtml(hit.permalink) + '">' +
-                  '<div class="search-result-item-title">' + escapeHtml(hit.title) + '</div>' +
-                  '<div class="search-result-item-desc">' + escapeHtml(cleanDesc) + '</div>' +
-                  (label ? '<div class="search-result-item-meta">' + escapeHtml(label) + '</div>' : '') +
-                  '</a>';
-              }).join("");
+              liveResults.innerHTML = hits
+                .map(function (hit) {
+                  var label = typeLabel[hit.type] || "";
+                  var desc = hit.description || hit.content || "";
+                  var cleanDesc = desc.replace(/<[^>]*>/g, "");
+                  if (cleanDesc.length > 120) cleanDesc = cleanDesc.substring(0, 120) + "…";
+                  return (
+                    '<a class="search-result-item" href="' +
+                    escapeHtml(hit.permalink) +
+                    '">' +
+                    '<div class="search-result-item-title">' +
+                    escapeHtml(hit.title) +
+                    "</div>" +
+                    '<div class="search-result-item-desc">' +
+                    escapeHtml(cleanDesc) +
+                    "</div>" +
+                    (label
+                      ? '<div class="search-result-item-meta">' + escapeHtml(label) + "</div>"
+                      : "") +
+                    "</a>"
+                  );
+                })
+                .join("");
               // Close search on result click
               liveResults.querySelectorAll(".search-result-item").forEach(function (item) {
-                item.addEventListener("click", function () { closeSearch(); });
+                item.addEventListener("click", function () {
+                  closeSearch();
+                });
               });
             })
             .catch(function () {
@@ -106,7 +131,12 @@
       (link as HTMLAnchorElement).getAttribute("data-href") ||
       (link as HTMLAnchorElement).getAttribute("href") ||
       "";
-    if (href === path || (path.startsWith(href) && href !== "/" && (path.length === href.length || path.charAt(href.length) === "/"))) {
+    if (
+      href === path ||
+      (path.startsWith(href) &&
+        href !== "/" &&
+        (path.length === href.length || path.charAt(href.length) === "/"))
+    ) {
       link.classList.add("active");
     }
     if (href === "/" && path === "/") {
@@ -114,12 +144,8 @@
     }
   });
 
-  // Dark mode toggle
+  // Dark mode toggle (initial class applied in layout.html head to avoid FOUC)
   var toggle = document.getElementById("themeToggle");
-  var stored = localStorage.getItem("theme");
-  if (stored === "dark" || (!stored && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-    document.documentElement.classList.add("dark");
-  }
   if (toggle) {
     toggle.addEventListener("click", function () {
       document.documentElement.classList.toggle("dark");
@@ -153,11 +179,15 @@
         String(secs).padStart(2, "0");
   }
   update();
-  var runtimeTimer = setInterval(update, 1000);
+  var runtimeTimer: ReturnType<typeof setInterval> | null = setInterval(update, 1000);
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) {
-      clearInterval(runtimeTimer);
+      if (runtimeTimer) {
+        clearInterval(runtimeTimer);
+        runtimeTimer = null;
+      }
     } else {
+      if (runtimeTimer) clearInterval(runtimeTimer);
       runtimeTimer = setInterval(update, 1000);
       update();
     }
@@ -197,8 +227,8 @@
     function positionMenu() {
       if (!_menuEl || !userBtn) return;
       var rect = userBtn.getBoundingClientRect();
-      _menuEl.style.top = (rect.bottom + 8) + "px";
-      _menuEl.style.right = (window.innerWidth - rect.right) + "px";
+      _menuEl.style.top = rect.bottom + 8 + "px";
+      _menuEl.style.right = window.innerWidth - rect.right + "px";
     }
     userBtn.addEventListener("click", function (e) {
       e.preventDefault();
@@ -214,7 +244,11 @@
       }
     });
     document.addEventListener("click", function (e) {
-      if (_menuOpen && !userBtn!.contains(e.target as Node) && !(_menuEl && _menuEl.contains(e.target as Node))) {
+      if (
+        _menuOpen &&
+        !userBtn!.contains(e.target as Node) &&
+        !(_menuEl && _menuEl.contains(e.target as Node))
+      ) {
         _menuOpen = false;
         if (_menuEl) _menuEl.classList.remove("active");
       }
@@ -267,27 +301,39 @@
     // Swipe left to close
     var touchStartX = 0;
     var touchStartY = 0;
-    md.addEventListener("touchstart", function (e) {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-    }, { passive: true });
-    md.addEventListener("touchend", function (e) {
-      var dx = e.changedTouches[0].clientX - touchStartX;
-      var dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
-      if (dx < -50 && dy < 80) closeMenu();
-    }, { passive: true });
+    md.addEventListener(
+      "touchstart",
+      function (e) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      },
+      { passive: true },
+    );
+    md.addEventListener(
+      "touchend",
+      function (e) {
+        var dx = e.changedTouches[0].clientX - touchStartX;
+        var dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+        if (dx < -50 && dy < 80) closeMenu();
+      },
+      { passive: true },
+    );
   }
 
   // Back to top
   var backToTopBtn = document.getElementById("backToTop");
   if (backToTopBtn) {
-    window.addEventListener("scroll", function () {
-      if (window.scrollY > 400) {
-        backToTopBtn!.classList.add("visible");
-      } else {
-        backToTopBtn!.classList.remove("visible");
-      }
-    }, { passive: true });
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (window.scrollY > 400) {
+          backToTopBtn!.classList.add("visible");
+        } else {
+          backToTopBtn!.classList.remove("visible");
+        }
+      },
+      { passive: true },
+    );
     backToTopBtn.addEventListener("click", function () {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });

@@ -1,25 +1,25 @@
+import { setupLightbox, type LightboxPhoto } from "./lightbox";
+
 (function () {
-  var lb = document.getElementById("momentLightbox");
-  var lbImg = document.getElementById("momentLbImg") as HTMLImageElement | null;
+  const lb = document.getElementById("momentLightbox");
+  const lbImg = document.getElementById("momentLbImg") as HTMLImageElement | null;
   if (!lb || !lbImg) return;
-  document.querySelectorAll('[data-action="moment-photo"]').forEach(function (img) {
-    img.addEventListener("click", function (this: HTMLImageElement) {
-      lbImg!.src = this.src;
-      lb!.classList.add("active");
-      document.body.style.overflow = "hidden";
+
+  let photos: LightboxPhoto[] = [];
+
+  const ctrl = setupLightbox({
+    container: lb,
+    imageEl: lbImg,
+    closeBtn: document.getElementById("momentLbClose"),
+    getPhotos: () => photos,
+  });
+
+  document
+    .querySelectorAll<HTMLImageElement>('[data-action="moment-photo"]')
+    .forEach(function (img) {
+      img.addEventListener("click", function () {
+        photos = [{ src: img.src, alt: img.alt }];
+        ctrl.open(0);
+      });
     });
-  });
-  function closeLb() {
-    lb!.classList.remove("active");
-    document.body.style.overflow = "";
-    lbImg!.src = "";
-  }
-  var closeBtn = document.getElementById("momentLbClose");
-  if (closeBtn) closeBtn.addEventListener("click", closeLb);
-  lb.addEventListener("click", function (e) {
-    if (e.target === lb) closeLb();
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && lb!.classList.contains("active")) closeLb();
-  });
 })();

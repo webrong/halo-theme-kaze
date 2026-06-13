@@ -4,17 +4,29 @@
   </template>
   <template name="head">
     <title th:text="|文档 - ${site.title}|">文档</title>
-    <script>
-      var docsme = {
-        disableThemeFunction: true,
-      };
-    </script>
-    <th:block th:replace="~{plugin:plugin-docsme:modules/style}"></th:block>
+    <th:block th:if="${pluginFinder != null and pluginFinder.available('plugin-docsme')}">
+      <script>
+        var docsme = {
+          disableThemeFunction: true,
+        };
+      </script>
+      <th:block th:replace="~{plugin:plugin-docsme:modules/style}"></th:block>
+    </th:block>
   </template>
 
-  <div class="dm-container docs-page">
-    <th:block th:replace="~{plugin:plugin-docsme:modules/docs :: docs(footer = null, showHeader = false, showThemeSwitcher = false)}"></th:block>
+  <th:block th:if="${pluginFinder != null and pluginFinder.available('plugin-docsme')}">
+    <div class="dm-container docs-page">
+      <th:block
+        th:replace="~{plugin:plugin-docsme:modules/docs :: docs(footer = null, showHeader = false, showThemeSwitcher = false)}"
+      ></th:block>
+    </div>
+    <script th:src="@{/plugins/plugin-docsme/assets/static/dist/main.iife.js}"></script>
+  </th:block>
+  <div
+    th:if="${pluginFinder == null or !pluginFinder.available('plugin-docsme')}"
+    class="docs-empty"
+  >
+    <p>请先在后台安装并启用 Docsme 文档插件</p>
   </div>
-
-  <script th:src="@{/plugins/plugin-docsme/assets/static/dist/main.iife.js}"></script>
+  <script type="module" src="./js/docs.ts"></script>
 </include>

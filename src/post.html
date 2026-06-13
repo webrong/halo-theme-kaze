@@ -1,60 +1,31 @@
 <include src="layout.html">
   <template name="seo">
     <th:block th:replace="~{seo :: meta('post')}"></th:block>
-    <th:block th:with="seoTools=${pluginFinder != null and pluginFinder.available('seo-tools')}">
-      <th:block th:unless="${seoTools}">
+    <th:block
+      th:with="seoTools=${pluginFinder != null and pluginFinder.available('seo-tools')}"
+      th:unless="${seoTools}"
+    >
+      <meta
+        property="article:published_time"
+        th:content="${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}"
+      />
+      <meta
+        th:if="${post.status.lastModifyTime}"
+        property="article:modified_time"
+        th:content="${#temporals.format(post.status.lastModifyTime, 'yyyy-MM-dd')}"
+      />
+      <meta property="article:author" th:content="${post.owner.displayName}" />
+      <meta
+        th:if="${not #lists.isEmpty(post.categories)}"
+        property="article:section"
+        th:content="${post.categories[0].spec.displayName}"
+      />
+      <th:block th:if="${not #lists.isEmpty(post.tags)}">
         <meta
-          property="article:published_time"
-          th:content="${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}"
+          th:each="tag : ${post.tags}"
+          property="article:tag"
+          th:content="${tag.spec.displayName}"
         />
-        <meta
-          th:if="${post.status.lastModifyTime}"
-          property="article:modified_time"
-          th:content="${#temporals.format(post.status.lastModifyTime, 'yyyy-MM-dd')}"
-        />
-        <meta property="article:author" th:content="${post.owner.displayName}" />
-        <meta
-          th:if="${not #lists.isEmpty(post.categories)}"
-          property="article:section"
-          th:content="${post.categories[0].spec.displayName}"
-        />
-        <th:block th:if="${not #lists.isEmpty(post.tags)}">
-          <meta
-            th:each="tag : ${post.tags}"
-            property="article:tag"
-            th:content="${tag.spec.displayName}"
-          />
-        </th:block>
-        <script type="application/ld+json" th:inline="javascript">
-          {
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            "headline": /*[[${post.spec.title}]]*/ "",
-            "description": /*[[${post.status.excerpt}]]*/ "",
-            "url": /*[[${post.status.permalink}]]*/ "",
-            "mainEntityOfPage": { "@type": "WebPage", "@id": /*[[${post.status.permalink}]]*/ "" },
-            "datePublished": /*[[${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}]]*/ "",
-            "dateModified": /*[[${post.status.lastModifyTime != null ? #temporals.format(post.status.lastModifyTime, 'yyyy-MM-dd') : ''}]]*/ "",
-            "author": { "@type": "Person", "name": /*[[${post.owner?.displayName}]]*/ "" },
-            "image": /*[[${post.spec.cover}]]*/ "",
-            "publisher": {
-              "@type": "Organization",
-              "name": /*[[${site.title}]]*/ "",
-              "logo": { "@type": "ImageObject", "url": /*[[${theme.config.profile.avatar}]]*/ "" }
-            }
-          }
-        </script>
-        <script type="application/ld+json" th:inline="javascript">
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "首页", "item": /*[[${site.url}]]*/ "" },
-              { "@type": "ListItem", "position": 2, "name": /*[[${not #lists.isEmpty(post.categories) ? post.categories[0].spec.displayName : '未分类'}]]*/ "", "item": /*[[${not #lists.isEmpty(post.categories) ? post.categories[0].status.permalink : ''}]]*/ "" },
-              { "@type": "ListItem", "position": 3, "name": /*[[${post.spec.title}]]*/ "" }
-            ]
-          }
-        </script>
       </th:block>
     </th:block>
   </template>
@@ -151,7 +122,10 @@
               <line x1="8" x2="8" y1="2" y2="6" />
               <line x1="3" x2="21" y1="10" y2="10" />
             </svg>
-            <time th:text="${#temporals.format(post.spec.publishTime, 'yyyy年M月d日')}"></time>
+            <time
+              th:datetime="${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}"
+              th:text="${#temporals.format(post.spec.publishTime, 'yyyy年M月d日')}"
+            ></time>
           </span>
           <span class="post-meta-item">
             <svg
@@ -215,7 +189,7 @@
             <a
               href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               >CC BY-NC-SA 4.0</a
             >
             协议发布
@@ -230,12 +204,18 @@
               width="56"
               height="56"
               loading="lazy"
+              decoding="async"
             />
             <div class="post-author-info">
               <p class="post-author-name" th:text="${post.owner?.displayName ?: '作者'}">作者</p>
               <p class="post-author-bio" th:text="${theme.config.profile.bio}">简介</p>
             </div>
-            <a class="post-follow-btn" th:if="${!#strings.isEmpty(theme.config.social.email)}" th:href="'mailto:' + ${theme.config.social.email}">关注</a>
+            <a
+              class="post-follow-btn"
+              th:if="${!#strings.isEmpty(theme.config.social.email)}"
+              th:href="'mailto:' + ${theme.config.social.email}"
+              >关注</a
+            >
           </div>
         </div>
 
@@ -264,7 +244,7 @@
           </svg>
         </a>
 
-        <button class="post-action-btn share-btn" title="分享" id="share-btn">
+        <button type="button" class="post-action-btn share-btn" title="分享" id="share-btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -283,6 +263,7 @@
         </button>
 
         <button
+          type="button"
           class="post-action-btn like-btn"
           title="点赞"
           th:attr="data-post-name=${post.metadata.name}"
@@ -328,6 +309,164 @@
       </aside>
     </div>
 
+    <!-- Same-category Previous / Next -->
+    <th:block
+      th:if="${not #lists.isEmpty(post.categories)}"
+      th:with="
+        catNav=${#halo.matchVersion('>=2.25.0') ? postFinder.cursorByCategory(post.metadata.name) : postFinder.cursor(post.metadata.name)},
+        fallbackNav=${#halo.matchVersion('>=2.25.0') ? postFinder.cursor(post.metadata.name) : null}
+      "
+    >
+      <nav
+        class="post-category-nav"
+        th:if="${catNav != null and (catNav.hasPrevious() or catNav.hasNext())}"
+      >
+        <a
+          class="post-category-nav-item post-category-nav-prev"
+          th:if="${catNav.previous != null}"
+          th:href="@{${catNav.previous.status.permalink}}"
+        >
+          <span class="post-category-nav-label">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+            同分类上一篇
+          </span>
+          <span class="post-category-nav-title" th:text="${catNav.previous.spec.title}"></span>
+        </a>
+        <span
+          class="post-category-nav-item post-category-nav-prev is-disabled"
+          th:if="${catNav.previous == null and catNav.next != null}"
+        >
+          <span class="post-category-nav-label">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+            同分类上一篇
+          </span>
+          <span class="post-category-nav-title">已经是本分类第一篇</span>
+        </span>
+        <a
+          class="post-category-nav-item post-category-nav-next"
+          th:if="${catNav.next != null}"
+          th:href="@{${catNav.next.status.permalink}}"
+        >
+          <span class="post-category-nav-label">
+            同分类下一篇
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </span>
+          <span class="post-category-nav-title" th:text="${catNav.next.spec.title}"></span>
+        </a>
+        <span
+          class="post-category-nav-item post-category-nav-next is-disabled"
+          th:if="${catNav.next == null and catNav.previous != null}"
+        >
+          <span class="post-category-nav-label">
+            同分类下一篇
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </span>
+          <span class="post-category-nav-title">已经是本分类最后一篇</span>
+        </span>
+      </nav>
+      <!-- Fallback: when category scoped nav is empty but site-wide has posts, show site-wide nav -->
+      <nav
+        class="post-category-nav post-category-nav--fallback"
+        th:if="${catNav != null and !catNav.hasPrevious() and !catNav.hasNext()
+          and fallbackNav != null and (fallbackNav.hasPrevious() or fallbackNav.hasNext())}"
+      >
+        <a
+          class="post-category-nav-item post-category-nav-prev"
+          th:if="${fallbackNav.previous != null}"
+          th:href="@{${fallbackNav.previous.status.permalink}}"
+        >
+          <span class="post-category-nav-label">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+            上一篇
+          </span>
+          <span class="post-category-nav-title" th:text="${fallbackNav.previous.spec.title}"></span>
+        </a>
+        <a
+          class="post-category-nav-item post-category-nav-next"
+          th:if="${fallbackNav.next != null}"
+          th:href="@{${fallbackNav.next.status.permalink}}"
+        >
+          <span class="post-category-nav-label">
+            下一篇
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </span>
+          <span class="post-category-nav-title" th:text="${fallbackNav.next.spec.title}"></span>
+        </a>
+      </nav>
+    </th:block>
+
     <!-- Related Posts -->
     <section class="post-related">
       <div class="post-related-inner">
@@ -339,7 +478,14 @@
           >
             <a class="post-related-card" th:href="@{${relatedPost.status.permalink}}">
               <div class="post-related-thumb" th:if="${relatedPost.spec.cover}">
-                <img th:src="${relatedPost.spec.cover}" th:alt="${relatedPost.spec.title}" width="400" height="225" loading="lazy" />
+                <img
+                  th:src="${relatedPost.spec.cover}"
+                  th:alt="${relatedPost.spec.title}"
+                  width="400"
+                  height="225"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <div class="post-related-body">
                 <h3 th:text="${relatedPost.spec.title}">Title</h3>
@@ -356,17 +502,69 @@
     <div class="lightbox-modal">
       <div class="lightbox-topbar">
         <span class="lightbox-topbar-counter" id="postLightboxCounter"></span>
-        <button class="lightbox-close-btn" id="postLightboxClose" aria-label="关闭">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        <button type="button" class="lightbox-close-btn" id="postLightboxClose" aria-label="关闭">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
         </button>
       </div>
       <div class="lightbox-image-area">
-        <button class="lightbox-nav-btn lightbox-prev-btn" id="postLightboxPrev" aria-label="上一张">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <button
+          type="button"
+          class="lightbox-nav-btn lightbox-prev-btn"
+          id="postLightboxPrev"
+          aria-label="上一张"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="m15 18-6-6 6-6" />
+          </svg>
         </button>
-        <img id="postLightboxImg" src="" alt="" />
-        <button class="lightbox-nav-btn lightbox-next-btn" id="postLightboxNext" aria-label="下一张">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        <img
+          id="postLightboxImg"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+          alt=""
+          decoding="async"
+        />
+        <button
+          type="button"
+          class="lightbox-nav-btn lightbox-next-btn"
+          id="postLightboxNext"
+          aria-label="下一张"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="m9 18 6-6-6-6" />
+          </svg>
         </button>
       </div>
     </div>

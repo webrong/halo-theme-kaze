@@ -13,20 +13,13 @@
         height="450"
         loading="lazy"
         sizes="(max-width: 768px) 100vw, 50vw"
+        decoding="async"
       />
-      <span
-        class="post-card-category"
-        th:if="${post.categories != null and !#lists.isEmpty(post.categories)}"
-        th:text="${post.categories[0].spec.displayName}"
-      ></span>
     </div>
   </a>
   <div class="post-card-body">
     <h3 class="post-card-title">
-      <a
-        th:href="@{${post.status.permalink}}"
-        th:text="${post.spec.title}"
-      ></a>
+      <a th:href="@{${post.status.permalink}}" th:text="${post.spec.title}"></a>
     </h3>
     <p class="post-card-excerpt" th:text="${post.status.excerpt}"></p>
     <div class="post-card-meta">
@@ -45,7 +38,10 @@
           <line x1="8" x2="8" y1="2" y2="6" />
           <line x1="3" x2="21" y1="10" y2="10" />
         </svg>
-        <time th:text="${#temporals.format(post.spec.publishTime, 'yyyy年M月d日')}"></time>
+        <time
+          th:datetime="${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}"
+          th:text="${#temporals.format(post.spec.publishTime, 'yyyy年M月d日')}"
+        ></time>
       </span>
       <span class="post-card-reading-time">
         <svg
@@ -62,6 +58,11 @@
         </svg>
         <span>分钟阅读</span>
       </span>
+      <span
+        class="post-card-category"
+        th:if="${post.categories != null and !#lists.isEmpty(post.categories)}"
+        th:text="${post.categories[0].spec.displayName}"
+      ></span>
     </div>
   </div>
 </article>

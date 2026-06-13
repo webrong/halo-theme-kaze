@@ -21,7 +21,12 @@
 (function () {
   // Sort changelog items by date ascending (oldest first — story/evolution narrative)
   function normalize(raw: string): string {
-    var parts = raw.trim().split(/[-/.年月日]/).filter(function (p) { return p.length > 0; });
+    var parts = raw
+      .trim()
+      .split(/[-/.年月日]/)
+      .filter(function (p) {
+        return p.length > 0;
+      });
     if (parts.length < 2) return raw.trim();
     var year = parts[0].padStart(4, "0");
     var month = parts[1].padStart(2, "0");

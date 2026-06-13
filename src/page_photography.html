@@ -15,8 +15,9 @@
         id="photo-filter-pills"
         th:if="${photoGalleryFinder != null and !#lists.isEmpty(photoGalleryFinder.listAlbumGroups())}"
       >
-        <button class="filter-pill active" data-tag="">全部</button>
+        <button type="button" class="filter-pill active" data-tag="">全部</button>
         <button
+          type="button"
           class="filter-pill"
           th:each="group : ${photoGalleryFinder.listAlbumGroups()}"
           th:data-tag="${group.metadata.name}"
@@ -50,6 +51,7 @@
               th:alt="${album.spec.displayName}"
               loading="lazy"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              decoding="async"
             />
             <div th:unless="${album.spec.cover}" class="album-card-placeholder">
               <svg
@@ -122,6 +124,7 @@
             th:alt="${post.spec.title}"
             loading="lazy"
             sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 33vw"
+            decoding="async"
           />
           <div class="photo-card-overlay">
             <div class="photo-card-eye">
@@ -151,7 +154,7 @@
             <span class="lightbox-topbar-title" id="photo-lb-title"></span>
             <span class="lightbox-topbar-counter" id="photo-lb-counter"></span>
           </div>
-          <button class="lightbox-close-btn" id="photo-lb-close" aria-label="关闭">
+          <button type="button" class="lightbox-close-btn" id="photo-lb-close" aria-label="关闭">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -169,7 +172,12 @@
           </button>
         </div>
         <div class="lightbox-image-area">
-          <button class="lightbox-nav-btn lightbox-prev-btn" id="photo-lb-prev" aria-label="上一张">
+          <button
+            type="button"
+            class="lightbox-nav-btn lightbox-prev-btn"
+            id="photo-lb-prev"
+            aria-label="上一张"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -184,8 +192,18 @@
               <path d="m15 18-6-6 6-6" />
             </svg>
           </button>
-          <img id="photo-lb-img" src="" alt="" />
-          <button class="lightbox-nav-btn lightbox-next-btn" id="photo-lb-next" aria-label="下一张">
+          <img
+            id="photo-lb-img"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+            alt=""
+            decoding="async"
+          />
+          <button
+            type="button"
+            class="lightbox-nav-btn lightbox-next-btn"
+            id="photo-lb-next"
+            aria-label="下一张"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -226,7 +244,7 @@
 
     <!-- Pagination (always rendered, JS controls visibility) -->
     <div class="photo-pagination" id="photo-pagination">
-      <button class="page-prev" id="photo-page-prev">
+      <button type="button" class="page-prev" id="photo-page-prev">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="14"
@@ -243,7 +261,7 @@
         上一页
       </button>
       <div class="page-numbers" id="photo-page-numbers"></div>
-      <button class="page-next" id="photo-page-next">
+      <button type="button" class="page-next" id="photo-page-next">
         下一页
         <svg
           xmlns="http://www.w3.org/2000/svg"

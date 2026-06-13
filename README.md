@@ -23,59 +23,59 @@
 
 ## 页面模板
 
-| 模板 | 说明 |
-|------|------|
-| `index` | 首页 — Hero 轮播 + 文章网格 |
-| `post` | 文章详情 — 目录、代码复制、点赞 |
-| `page` | 默认独立页面 |
-| `page_about` | 关于页 — 个人信息、里程碑、雷达图、装备、更新记录 |
-| `page_photography` | 摄影页 — 瀑布流相册 |
-| `page_moments` | 瞬间页 — 时间线动态 + 评论 |
-| `page_gear` | 装备页 — 设备卡片网格 |
-| `archives` | 文章归档 |
-| `categories` | 分类列表 |
-| `category` | 单个分类 |
-| `tags` | 标签云 |
-| `tag` | 单个标签 |
-| `author` | 作者主页（含 Person Schema） |
-| `gallery_detail` | 相册详情 + 灯箱 |
-| `moments` | 瞬间列表页 |
-| `links` | 友情链接（分组筛选） |
-| `search` | 搜索结果 |
-| `doc` | 文档阅读页（Docsme 插件） |
-| `doc-catalog` | 文档目录页（Docsme 插件） |
-| `docs` | 文档项目列表页（Docsme 插件） |
-| `shop/products` | 商品列表（Halo 商城） |
-| `shop/product` | 商品详情（Halo 商城） |
-| `shop/cart` | 购物车（Halo 商城） |
-| `shop/checkout` | 结算页（Halo 商城） |
-| `shop/payments` | 支付页（Halo 商城） |
-| `404 / 4xx / 5xx` | 错误页 |
+| 模板               | 说明                                              |
+| ------------------ | ------------------------------------------------- |
+| `index`            | 首页 — Hero 轮播 + 文章网格                       |
+| `post`             | 文章详情 — 目录、代码复制、点赞                   |
+| `page`             | 默认独立页面                                      |
+| `page_about`       | 关于页 — 个人信息、里程碑、雷达图、装备、更新记录 |
+| `page_photography` | 摄影页 — 瀑布流相册                               |
+| `page_moments`     | 瞬间页 — 时间线动态 + 评论                        |
+| `page_gear`        | 装备页 — 设备卡片网格                             |
+| `archives`         | 文章归档                                          |
+| `categories`       | 分类列表                                          |
+| `category`         | 单个分类                                          |
+| `tags`             | 标签云                                            |
+| `tag`              | 单个标签                                          |
+| `author`           | 作者主页（含 Person Schema）                      |
+| `gallery_detail`   | 相册详情 + 灯箱                                   |
+| `moments`          | 瞬间列表页                                        |
+| `links`            | 友情链接（分组筛选）                              |
+| `search`           | 搜索结果                                          |
+| `doc`              | 文档阅读页（Docsme 插件）                         |
+| `doc-catalog`      | 文档目录页（Docsme 插件）                         |
+| `docs`             | 文档项目列表页（Docsme 插件）                     |
+| `shop/products`    | 商品列表（Halo 商城）                             |
+| `shop/product`     | 商品详情（Halo 商城）                             |
+| `shop/cart`        | 购物车（Halo 商城）                               |
+| `shop/checkout`    | 结算页（Halo 商城）                               |
+| `shop/payments`    | 支付页（Halo 商城）                               |
+| `404 / 4xx / 5xx`  | 错误页                                            |
 
 ## 主题设置
 
 所有设置均可在 Halo 后台「主题设置」中配置：
 
-| 分组 | 主要设置项 |
-|------|-----------|
-| **首页设置** | 文章列表布局（网格/列表）、侧边栏显示、站点描述（Meta Description） |
-| **Hero 轮播** | 标题、副标题、徽章、背景图片、轮播幻灯片（图片/徽章/标题/副标题/CTA） |
-| **页脚设置** | 版权文字、建站日期、赞助信息、ICP 备案、公安备案 |
-| **个人信息** | 头像、昵称、简介、关于我、兴趣标签、里程碑时间线、技能雷达图、更新记录 |
-| **社交链接** | GitHub、Email、Twitter/X、Bilibili、微博、知乎、微信二维码、YouTube、小红书、个人网站 |
-| **设备展示** | 设备列表（名称/品牌/图片/规格/评价/状态） |
+| 分组          | 主要设置项                                                                            |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **首页设置**  | 文章列表布局（网格/列表）、侧边栏显示、站点描述（Meta Description）                   |
+| **Hero 轮播** | 标题、副标题、徽章、背景图片、轮播幻灯片（图片/徽章/标题/副标题/CTA）                 |
+| **页脚设置**  | 版权文字、建站日期、赞助信息、ICP 备案、公安备案                                      |
+| **个人信息**  | 头像、昵称、简介、关于我、兴趣标签、里程碑时间线、技能雷达图、更新记录                |
+| **社交链接**  | GitHub、Email、Twitter/X、Bilibili、微博、知乎、微信二维码、YouTube、小红书、个人网站 |
+| **设备展示**  | 设备列表（名称/品牌/图片/规格/评价/状态）                                             |
 
 ## 插件适配
 
-| 插件 | 说明 |
-|------|------|
-| [Docsme](https://www.halo.run/store/apps/app-DZhSR) | 文档管理 — 自动适配文档阅读、目录导航、项目列表三个页面 |
-| Halo 商城 | 商业版商城功能 — 自动适配商品、购物车、结算、支付五个页面 |
-| [SEO Tools](https://www.halo.run/store/apps/app-MHSub) | SEO 工具 — 自动检测并协同工作，互补生成 meta 标签 |
-| Links | 友情链接 — 分组展示与筛选 |
-| Comment Widget | 评论组件 — 文章和独立页面评论 |
-| Search Widget | 搜索组件 — 全站搜索 |
-| Contact Form | 联系表单 — 自动加载 |
+| 插件                                                   | 说明                                                      |
+| ------------------------------------------------------ | --------------------------------------------------------- |
+| [Docsme](https://www.halo.run/store/apps/app-DZhSR)    | 文档管理 — 自动适配文档阅读、目录导航、项目列表三个页面   |
+| Halo 商城                                              | 商业版商城功能 — 自动适配商品、购物车、结算、支付五个页面 |
+| [SEO Tools](https://www.halo.run/store/apps/app-MHSub) | SEO 工具 — 自动检测并协同工作，互补生成 meta 标签         |
+| Links                                                  | 友情链接 — 分组展示与筛选                                 |
+| Comment Widget                                         | 评论组件 — 文章和独立页面评论                             |
+| Search Widget                                          | 搜索组件 — 全站搜索                                       |
+| Contact Form                                           | 联系表单 — 自动加载                                       |
 
 ## SEO 支持
 
@@ -90,14 +90,14 @@
 
 ## 技术栈
 
-| 层级 | 技术 |
-|------|------|
-| 模板 | Thymeleaf + Vite 构建期 `<include>` / `<slot>` |
-| 样式 | CSS 自定义属性，暗色模式通过 `html.dark` 类切换 |
-| 脚本 | TypeScript |
-| 构建 | Vite + [`@halo-dev/vite-plugin-halo-theme`](https://github.com/halo-sigs/vite-plugin-halo-theme) |
-| 打包 | [`@halo-dev/theme-package-cli`](https://github.com/halo-dev/theme-package-cli) |
-| 包管理 | pnpm |
+| 层级   | 技术                                                                                             |
+| ------ | ------------------------------------------------------------------------------------------------ |
+| 模板   | Thymeleaf + Vite 构建期 `<include>` / `<slot>`                                                   |
+| 样式   | CSS 自定义属性，暗色模式通过 `html.dark` 类切换                                                  |
+| 脚本   | TypeScript                                                                                       |
+| 构建   | Vite + [`@halo-dev/vite-plugin-halo-theme`](https://github.com/halo-sigs/vite-plugin-halo-theme) |
+| 打包   | [`@halo-dev/theme-package-cli`](https://github.com/halo-dev/theme-package-cli)                   |
+| 包管理 | pnpm                                                                                             |
 
 ## 目录结构
 

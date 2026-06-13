@@ -22,7 +22,17 @@
           th:data-cta-title="${slide.title}"
           th:data-cta-url="${slide.cta_url}"
         >
-          <img class="hero-image" th:src="${slide.image}" th:srcset="|${thumbnail.gen(slide.image, 'm')} 800w, ${thumbnail.gen(slide.image, 'l')} 1600w, ${thumbnail.gen(slide.image, 'xl')} 2400w|" th:alt="${slide.title}" width="1600" height="900" th:attr="loading=${iter.index > 0 ? 'lazy' : 'eager'}" sizes="100vw" />
+          <img
+            class="hero-image"
+            th:src="${slide.image}"
+            th:srcset="|${thumbnail.gen(slide.image, 'm')} 800w, ${thumbnail.gen(slide.image, 'l')} 1600w, ${thumbnail.gen(slide.image, 'xl')} 2400w|"
+            th:alt="${slide.title}"
+            width="1600"
+            height="900"
+            decoding="async"
+            th:attr="loading=${iter.index > 0 ? 'lazy' : 'eager'}"
+            sizes="100vw"
+          />
           <div class="hero-overlay"></div>
         </div>
 
@@ -39,6 +49,7 @@
             height="900"
             loading="eager"
             sizes="100vw"
+            decoding="async"
           />
           <div class="hero-overlay"></div>
         </th:block>
@@ -95,7 +106,7 @@
         </div>
 
         <!-- Nav buttons -->
-        <button class="hero-nav hero-prev" aria-label="Previous slide">
+        <button type="button" class="hero-nav hero-prev" aria-label="Previous slide">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -110,7 +121,7 @@
             <path d="m15 18-6-6 6-6" />
           </svg>
         </button>
-        <button class="hero-nav hero-next" aria-label="Next slide">
+        <button type="button" class="hero-nav hero-next" aria-label="Next slide">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -138,7 +149,10 @@
 
     <!-- Recent Posts -->
     <section class="recent-posts">
-      <div class="home-layout" th:classappend="${theme.config.basic.show_sidebar != 'false'} ? 'has-sidebar' : ''">
+      <div
+        class="home-layout"
+        th:classappend="${theme.config.basic.show_sidebar != 'false'} ? 'has-sidebar' : ''"
+      >
         <div class="home-main">
           <div
             class="post-grid"

@@ -1,14 +1,14 @@
 <th:block th:fragment="meta(pageType)">
-  <th:block th:with="
+  <th:block
+    th:with="
     seoTools=${pluginFinder != null and pluginFinder.available('seo-tools')},
     seoDesc=${site.seo != null ? site.seo.description : null},
     seoKeywords=${site.seo != null ? site.seo.keywords : null},
     seoBlockSpiders=${site.seo?.blockSpiders == true}
-  ">
-
+  "
+  >
     <th:block th:unless="${seoTools}">
       <th:block th:switch="${pageType}">
-
         <th:block th:case="'home'">
           <meta
             name="description"
@@ -48,17 +48,23 @@
         </th:block>
 
         <th:block th:case="'post'">
-          <th:block th:with="
+          <th:block
+            th:with="
             postExcerpt=${post.status != null ? post.status.excerpt : null},
             postCover=${post.spec != null ? post.spec.cover : null},
             postPermalink=${post.status != null ? post.status.permalink : null},
             postTitle=${post.spec != null ? post.spec.title : null}
-          ">
+          "
+          >
             <meta
               name="description"
               th:content="${!#strings.isEmpty(postExcerpt) ? postExcerpt : (!#strings.isEmpty(seoDesc) ? seoDesc : site.subtitle)}"
             />
-            <link th:if="${!#strings.isEmpty(postPermalink)}" rel="canonical" th:href="${postPermalink}" />
+            <link
+              th:if="${!#strings.isEmpty(postPermalink)}"
+              rel="canonical"
+              th:href="${postPermalink}"
+            />
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:type" content="article" />
             <meta th:if="${postTitle != null}" property="og:title" th:content="${postTitle}" />
@@ -66,7 +72,11 @@
               property="og:description"
               th:content="${!#strings.isEmpty(postExcerpt) ? postExcerpt : site.subtitle}"
             />
-            <meta th:if="${!#strings.isEmpty(postPermalink)}" property="og:url" th:content="${postPermalink}" />
+            <meta
+              th:if="${!#strings.isEmpty(postPermalink)}"
+              property="og:url"
+              th:content="${postPermalink}"
+            />
             <meta
               th:if="${!#strings.isEmpty(postCover)}"
               property="og:image"
@@ -87,16 +97,22 @@
         </th:block>
 
         <th:block th:case="'page'">
-          <th:block th:with="
+          <th:block
+            th:with="
             pageExcerpt=${singlePage.status != null ? singlePage.status.excerpt : null},
             pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null},
             pageTitle=${singlePage.spec != null ? singlePage.spec.title : null}
-          ">
+          "
+          >
             <meta
               name="description"
               th:content="${!#strings.isEmpty(pageExcerpt) ? pageExcerpt : (!#strings.isEmpty(seoDesc) ? seoDesc : site.subtitle)}"
             />
-            <link th:if="${!#strings.isEmpty(pagePermalink)}" rel="canonical" th:href="${pagePermalink}" />
+            <link
+              th:if="${!#strings.isEmpty(pagePermalink)}"
+              rel="canonical"
+              th:href="${pagePermalink}"
+            />
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:type" content="article" />
             <meta th:if="${pageTitle != null}" property="og:title" th:content="${pageTitle}" />
@@ -104,23 +120,37 @@
               property="og:description"
               th:content="${!#strings.isEmpty(pageExcerpt) ? pageExcerpt : site.subtitle}"
             />
-            <meta th:if="${!#strings.isEmpty(pagePermalink)}" property="og:url" th:content="${pagePermalink}" />
+            <meta
+              th:if="${!#strings.isEmpty(pagePermalink)}"
+              property="og:url"
+              th:content="${pagePermalink}"
+            />
             <meta name="twitter:card" content="summary_large_image" />
             <meta th:if="${pageTitle != null}" name="twitter:title" th:content="${pageTitle}" />
           </th:block>
         </th:block>
 
         <th:block th:case="'photography'">
-          <th:block th:with="
+          <th:block
+            th:with="
             pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null}
-          ">
+          "
+          >
             <meta name="description" th:content="${site.title + ' - 摄影作品集'}" />
-            <link th:if="${!#strings.isEmpty(pagePermalink)}" rel="canonical" th:href="${pagePermalink}" />
+            <link
+              th:if="${!#strings.isEmpty(pagePermalink)}"
+              rel="canonical"
+              th:href="${pagePermalink}"
+            />
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:type" content="website" />
             <meta property="og:title" th:content="${site.title + ' - 摄影'}" />
             <meta property="og:description" th:content="${site.title + ' - 摄影作品集'}" />
-            <meta th:if="${!#strings.isEmpty(pagePermalink)}" property="og:url" th:content="${pagePermalink}" />
+            <meta
+              th:if="${!#strings.isEmpty(pagePermalink)}"
+              property="og:url"
+              th:content="${pagePermalink}"
+            />
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" th:content="${site.title + ' - 摄影'}" />
             <meta name="twitter:description" th:content="${site.title + ' - 摄影作品集'}" />
@@ -128,16 +158,26 @@
         </th:block>
 
         <th:block th:case="'gear'">
-          <th:block th:with="
+          <th:block
+            th:with="
             pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null}
-          ">
+          "
+          >
             <meta name="description" th:content="${site.title + ' - 装备清单'}" />
-            <link th:if="${!#strings.isEmpty(pagePermalink)}" rel="canonical" th:href="${pagePermalink}" />
+            <link
+              th:if="${!#strings.isEmpty(pagePermalink)}"
+              rel="canonical"
+              th:href="${pagePermalink}"
+            />
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:type" content="website" />
             <meta property="og:title" th:content="${site.title + ' - 装备'}" />
             <meta property="og:description" th:content="${site.title + ' - 装备清单'}" />
-            <meta th:if="${!#strings.isEmpty(pagePermalink)}" property="og:url" th:content="${pagePermalink}" />
+            <meta
+              th:if="${!#strings.isEmpty(pagePermalink)}"
+              property="og:url"
+              th:content="${pagePermalink}"
+            />
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" th:content="${site.title + ' - 装备'}" />
             <meta name="twitter:description" th:content="${site.title + ' - 装备清单'}" />
@@ -145,106 +185,181 @@
         </th:block>
 
         <th:block th:case="'category'">
-          <th:block th:with="
+          <th:block
+            th:with="
             catDesc=${category.spec != null ? category.spec.description : null},
             catName=${category.spec != null ? category.spec.displayName : null},
             catPermalink=${category.status != null ? category.status.permalink : null}
-          ">
+          "
+          >
             <meta
               name="description"
               th:content="${!#strings.isEmpty(catDesc) ? catDesc : (catName + ' - ' + site.title)}"
             />
-            <link th:if="${!#strings.isEmpty(catPermalink)}" rel="canonical" th:href="${catPermalink}" />
+            <link
+              th:if="${!#strings.isEmpty(catPermalink)}"
+              rel="canonical"
+              th:href="${catPermalink}"
+            />
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:type" content="website" />
-            <meta th:if="${catName != null}" property="og:title" th:content="${catName + ' - ' + site.title}" />
+            <meta
+              th:if="${catName != null}"
+              property="og:title"
+              th:content="${catName + ' - ' + site.title}"
+            />
             <meta
               property="og:description"
               th:content="${!#strings.isEmpty(catDesc) ? catDesc : site.subtitle}"
             />
-            <meta th:if="${!#strings.isEmpty(catPermalink)}" property="og:url" th:content="${catPermalink}" />
+            <meta
+              th:if="${!#strings.isEmpty(catPermalink)}"
+              property="og:url"
+              th:content="${catPermalink}"
+            />
             <meta name="twitter:card" content="summary" />
-            <meta th:if="${catName != null}" name="twitter:title" th:content="${catName + ' - ' + site.title}" />
+            <meta
+              th:if="${catName != null}"
+              name="twitter:title"
+              th:content="${catName + ' - ' + site.title}"
+            />
           </th:block>
         </th:block>
 
         <th:block th:case="'tag'">
-          <th:block th:with="
+          <th:block
+            th:with="
             tagName=${tag.spec != null ? tag.spec.displayName : null},
             tagPermalink=${tag.status != null ? tag.status.permalink : null}
-          ">
-            <meta
-              name="description"
-              th:content="${tagName + ' 相关文章 - ' + site.title}"
+          "
+          >
+            <meta name="description" th:content="${tagName + ' 相关文章 - ' + site.title}" />
+            <link
+              th:if="${!#strings.isEmpty(tagPermalink)}"
+              rel="canonical"
+              th:href="${tagPermalink}"
             />
-            <link th:if="${!#strings.isEmpty(tagPermalink)}" rel="canonical" th:href="${tagPermalink}" />
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:type" content="website" />
-            <meta th:if="${tagName != null}" property="og:title" th:content="${tagName + ' - ' + site.title}" />
+            <meta
+              th:if="${tagName != null}"
+              property="og:title"
+              th:content="${tagName + ' - ' + site.title}"
+            />
             <meta property="og:description" th:content="${tagName + ' 相关文章'}" />
-            <meta th:if="${!#strings.isEmpty(tagPermalink)}" property="og:url" th:content="${tagPermalink}" />
+            <meta
+              th:if="${!#strings.isEmpty(tagPermalink)}"
+              property="og:url"
+              th:content="${tagPermalink}"
+            />
             <meta name="twitter:card" content="summary" />
-            <meta th:if="${tagName != null}" name="twitter:title" th:content="${tagName + ' - ' + site.title}" />
+            <meta
+              th:if="${tagName != null}"
+              name="twitter:title"
+              th:content="${tagName + ' - ' + site.title}"
+            />
           </th:block>
         </th:block>
 
         <th:block th:case="'author'">
-          <th:block th:with="
+          <th:block
+            th:with="
             authorBio=${author.spec != null ? author.spec.bio : null},
             authorName=${author.spec != null ? author.spec.displayName : null},
             authorPermalink=${author.status != null ? author.status.permalink : null}
-          ">
+          "
+          >
             <meta
               name="description"
               th:content="${!#strings.isEmpty(authorBio) ? authorBio : (authorName + ' - ' + site.title)}"
             />
-            <link th:if="${!#strings.isEmpty(authorPermalink)}" rel="canonical" th:href="${authorPermalink}" />
+            <link
+              th:if="${!#strings.isEmpty(authorPermalink)}"
+              rel="canonical"
+              th:href="${authorPermalink}"
+            />
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:type" content="profile" />
-            <meta th:if="${authorName != null}" property="og:title" th:content="${authorName + ' - ' + site.title}" />
+            <meta
+              th:if="${authorName != null}"
+              property="og:title"
+              th:content="${authorName + ' - ' + site.title}"
+            />
             <meta property="og:description" th:content="${authorBio}" />
-            <meta th:if="${!#strings.isEmpty(authorPermalink)}" property="og:url" th:content="${authorPermalink}" />
+            <meta
+              th:if="${!#strings.isEmpty(authorPermalink)}"
+              property="og:url"
+              th:content="${authorPermalink}"
+            />
             <meta name="twitter:card" content="summary" />
-            <meta th:if="${authorName != null}" name="twitter:title" th:content="${authorName + ' - ' + site.title}" />
+            <meta
+              th:if="${authorName != null}"
+              name="twitter:title"
+              th:content="${authorName + ' - ' + site.title}"
+            />
           </th:block>
         </th:block>
 
         <th:block th:case="'gallery'">
-          <th:block th:with="
+          <th:block
+            th:with="
             albumDesc=${album.spec != null ? album.spec.description : null},
             albumName=${album.spec != null ? album.spec.displayName : null},
             albumPermalink=${(album.spec != null and album.spec.slug != null) ? '/gallery/' + album.spec.slug : null}
-          ">
+          "
+          >
             <meta
               name="description"
               th:content="${!#strings.isEmpty(albumDesc) ? albumDesc : (albumName + ' - ' + site.title)}"
             />
-            <link th:if="${!#strings.isEmpty(albumPermalink)}" rel="canonical" th:href="${albumPermalink}" />
+            <link
+              th:if="${!#strings.isEmpty(albumPermalink)}"
+              rel="canonical"
+              th:href="${albumPermalink}"
+            />
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:type" content="website" />
-            <meta th:if="${albumName != null}" property="og:title" th:content="${albumName + ' - ' + site.title}" />
+            <meta
+              th:if="${albumName != null}"
+              property="og:title"
+              th:content="${albumName + ' - ' + site.title}"
+            />
             <meta
               property="og:description"
               th:content="${!#strings.isEmpty(albumDesc) ? albumDesc : site.subtitle}"
             />
-            <meta th:if="${!#strings.isEmpty(albumPermalink)}" property="og:url" th:content="${site.url + albumPermalink}" />
+            <meta
+              th:if="${!#strings.isEmpty(albumPermalink)}"
+              property="og:url"
+              th:content="${site.url + albumPermalink}"
+            />
             <meta name="twitter:card" content="summary_large_image" />
-            <meta th:if="${albumName != null}" name="twitter:title" th:content="${albumName + ' - ' + site.title}" />
+            <meta
+              th:if="${albumName != null}"
+              name="twitter:title"
+              th:content="${albumName + ' - ' + site.title}"
+            />
           </th:block>
         </th:block>
 
         <th:block th:case="'about'">
-          <th:block th:with="
+          <th:block
+            th:with="
             profileBio=${theme.config.profile != null ? theme.config.profile.bio : null},
             profileAvatar=${theme.config.profile != null ? theme.config.profile.avatar : null},
             pageTitle=${singlePage.spec != null ? singlePage.spec.title : null},
             pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null}
-          ">
+          "
+          >
             <meta
               name="description"
               th:content="${!#strings.isEmpty(profileBio) ? profileBio : site.subtitle}"
             />
-            <link th:if="${!#strings.isEmpty(pagePermalink)}" rel="canonical" th:href="${pagePermalink}" />
+            <link
+              th:if="${!#strings.isEmpty(pagePermalink)}"
+              rel="canonical"
+              th:href="${pagePermalink}"
+            />
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:type" content="profile" />
             <meta th:if="${pageTitle != null}" property="og:title" th:content="${pageTitle}" />
@@ -252,7 +367,11 @@
               property="og:description"
               th:content="${!#strings.isEmpty(profileBio) ? profileBio : site.subtitle}"
             />
-            <meta th:if="${!#strings.isEmpty(pagePermalink)}" property="og:url" th:content="${pagePermalink}" />
+            <meta
+              th:if="${!#strings.isEmpty(pagePermalink)}"
+              property="og:url"
+              th:content="${pagePermalink}"
+            />
             <meta
               th:if="${!#strings.isEmpty(profileAvatar)}"
               property="og:image"
@@ -272,11 +391,17 @@
           <link rel="canonical" th:href="${site.url + '/links'}" />
           <meta property="og:site_name" th:content="${site.title}" />
           <meta property="og:type" content="website" />
-          <meta property="og:title" th:content="${(linksTitle ?: '友情链接') + ' - ' + site.title}" />
+          <meta
+            property="og:title"
+            th:content="${(linksTitle ?: '友情链接') + ' - ' + site.title}"
+          />
           <meta property="og:description" th:content="${site.title + ' - 友情链接'}" />
           <meta property="og:url" th:content="${site.url + '/links'}" />
           <meta name="twitter:card" content="summary" />
-          <meta name="twitter:title" th:content="${(linksTitle ?: '友情链接') + ' - ' + site.title}" />
+          <meta
+            name="twitter:title"
+            th:content="${(linksTitle ?: '友情链接') + ' - ' + site.title}"
+          />
           <meta name="twitter:description" th:content="${site.title + ' - 友情链接'}" />
         </th:block>
 
@@ -361,7 +486,6 @@
             th:content="${!#strings.isEmpty(seoDesc) ? seoDesc : site.subtitle}"
           />
         </th:block>
-
       </th:block>
     </th:block>
 
@@ -379,40 +503,62 @@
         </th:block>
 
         <th:block th:case="'post'">
-          <th:block th:with="
+          <th:block
+            th:with="
             postPermalink=${post.status != null ? post.status.permalink : null}
-          ">
+          "
+          >
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:locale" content="zh_CN" />
-            <meta property="og:url" th:if="${!#strings.isEmpty(postPermalink)}" th:content="${site.url + postPermalink}" />
-            <meta name="twitter:url" th:if="${!#strings.isEmpty(postPermalink)}" th:content="${site.url + postPermalink}" />
+            <meta
+              property="og:url"
+              th:if="${!#strings.isEmpty(postPermalink)}"
+              th:content="${site.url + postPermalink}"
+            />
+            <meta
+              name="twitter:url"
+              th:if="${!#strings.isEmpty(postPermalink)}"
+              th:content="${site.url + postPermalink}"
+            />
           </th:block>
         </th:block>
 
         <th:block th:case="'page'">
-          <th:block th:with="
+          <th:block
+            th:with="
             pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null}
-          ">
+          "
+          >
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:locale" content="zh_CN" />
-            <meta name="twitter:url" th:if="${!#strings.isEmpty(pagePermalink)}" th:content="${site.url + pagePermalink}" />
+            <meta
+              name="twitter:url"
+              th:if="${!#strings.isEmpty(pagePermalink)}"
+              th:content="${site.url + pagePermalink}"
+            />
           </th:block>
         </th:block>
 
         <th:block th:case="'photography'">
-          <th:block th:with="
+          <th:block
+            th:with="
             pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null},
             photoOgTitle=${site.title + ' - 摄影'},
             photoOgDesc=${site.title + ' - 摄影作品集'},
             photoOgUrl=${!#strings.isEmpty(pagePermalink) ? site.url + pagePermalink : site.url}
-          ">
+          "
+          >
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:title" th:content="${photoOgTitle}" />
             <meta property="og:description" th:content="${photoOgDesc}" />
             <meta property="og:locale" content="zh_CN" />
             <meta name="twitter:title" th:content="${photoOgTitle}" />
             <meta name="twitter:description" th:content="${photoOgDesc}" />
-            <meta name="twitter:url" th:if="${!#strings.isEmpty(pagePermalink)}" th:content="${photoOgUrl}" />
+            <meta
+              name="twitter:url"
+              th:if="${!#strings.isEmpty(pagePermalink)}"
+              th:content="${photoOgUrl}"
+            />
             <script type="application/ld+json" th:inline="javascript">
               {
                 "@context": "https://schema.org",
@@ -427,19 +573,25 @@
         </th:block>
 
         <th:block th:case="'gear'">
-          <th:block th:with="
+          <th:block
+            th:with="
             pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null},
             gearOgTitle=${site.title + ' - 装备'},
             gearOgDesc=${site.title + ' - 装备清单'},
             gearOgUrl=${!#strings.isEmpty(pagePermalink) ? site.url + pagePermalink : site.url}
-          ">
+          "
+          >
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:title" th:content="${gearOgTitle}" />
             <meta property="og:description" th:content="${gearOgDesc}" />
             <meta property="og:locale" content="zh_CN" />
             <meta name="twitter:title" th:content="${gearOgTitle}" />
             <meta name="twitter:description" th:content="${gearOgDesc}" />
-            <meta name="twitter:url" th:if="${!#strings.isEmpty(pagePermalink)}" th:content="${gearOgUrl}" />
+            <meta
+              name="twitter:url"
+              th:if="${!#strings.isEmpty(pagePermalink)}"
+              th:content="${gearOgUrl}"
+            />
             <script type="application/ld+json" th:inline="javascript">
               {
                 "@context": "https://schema.org",
@@ -454,64 +606,104 @@
         </th:block>
 
         <th:block th:case="'category'">
-          <th:block th:with="
+          <th:block
+            th:with="
             catPermalink=${category.status != null ? category.status.permalink : null},
             catName=${category.spec != null ? category.spec.displayName : null},
             catDesc=${category.spec != null ? category.spec.description : null},
             catOgTitle=${catName != null ? catName + ' - ' + site.title : site.title},
             catOgDesc=${!#strings.isEmpty(catDesc) ? catDesc : (catName != null ? catName + ' 相关文章 - ' + site.title : site.subtitle)}
-          ">
+          "
+          >
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:title" th:content="${catOgTitle}" />
             <meta property="og:description" th:content="${catOgDesc}" />
             <meta property="og:locale" content="zh_CN" />
-            <meta property="og:url" th:if="${!#strings.isEmpty(catPermalink)}" th:content="${site.url + catPermalink}" />
+            <meta
+              property="og:url"
+              th:if="${!#strings.isEmpty(catPermalink)}"
+              th:content="${site.url + catPermalink}"
+            />
             <meta name="twitter:title" th:content="${catOgTitle}" />
             <meta name="twitter:description" th:content="${catOgDesc}" />
-            <meta name="twitter:url" th:if="${!#strings.isEmpty(catPermalink)}" th:content="${site.url + catPermalink}" />
+            <meta
+              name="twitter:url"
+              th:if="${!#strings.isEmpty(catPermalink)}"
+              th:content="${site.url + catPermalink}"
+            />
           </th:block>
         </th:block>
 
         <th:block th:case="'tag'">
-          <th:block th:with="
+          <th:block
+            th:with="
             tagPermalink=${tag.status != null ? tag.status.permalink : null},
             tagName=${tag.spec != null ? tag.spec.displayName : null},
             tagOgTitle=${tagName != null ? tagName + ' - ' + site.title : site.title},
             tagOgDesc=${tagName != null ? tagName + ' 相关文章 - ' + site.title : site.subtitle}
-          ">
+          "
+          >
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:title" th:content="${tagOgTitle}" />
             <meta property="og:description" th:content="${tagOgDesc}" />
             <meta property="og:locale" content="zh_CN" />
-            <meta property="og:url" th:if="${!#strings.isEmpty(tagPermalink)}" th:content="${site.url + tagPermalink}" />
+            <meta
+              property="og:url"
+              th:if="${!#strings.isEmpty(tagPermalink)}"
+              th:content="${site.url + tagPermalink}"
+            />
             <meta name="twitter:title" th:content="${tagOgTitle}" />
             <meta name="twitter:description" th:content="${tagOgDesc}" />
-            <meta name="twitter:url" th:if="${!#strings.isEmpty(tagPermalink)}" th:content="${site.url + tagPermalink}" />
+            <meta
+              name="twitter:url"
+              th:if="${!#strings.isEmpty(tagPermalink)}"
+              th:content="${site.url + tagPermalink}"
+            />
           </th:block>
         </th:block>
 
         <th:block th:case="'author'">
-          <th:block th:with="
+          <th:block
+            th:with="
             authorPermalink=${author.status != null ? author.status.permalink : null}
-          ">
+          "
+          >
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:locale" content="zh_CN" />
-            <meta name="twitter:url" th:if="${!#strings.isEmpty(authorPermalink)}" th:content="${site.url + authorPermalink}" />
+            <meta
+              name="twitter:url"
+              th:if="${!#strings.isEmpty(authorPermalink)}"
+              th:content="${site.url + authorPermalink}"
+            />
           </th:block>
         </th:block>
 
         <th:block th:case="'about'">
-          <th:block th:with="
+          <th:block
+            th:with="
             pagePermalink=${singlePage.status != null ? singlePage.status.permalink : null},
             profileName=${theme.config.profile != null ? (theme.config.profile.display_name ?: site.title) : site.title},
             profileBio=${theme.config.profile != null ? theme.config.profile.bio : null},
             profileAvatar=${theme.config.profile != null ? theme.config.profile.avatar : null}
-          ">
+          "
+          >
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:locale" content="zh_CN" />
-            <meta property="og:description" th:if="${!#strings.isEmpty(profileBio)}" th:content="${profileBio}" />
-            <meta name="twitter:description" th:if="${!#strings.isEmpty(profileBio)}" th:content="${profileBio}" />
-            <meta name="twitter:url" th:if="${!#strings.isEmpty(pagePermalink)}" th:content="${site.url + pagePermalink}" />
+            <meta
+              property="og:description"
+              th:if="${!#strings.isEmpty(profileBio)}"
+              th:content="${profileBio}"
+            />
+            <meta
+              name="twitter:description"
+              th:if="${!#strings.isEmpty(profileBio)}"
+              th:content="${profileBio}"
+            />
+            <meta
+              name="twitter:url"
+              th:if="${!#strings.isEmpty(pagePermalink)}"
+              th:content="${site.url + pagePermalink}"
+            />
             <script type="application/ld+json" th:inline="javascript">
               {
                 "@context": "https://schema.org",
@@ -560,22 +752,32 @@
         </th:block>
 
         <th:block th:case="'gallery'">
-          <th:block th:with="
+          <th:block
+            th:with="
             albumName=${album.spec != null ? album.spec.displayName : null},
             albumDesc=${album.spec != null ? album.spec.description : null},
             albumPermalink=${(album.spec != null and album.spec.slug != null) ? '/gallery/' + album.spec.slug : null},
             albumOgTitle=${albumName != null ? albumName + ' - ' + site.title : site.title},
             albumOgDesc=${!#strings.isEmpty(albumDesc) ? albumDesc : (albumName != null ? albumName + ' 相册 - ' + site.title : site.subtitle)},
             albumOgUrl=${!#strings.isEmpty(albumPermalink) ? site.url + albumPermalink : site.url}
-          ">
+          "
+          >
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:title" th:content="${albumOgTitle}" />
             <meta property="og:description" th:content="${albumOgDesc}" />
             <meta property="og:locale" content="zh_CN" />
-            <meta property="og:url" th:if="${!#strings.isEmpty(albumPermalink)}" th:content="${albumOgUrl}" />
+            <meta
+              property="og:url"
+              th:if="${!#strings.isEmpty(albumPermalink)}"
+              th:content="${albumOgUrl}"
+            />
             <meta name="twitter:title" th:content="${albumOgTitle}" />
             <meta name="twitter:description" th:content="${albumOgDesc}" />
-            <meta name="twitter:url" th:if="${!#strings.isEmpty(albumPermalink)}" th:content="${albumOgUrl}" />
+            <meta
+              name="twitter:url"
+              th:if="${!#strings.isEmpty(albumPermalink)}"
+              th:content="${albumOgUrl}"
+            />
             <script type="application/ld+json" th:inline="javascript">
               {
                 "@context": "https://schema.org",
@@ -590,10 +792,12 @@
         </th:block>
 
         <th:block th:case="'moments'">
-          <th:block th:with="
+          <th:block
+            th:with="
             momentsTitle=${site.title + ' - 瞬间'},
             momentsDesc=${site.title + ' - 瞬间动态'}
-          ">
+          "
+          >
             <meta property="og:site_name" th:content="${site.title}" />
             <meta property="og:url" th:content="${site.url + '/moments'}" />
             <meta property="og:title" th:content="${momentsTitle}" />
@@ -624,11 +828,6 @@
 
     <meta name="applicable-device" content="pc,mobile" />
     <meta http-equiv="Cache-Control" content="no-transform" />
-    <meta
-      th:if="${seoBlockSpiders}"
-      name="robots"
-      content="noindex, nofollow"
-    />
-
+    <meta th:if="${seoBlockSpiders}" name="robots" content="noindex, nofollow" />
   </th:block>
 </th:block>

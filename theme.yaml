@@ -12,7 +12,7 @@ spec:
   issues: https://github.com/webrong/halo-theme-kaze/issues
   settingName: "theme-kaze-setting"
   configMapName: "theme-kaze-configMap"
-  version: 1.4.4
+  version: 1.4.6
   requires: ">=2.22.0"
   license:
     - name: "GPL-3.0"
@@ -21,17 +21,13 @@ spec:
     page:
       - name: page_about
         description: 关于页面（双栏布局，含个人资料和侧边栏）
-        screenshot:
         file: page_about.html
       - name: page_photography
         description: 摄影页面（瀑布流照片墙）
-        screenshot:
         file: page_photography.html
       - name: page_moments
         description: 瞬间页面（时间线布局）
-        screenshot:
         file: page_moments.html
       - name: page_gear
         description: 设备页面（卡片网格）
-        screenshot:
         file: page_gear.html

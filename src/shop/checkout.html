@@ -5,8 +5,12 @@
   <template name="head">
     <title th:text="|结算 - ${site.title}|">结算</title>
     <style>
-      #searchToggle { display: none !important; }
-      #themeToggle { display: none !important; }
+      #searchToggle {
+        display: none !important;
+      }
+      #themeToggle {
+        display: none !important;
+      }
     </style>
     <th:block th:replace="~{shop/modules/style}"></th:block>
     <th:block th:replace="~{shop/modules/script}"></th:block>

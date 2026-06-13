@@ -1,3 +1,6 @@
+import "../css/photography-page.css";
+import { setupLightbox, type LightboxPhoto } from "./lightbox";
+
 (function () {
   var PAGE_SIZE = 6;
   var currentPage = 1;
@@ -72,6 +75,7 @@
     _numbersEl.innerHTML = "";
     for (var i = 1; i <= totalPages; i++) {
       var btn = document.createElement("button");
+      btn.type = "button";
       btn.className = "page-btn" + (i === currentPage ? " active" : "");
       btn.textContent = String(i);
       (function (page: number) {
@@ -135,76 +139,42 @@
   }
 
   // --- Fallback lightbox ---
-  if (fallbackGrid) {
-    var lb = document.getElementById("photo-lightbox");
-    if (lb) {
-      var lbImg = document.getElementById("photo-lb-img") as HTMLImageElement | null;
-      var lbTitle = document.getElementById("photo-lb-title");
-      var lbCounter = document.getElementById("photo-lb-counter");
-      var lbClose = document.getElementById("photo-lb-close");
-      var lbPrev = document.getElementById("photo-lb-prev");
-      var lbNext = document.getElementById("photo-lb-next");
-      if (!lbImg || !lbTitle || !lbCounter || !lbClose || !lbPrev || !lbNext) return;
-      var _lbImg = lbImg;
-      var _lbTitle = lbTitle;
-      var _lbCounter = lbCounter;
-      var _lbClose = lbClose;
-      var _lbPrev = lbPrev;
-      var _lbNext = lbNext;
-      var _fallbackGrid = fallbackGrid;
-      var photos: { src: string; caption: string }[] = [];
-      var lbIndex = 0;
+  if (!fallbackGrid) return;
+  const grid = fallbackGrid;
+  var lb = document.getElementById("photo-lightbox");
+  if (!lb) return;
+  var lbImg = document.getElementById("photo-lb-img") as HTMLImageElement | null;
+  var lbTitle = document.getElementById("photo-lb-title");
+  var lbCounter = document.getElementById("photo-lb-counter");
+  var lbClose = document.getElementById("photo-lb-close");
+  var lbPrev = document.getElementById("photo-lb-prev");
+  var lbNext = document.getElementById("photo-lb-next");
+  if (!lbImg || !lbTitle || !lbCounter || !lbClose || !lbPrev || !lbNext) return;
 
-      function lbShow(i: number) {
-        lbIndex = i;
-        _lbImg.src = photos[i].src;
-        _lbTitle.textContent = photos[i].caption;
-        _lbCounter.textContent = i + 1 + " / " + photos.length;
-      }
+  var photos: LightboxPhoto[] = [];
 
-      var lbEl = lb;
+  const lbController = setupLightbox({
+    container: lb,
+    imageEl: lbImg,
+    captionEl: lbTitle,
+    counterEl: lbCounter,
+    closeBtn: lbClose,
+    prevBtn: lbPrev,
+    nextBtn: lbNext,
+    getPhotos: () => photos,
+  });
 
-      fallbackGrid.querySelectorAll(".photo-card").forEach(function (card, idx) {
-        (card as HTMLElement).style.cursor = "pointer";
-        card.addEventListener("click", function () {
-          photos = [];
-          _fallbackGrid.querySelectorAll(".photo-card").forEach(function (c) {
-            photos.push({
-              src: c.getAttribute("data-src") || "",
-              caption: c.getAttribute("data-caption") || "",
-            });
-          });
-          lbShow(idx);
-          lbEl.classList.add("active");
-          document.body.style.overflow = "hidden";
+  grid.querySelectorAll<HTMLElement>(".photo-card").forEach(function (card, idx) {
+    card.style.cursor = "pointer";
+    card.addEventListener("click", function () {
+      photos = [];
+      grid.querySelectorAll<HTMLElement>(".photo-card").forEach(function (c) {
+        photos.push({
+          src: c.getAttribute("data-src") || "",
+          caption: c.getAttribute("data-caption") || "",
         });
       });
-
-      _lbClose.addEventListener("click", function () {
-        lbEl.classList.remove("active");
-        document.body.style.overflow = "";
-      });
-      _lbPrev.addEventListener("click", function () {
-        lbShow((lbIndex - 1 + photos.length) % photos.length);
-      });
-      _lbNext.addEventListener("click", function () {
-        lbShow((lbIndex + 1) % photos.length);
-      });
-      lbEl.addEventListener("click", function (e) {
-        if (e.target === lbEl) {
-          lbEl.classList.remove("active");
-          document.body.style.overflow = "";
-        }
-      });
-      document.addEventListener("keydown", function (e) {
-        if (!lbEl.classList.contains("active")) return;
-        if (e.key === "Escape") {
-          lbEl.classList.remove("active");
-          document.body.style.overflow = "";
-        }
-        if (e.key === "ArrowLeft") lbShow((lbIndex - 1 + photos.length) % photos.length);
-        if (e.key === "ArrowRight") lbShow((lbIndex + 1) % photos.length);
-      });
-    }
-  }
+      lbController.open(idx);
+    });
+  });
 })();

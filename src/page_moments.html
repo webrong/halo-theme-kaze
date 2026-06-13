@@ -45,6 +45,7 @@
                 th:alt="${moment.owner?.displayName ?: 'Author'}"
                 width="44"
                 height="44"
+                decoding="async"
               />
               <div class="moment-body">
                 <div class="moment-header">
@@ -74,7 +75,14 @@
                         th:if="${media.type?.name() == 'PHOTO'}"
                         th:data-src="${media.url}"
                       >
-                        <img th:src="${media.url}" alt="" width="400" height="400" loading="lazy" />
+                        <img
+                          th:src="${media.url}"
+                          alt=""
+                          width="400"
+                          height="400"
+                          loading="lazy"
+                          decoding="async"
+                        />
                       </button>
                       <div class="moment-video" th:if="${media.type?.name() == 'VIDEO'}">
                         <video
@@ -100,7 +108,11 @@
                 </th:block>
 
                 <div class="moment-actions">
-                  <button class="like-btn" th:attr="data-moment-name=${moment.metadata.name}">
+                  <button
+                    type="button"
+                    class="like-btn"
+                    th:attr="data-moment-name=${moment.metadata.name}"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -116,7 +128,11 @@
                     </svg>
                     <span th:text="${moment.stats?.upvote ?: 0}">0</span>
                   </button>
-                  <button class="comment-btn" th:attr="data-moment-name=${moment.metadata.name}">
+                  <button
+                    type="button"
+                    class="comment-btn"
+                    th:attr="data-moment-name=${moment.metadata.name}"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -153,7 +169,14 @@
         <th:block th:if="${moments == null}">
           <th:block th:each="post : ${postFinder.list({page: 1, size: 20}).items}">
             <div class="moment-card">
-              <img class="moment-avatar" th:src="${theme.config.profile.avatar}" alt="头像" width="44" height="44" />
+              <img
+                class="moment-avatar"
+                th:src="${theme.config.profile.avatar}"
+                alt="头像"
+                width="44"
+                height="44"
+                decoding="async"
+              />
               <div class="moment-body">
                 <div class="moment-header">
                   <span
@@ -218,7 +241,7 @@
         <div class="lightbox-topbar-info">
           <span class="lightbox-topbar-counter" id="moment-lb-counter"></span>
         </div>
-        <button class="lightbox-close-btn" id="moment-lb-close" aria-label="关闭">
+        <button type="button" class="lightbox-close-btn" id="moment-lb-close" aria-label="关闭">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -236,7 +259,12 @@
         </button>
       </div>
       <div class="lightbox-image-area">
-        <button class="lightbox-nav-btn lightbox-prev-btn" id="moment-lb-prev" aria-label="上一张">
+        <button
+          type="button"
+          class="lightbox-nav-btn lightbox-prev-btn"
+          id="moment-lb-prev"
+          aria-label="上一张"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -251,8 +279,18 @@
             <path d="m15 18-6-6 6-6" />
           </svg>
         </button>
-        <img id="moment-lb-img" src="" alt="" />
-        <button class="lightbox-nav-btn lightbox-next-btn" id="moment-lb-next" aria-label="下一张">
+        <img
+          id="moment-lb-img"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+          alt=""
+          decoding="async"
+        />
+        <button
+          type="button"
+          class="lightbox-nav-btn lightbox-next-btn"
+          id="moment-lb-next"
+          aria-label="下一张"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"

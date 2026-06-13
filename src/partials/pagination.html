@@ -60,13 +60,11 @@
       </th:block>
     </th:block>
     <!-- 超过5页：省略号分页 -->
-    <th:block th:if="${posts.totalPages gt 5}" th:with="cur=${posts.page}, last=${posts.totalPages}">
-      <a
-        class="page-btn"
-        th:classappend="${cur == 1} ? 'active'"
-        th:href="@{${baseUrl}}"
-        >1</a
-      >
+    <th:block
+      th:if="${posts.totalPages gt 5}"
+      th:with="cur=${posts.page}, last=${posts.totalPages}"
+    >
+      <a class="page-btn" th:classappend="${cur == 1} ? 'active'" th:href="@{${baseUrl}}">1</a>
       <span class="page-ellipsis" th:if="${cur gt 4}">...</span>
       <a
         th:if="${cur gt 3 and cur le last}"
