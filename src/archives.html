@@ -36,10 +36,11 @@
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span
+                <time
                   class="archive-post-day"
+                  th:datetime="${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}"
                   th:text="${#temporals.format(post.spec.publishTime, 'dd')}"
-                ></span>
+                ></time>
                 <span class="archive-post-title" th:text="${post.spec.title}"></span>
               </a>
             </div>

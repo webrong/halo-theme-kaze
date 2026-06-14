@@ -52,7 +52,7 @@ import { setupLightbox, type LightboxPhoto } from "./lightbox";
         video.src = video.getAttribute("data-src") || "";
       }
       if (video.paused) {
-        video.play();
+        void video.play();
         btn.classList.add("playing");
         video.setAttribute("controls", "");
       } else {

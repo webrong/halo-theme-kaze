@@ -43,9 +43,9 @@
           fetchpriority="high"
           decoding="async"
         />
-        <h2 class="about-sidebar-name" th:text="${theme.config.profile.display_name ?: 'Author'}">
+        <h1 class="about-sidebar-name" th:text="${theme.config.profile.display_name ?: 'Author'}">
           Aria Chen
-        </h2>
+        </h1>
         <p class="about-sidebar-bio" th:text="${theme.config.profile.bio}">
           Designer-engineer · part-time photographer · full-time wanderer.
         </p>
@@ -138,7 +138,7 @@
             </svg>
           </a>
           <a
-            th:if="${theme.config.social.bilibili}"
+            th:if="${theme.config.social.bilibili != null and !#strings.isEmpty(theme.config.social.bilibili)}"
             th:href="${theme.config.social.bilibili}"
             target="_blank"
             rel="noopener noreferrer"
@@ -446,7 +446,7 @@
                   <div class="about-gear-thumb">
                     <img
                       th:src="${device.image ?: theme.config.profile.avatar}"
-                      alt=""
+                      th:alt="${device.name}"
                       width="64"
                       height="64"
                       loading="lazy"
