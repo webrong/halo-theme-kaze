@@ -25,14 +25,6 @@ function copyText(text: string): Promise<void> {
   });
 }
 
-function estimateReadingMinutes(text: string): number {
-  if (!text) return 1;
-  const cjk = (text.match(/[\u4e00-\u9fff\u3040-\u309f\u30a0-\u30ff]/g) || []).length;
-  const latinWords = (text.match(/[A-Za-z][A-Za-z'-]*/g) || []).length;
-  const total = cjk + latinWords;
-  return Math.max(1, Math.ceil(total / 300));
-}
-
 export {};
 
 document.querySelectorAll(".article-content pre").forEach((pre) => {
@@ -225,14 +217,8 @@ function showToast(msg: string) {
   }, 2000);
 }
 
-// === Estimated reading time ===
-const articleEl = document.getElementById("article-content");
-const readingTimeEl = document.querySelector(".reading-time-text");
-if (articleEl && readingTimeEl) {
-  const text = articleEl.textContent || "";
-  const minutes = estimateReadingMinutes(text);
-  readingTimeEl.textContent = `${minutes} 分钟阅读`;
-}
+// Reading time is calculated server-side in the template (post.content.raw word count).
+// No client-side override needed.
 
 // === Article image lightbox ===
 (function () {

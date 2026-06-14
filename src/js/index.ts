@@ -96,21 +96,7 @@ if (filterPills.length > 0 && postCards.length > 0) {
   });
 }
 
-// === Post card reading time (client-side, CJK-aware) ===
-function estimateReadingMinutes(text: string): number {
-  if (!text) return 1;
-  const cjk = (text.match(/[\u4e00-\u9fff\u3040-\u309f\u30a0-\u30ff]/g) || []).length;
-  const latinWords = (text.match(/[A-Za-z][A-Za-z'-]*/g) || []).length;
-  const total = cjk + latinWords;
-  return Math.max(1, Math.ceil(total / 300));
-}
-document.querySelectorAll<HTMLElement>(".post-card-reading-time").forEach((el) => {
-  const card = el.closest(".post-card");
-  if (!card) return;
-  const text = card.textContent || "";
-  const minutes = estimateReadingMinutes(text);
-  const span = el.querySelector("span");
-  if (span) span.textContent = `${minutes} 分钟阅读`;
-});
+// Reading time is calculated server-side via postFinder.content() in the template.
+// No client-side override needed.
 
 export {};

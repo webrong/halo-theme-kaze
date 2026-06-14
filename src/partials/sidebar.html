@@ -3,7 +3,7 @@
   th:with="
   sidebarCategories=${categoryFinder != null ? categoryFinder.listAll() : null},
   sidebarTags=${tagFinder != null ? tagFinder.listAll() : null},
-  recentPosts=${postFinder != null ? postFinder.list({page: 1, size: 5, sort: {'spec.publishTime,desc'}}) : null}
+  recentPosts=${postFinder != null ? postFinder.list({page: 1, size: 5, sort: {'stats.visit,desc'}}) : null}
 "
 >
   <!-- Author card -->
@@ -191,19 +191,20 @@
     </div>
   </div>
 
-  <!-- Recent posts -->
+  <!-- Popular posts -->
   <div
     class="sidebar-card sidebar-recent"
     th:if="${recentPosts != null and !#lists.isEmpty(recentPosts.items)}"
   >
-    <h3 class="sidebar-card-title">最新文章</h3>
+    <h3 class="sidebar-card-title">热门文章</h3>
     <ul class="sidebar-recent-list">
       <li th:each="post : ${recentPosts.items}">
-        <a th:href="@{${post.status.permalink}}" th:text="${post.spec.title}"></a>
-        <time
-          th:datetime="${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}"
-          th:text="${#temporals.format(post.spec.publishTime, 'M月d日')}"
-        ></time>
+        <a
+          class="sidebar-recent-title"
+          th:href="@{${post.status.permalink}}"
+          th:text="${post.spec.title}"
+        ></a>
+        <span class="sidebar-recent-date" th:text="${post.stats?.visit ?: 0} + ' 次阅读'"></span>
       </li>
     </ul>
   </div>

@@ -115,17 +115,6 @@
 
       <!-- Center: Article Body -->
       <article class="post-body">
-        <!-- Category Badge -->
-        <th:block th:if="${not #lists.isEmpty(post.categories)}">
-          <a
-            th:each="cat : ${post.categories}"
-            th:href="@{${cat.status.permalink}}"
-            class="post-category-badge"
-            th:text="${cat.spec.displayName}"
-            >分类</a
-          >
-        </th:block>
-
         <!-- Title -->
         <h1 class="article-title" th:text="${post.spec.title}"></h1>
 
@@ -185,7 +174,11 @@
               <circle cx="12" cy="12" r="10" />
               <polyline points="12 6 12 12 16 14" />
             </svg>
-            <span class="reading-time-text">分钟阅读</span>
+            <span
+              class="reading-time-text"
+              th:text="${T(java.lang.Math).max(1, #strings.length(post.content.raw ?: '') / 400)} + ' 分钟阅读'"
+              >5 分钟阅读</span
+            >
           </span>
           <span class="post-meta-item">
             <svg
@@ -204,6 +197,28 @@
             <span th:text="${post.stats?.comment ?: 0}">0</span>
             <span>条评论</span>
           </span>
+          <a
+            class="post-meta-item post-meta-category"
+            th:if="${not #lists.isEmpty(post.categories)}"
+            th:href="@{${post.categories[0].status.permalink}}"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"
+              />
+            </svg>
+            <span th:text="${post.categories[0].spec.displayName}">分类</span>
+          </a>
         </div>
 
         <!-- Article Content -->

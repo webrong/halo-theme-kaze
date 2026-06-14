@@ -43,7 +43,10 @@
           th:text="${#temporals.format(post.spec.publishTime, 'yyyy年M月d日')}"
         ></time>
       </span>
-      <span class="post-card-reading-time">
+      <span
+        class="post-card-reading-time"
+        th:with="postContent=${postFinder.content(post.metadata.name)}"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -56,7 +59,10 @@
           <circle cx="12" cy="12" r="10" />
           <polyline points="12 6 12 12 16 14" />
         </svg>
-        <span>分钟阅读</span>
+        <span
+          th:text="${postContent != null and postContent.raw != null ? T(java.lang.Math).max(1, #strings.length(postContent.raw) / 400) : 1} + ' 分钟阅读'"
+          >3 分钟阅读</span
+        >
       </span>
       <span
         class="post-card-category"
