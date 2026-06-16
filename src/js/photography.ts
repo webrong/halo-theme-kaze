@@ -1,5 +1,4 @@
 import "../css/photography-page.css";
-import { setupLightbox, type LightboxPhoto } from "./lightbox";
 
 (function () {
   var PAGE_SIZE = 6;
@@ -7,7 +6,6 @@ import { setupLightbox, type LightboxPhoto } from "./lightbox";
   var activeTag = "";
 
   var albumGrid = document.getElementById("album-grid");
-  var fallbackGrid = document.getElementById("photo-fallback-grid");
   var paginationEl = document.getElementById("photo-pagination");
   var emptyEl = document.getElementById("photo-empty");
   var prevBtn = document.getElementById("photo-page-prev") as HTMLButtonElement | null;
@@ -20,15 +18,9 @@ import { setupLightbox, type LightboxPhoto } from "./lightbox";
   var _nextBtn = nextBtn;
   var _numbersEl = numbersEl;
 
-  function getActiveGrid(): Element | null {
-    return albumGrid || fallbackGrid;
-  }
-
   function getFilteredCards(): Element[] {
-    var grid = getActiveGrid();
-    if (!grid) return [];
-    var selector = albumGrid ? ".album-card-link" : ".photo-card";
-    var all = grid.querySelectorAll(selector);
+    if (!albumGrid) return [];
+    var all = albumGrid.querySelectorAll(".album-card-link");
     if (!activeTag) return Array.from(all);
     return Array.from(all).filter(function (c) {
       return (c.getAttribute("data-tag") || "") === activeTag;
@@ -36,10 +28,8 @@ import { setupLightbox, type LightboxPhoto } from "./lightbox";
   }
 
   function render() {
-    var grid = getActiveGrid();
-    if (!grid) return;
-    var selector = albumGrid ? ".album-card-link" : ".photo-card";
-    var all = grid.querySelectorAll(selector);
+    if (!albumGrid) return;
+    var all = albumGrid.querySelectorAll(".album-card-link");
     all.forEach(function (c) {
       (c as HTMLElement).style.display = "none";
     });
@@ -137,44 +127,4 @@ import { setupLightbox, type LightboxPhoto } from "./lightbox";
       }
     });
   }
-
-  // --- Fallback lightbox ---
-  if (!fallbackGrid) return;
-  const grid = fallbackGrid;
-  var lb = document.getElementById("photo-lightbox");
-  if (!lb) return;
-  var lbImg = document.getElementById("photo-lb-img") as HTMLImageElement | null;
-  var lbTitle = document.getElementById("photo-lb-title");
-  var lbCounter = document.getElementById("photo-lb-counter");
-  var lbClose = document.getElementById("photo-lb-close");
-  var lbPrev = document.getElementById("photo-lb-prev");
-  var lbNext = document.getElementById("photo-lb-next");
-  if (!lbImg || !lbTitle || !lbCounter || !lbClose || !lbPrev || !lbNext) return;
-
-  var photos: LightboxPhoto[] = [];
-
-  const lbController = setupLightbox({
-    container: lb,
-    imageEl: lbImg,
-    captionEl: lbTitle,
-    counterEl: lbCounter,
-    closeBtn: lbClose,
-    prevBtn: lbPrev,
-    nextBtn: lbNext,
-    getPhotos: () => photos,
-  });
-
-  grid.querySelectorAll<HTMLElement>(".photo-card").forEach(function (card, idx) {
-    card.style.cursor = "pointer";
-    card.addEventListener("click", function () {
-      photos = [];
-      grid.querySelectorAll<HTMLElement>(".photo-card").forEach(function (c) {
-        photos.push({
-          src: c.getAttribute("data-src") || "",
-          caption: c.getAttribute("data-caption") || "",
-        });
-      });
-      lbController.open(idx);
-    });
-  });
 })();

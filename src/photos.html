@@ -1,0 +1,348 @@
+<include src="layout.html">
+  <template name="seo">
+    <th:block th:replace="~{seo :: meta('photos')}"></th:block>
+  </template>
+  <template name="head">
+    <title th:text="|${title != null ? title : 'Photos'} - ${site.title}|">Photos</title>
+    <script type="module" src="./js/photos.ts"></script>
+  </template>
+
+  <div class="photography-page">
+    <!-- Section header -->
+    <div class="photos-header">
+      <!-- Group filter pills (left) -->
+      <div
+        class="filter-pills"
+        id="photo-filter-pills"
+        th:if="${groups != null and !#lists.isEmpty(groups)}"
+      >
+        <a type="button" class="filter-pill active" th:href="@{${photoUrl.list(null, 1, 12)}}">
+          <span>全部</span>
+        </a>
+        <a
+          type="button"
+          class="filter-pill"
+          th:each="group : ${groups}"
+          th:href="@{${photoUrl.list(group.metadata.name, 1, 12)}}"
+        >
+          <span th:text="${group.spec.displayName}"></span>
+          <em
+            class="filter-pill-count"
+            th:if="${group.status != null and group.status.photoCount != null}"
+            th:text="${group.status.photoCount}"
+          >0</em>
+        </a>
+      </div>
+      <!-- Photo count (right, clearer) -->
+      <p class="photos-count"
+         th:if="${photos != null and photos.total != null}"
+         th:text="|共 ${photos.total} 张照片|">共 0 张照片</p>
+    </div>
+
+    <!-- Photo grid -->
+    <div th:if="${photos != null and !#lists.isEmpty(photos.items)}" class="photo-grid" id="photos-grid">
+      <a
+        class="photo-card"
+        th:each="photo : ${photos.items}"
+        th:href="@{${photoUrl.detail(photo)}}"
+        th:data-src="${photo.spec.url}"
+        th:data-caption="${photo.spec.displayName}"
+        th:data-description="${photo.spec.description}"
+        th:data-make="${photo.exif != null ? photo.exif.make : ''}"
+        th:data-model="${photo.exif != null ? photo.exif.model : ''}"
+        th:data-lens="${photo.exif != null ? photo.exif.lensModel : ''}"
+        th:data-focal="${photo.exif != null ? photo.exif.focalLength : ''}"
+        th:data-focal35="${photo.exif != null ? photo.exif.focalLengthIn35mm : ''}"
+        th:data-fnumber="${photo.exif != null ? photo.exif.fNumber : ''}"
+        th:data-exposure="${photo.exif != null ? photo.exif.exposureTime : ''}"
+        th:data-iso="${photo.exif != null ? photo.exif.iso : ''}"
+        th:data-date="${photo.exif != null and photo.exif.dateTimeOriginal != null ? #temporals.format(photo.exif.dateTimeOriginal, 'yyyy-MM-dd HH:mm') : ''}"
+        th:data-size="${photo.exif != null and photo.exif.imageWidth != null and photo.exif.imageHeight != null ? photo.exif.imageWidth + ' × ' + photo.exif.imageHeight : ''}"
+      >
+        <div class="photo-card-media">
+          <img
+            th:src="${!#strings.isEmpty(photo.spec.cover) ? photo.spec.cover : thumbnail.gen(photo.spec.url, 'm')}"
+            th:srcset="|${thumbnail.gen(photo.spec.url, 's')} 400w, ${thumbnail.gen(photo.spec.url, 'm')} 800w|"
+            th:alt="${photo.spec.displayName}"
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 33vw"
+            decoding="async"
+          />
+          <div class="photo-card-overlay">
+            <div class="photo-card-eye">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </div>
+          </div>
+          <div class="photo-card-caption" th:if="${!#strings.isEmpty(photo.spec.displayName)}">
+            <span th:text="${photo.spec.displayName}"></span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Empty state -->
+    <div class="photo-empty" th:if="${photos == null or #lists.isEmpty(photos.items)}">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="48"
+        height="48"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+        <circle cx="9" cy="9" r="2" />
+        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+      </svg>
+      <p>还没有照片，敬请期待。</p>
+    </div>
+
+    <!-- Pagination -->
+    <div
+      class="photo-pagination"
+      th:if="${photos != null and photos.totalPages gt 1}"
+      th:with="pageSize=${12}, curGroup=${group}"
+    >
+      <a class="page-prev" th:if="${photos.hasPrevious()}" th:href="@{${photos.prevUrl}}">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+        上一页
+      </a>
+      <span
+        class="page-prev"
+        th:if="${!photos.hasPrevious()}"
+        style="color: #d1d5db; cursor: not-allowed"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+        上一页
+      </span>
+      <div class="page-numbers">
+        <!-- 5页以内：全部显示 -->
+        <th:block th:if="${photos.totalPages <= 5}">
+          <th:block th:each="pageNum : ${#numbers.sequence(1, photos.totalPages)}">
+            <a
+              class="page-btn"
+              th:classappend="${pageNum == photos.page} ? 'active'"
+              th:href="@{${photoUrl.list(curGroup, pageNum, pageSize)}}"
+              th:text="${pageNum}"
+            ></a>
+          </th:block>
+        </th:block>
+        <!-- 超过5页：省略号分页 -->
+        <th:block
+          th:if="${photos.totalPages gt 5}"
+          th:with="cur=${photos.page}, last=${photos.totalPages}"
+        >
+          <a
+            class="page-btn"
+            th:classappend="${cur == 1} ? 'active'"
+            th:href="@{${photoUrl.list(curGroup, 1, pageSize)}}">1</a>
+          <span class="page-ellipsis" th:if="${cur gt 4}">...</span>
+          <a
+            th:if="${cur gt 3 and cur le last}"
+            class="page-btn"
+            th:href="@{${photoUrl.list(curGroup, cur - 2, pageSize)}}"
+            th:text="${cur - 2}"
+          ></a>
+          <a
+            th:if="${cur gt 2 and cur le last}"
+            class="page-btn"
+            th:href="@{${photoUrl.list(curGroup, cur - 1, pageSize)}}"
+            th:text="${cur - 1}"
+          ></a>
+          <a
+            th:if="${cur gt 1 and cur lt last}"
+            class="page-btn active"
+            th:href="@{${photoUrl.list(curGroup, cur, pageSize)}}"
+            th:text="${cur}"
+          ></a>
+          <a
+            th:if="${last - cur gt 1}"
+            class="page-btn"
+            th:href="@{${photoUrl.list(curGroup, cur + 1, pageSize)}}"
+            th:text="${cur + 1}"
+          ></a>
+          <a
+            th:if="${last - cur gt 2}"
+            class="page-btn"
+            th:href="@{${photoUrl.list(curGroup, cur + 2, pageSize)}}"
+            th:text="${cur + 2}"
+          ></a>
+          <span class="page-ellipsis" th:if="${last - cur gt 3}">...</span>
+          <a
+            class="page-btn"
+            th:classappend="${cur == last} ? 'active'"
+            th:href="@{${photoUrl.list(curGroup, last, pageSize)}}"
+            th:text="${last}"
+          ></a>
+        </th:block>
+      </div>
+      <a class="page-next" th:if="${photos.hasNext()}" th:href="@{${photos.nextUrl}}">
+        下一页
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+      </a>
+      <span
+        class="page-next"
+        th:if="${!photos.hasNext()}"
+        style="color: #d1d5db; cursor: not-allowed"
+      >
+        下一页
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+      </span>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="photos-lightbox" aria-hidden="true">
+      <div class="lightbox-modal">
+        <div class="lightbox-topbar">
+          <div class="lightbox-topbar-info">
+            <span class="lightbox-topbar-title" id="photos-lb-title"></span>
+            <span class="lightbox-topbar-counter" id="photos-lb-counter"></span>
+          </div>
+          <div class="lightbox-zoom-controls">
+            <button type="button" class="lightbox-zoom-btn" id="photos-lb-zoom-out" aria-label="缩小" title="缩小">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M8 11h6"/></svg>
+            </button>
+            <span class="lightbox-zoom-level" id="photos-lb-zoom-level">适应</span>
+            <button type="button" class="lightbox-zoom-btn" id="photos-lb-zoom-in" aria-label="放大" title="放大">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+            </button>
+            <button type="button" class="lightbox-zoom-btn" id="photos-lb-reset" aria-label="重置" title="重置缩放">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            </button>
+          </div>
+          <button type="button" class="lightbox-close-btn" id="photos-lb-close" aria-label="关闭">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="lightbox-image-area">
+          <button
+            type="button"
+            class="lightbox-nav-btn lightbox-prev-btn"
+            id="photos-lb-prev"
+            aria-label="上一张"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
+          <img
+            id="photos-lb-img"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+            alt=""
+            decoding="async"
+          />
+          <button
+            type="button"
+            class="lightbox-nav-btn lightbox-next-btn"
+            id="photos-lb-next"
+            aria-label="下一张"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+        <!-- EXIF panel -->
+        <div class="lightbox-exif" id="photos-lb-exif">
+          <p class="lightbox-exif-description" id="photos-lb-description"></p>
+          <div class="lightbox-exif-grid" id="photos-lb-exif-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</include>

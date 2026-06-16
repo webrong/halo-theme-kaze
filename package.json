@@ -14,6 +14,7 @@
     "@halo-dev/theme-package-cli": "^1.0.1",
     "@halo-dev/vite-plugin-halo-theme": "^1.0.3",
     "@types/node": "^22.10.0",
+    "playwright": "^1.60.0",
     "typescript": "^5.9.3",
     "vite": "npm:@voidzero-dev/vite-plus-core@^0.1.23",
     "vite-plus": "^0.1.23"

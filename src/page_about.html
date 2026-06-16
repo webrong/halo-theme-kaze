@@ -53,7 +53,7 @@
         <!-- Stats -->
         <div
           class="about-stats"
-          th:with="galleryAlbums=${photoGalleryFinder != null ? photoGalleryFinder.listAlbums() : null}"
+          th:with="photoCount=${photoFinder != null ? photoFinder.list(1, 1).total : 0}"
         >
           <div class="about-stat-item">
             <span class="about-stat-value" th:text="${postFinder.list({page: 1, size: 1}).total}"
@@ -72,7 +72,7 @@
           <div class="about-stat-item">
             <span
               class="about-stat-value"
-              th:text="${galleryAlbums != null and !#lists.isEmpty(galleryAlbums) ? (#aggregates.sum(galleryAlbums.![photoCount ?: 0]) ?: 0) : 0}"
+              th:text="${photoCount ?: 0}"
               >0</span
             >
             <span class="about-stat-label">照片</span>

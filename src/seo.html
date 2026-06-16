@@ -157,6 +157,28 @@
           </th:block>
         </th:block>
 
+        <th:block th:case="'photos'">
+          <th:block
+            th:with="
+            photosTitle=${title != null ? title : (site.title + ' - 图库')},
+            photosDesc=${site.title + ' - 摄影作品集'},
+            photosPermalink=${site.url + '/photos'}
+          "
+          >
+            <meta name="description" th:content="${photosDesc}" />
+            <link rel="canonical" th:href="${photosPermalink}" />
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:type" content="website" />
+            <meta property="og:title" th:content="${photosTitle}" />
+            <meta property="og:description" th:content="${photosDesc}" />
+            <meta property="og:url" th:content="${photosPermalink}" />
+            <meta property="og:image" th:content="${!#strings.isEmpty(site.logo) ? site.logo : (site.url + '/upload/favicon.ico')}" />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" th:content="${photosTitle}" />
+            <meta name="twitter:description" th:content="${photosDesc}" />
+            <meta name="twitter:image" th:content="${!#strings.isEmpty(site.logo) ? site.logo : (site.url + '/upload/favicon.ico')}" />
+          </th:block>
+        </th:block>
         <th:block th:case="'gear'">
           <th:block
             th:with="
@@ -593,6 +615,36 @@
           </th:block>
         </th:block>
 
+        <th:block th:case="'photos'">
+          <th:block
+            th:with="
+            photosTitle=${title != null ? title : (site.title + ' - 图库')},
+            photosDesc=${site.title + ' - 摄影作品集'},
+            photosUrl=${site.url + '/photos'}
+          "
+          >
+            <meta property="og:site_name" th:content="${site.title}" />
+            <meta property="og:title" th:content="${photosTitle}" />
+            <meta property="og:description" th:content="${photosDesc}" />
+            <meta property="og:locale" content="zh_CN" />
+            <meta property="og:url" th:content="${photosUrl}" />
+            <meta property="og:image" th:content="${!#strings.isEmpty(site.logo) ? site.logo : (site.url + '/upload/favicon.ico')}" />
+            <meta name="twitter:title" th:content="${photosTitle}" />
+            <meta name="twitter:description" th:content="${photosDesc}" />
+            <meta name="twitter:url" th:content="${photosUrl}" />
+            <meta name="twitter:image" th:content="${!#strings.isEmpty(site.logo) ? site.logo : (site.url + '/upload/favicon.ico')}" />
+            <script type="application/ld+json" th:inline="javascript">
+              {
+                "@context": "https://schema.org",
+                "@type": "CollectionPage",
+                "name": /*[[${photosTitle}]]*/ "",
+                "description": /*[[${photosDesc}]]*/ "",
+                "url": /*[[${photosUrl}]]*/ "",
+                "inLanguage": "zh-CN"
+              }
+            </script>
+          </th:block>
+        </th:block>
         <th:block th:case="'gear'">
           <th:block
             th:with="

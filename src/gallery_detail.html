@@ -71,6 +71,9 @@
             </svg>
           </div>
         </div>
+        <div class="photo-card-caption" th:if="${!#strings.isEmpty(photo.spec.title)}">
+          <span th:text="${photo.spec.title}"></span>
+        </div>
       </div>
     </div>
 
